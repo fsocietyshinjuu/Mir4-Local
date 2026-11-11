@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'" />
-  <title>My Desktop App</title>
+  <title>Mir4Local</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="topbar">
-    <h1>My Desktop App</h1>
-    <span class="version" id="version">v…</span>
+    <h1>Mir4Local</h1>
+    <span class="muted" id="version"></span>
   </header>
 
   <section id="update-banner" class="banner" hidden>
@@ -19,11 +19,42 @@
     <button id="install-btn" hidden>Restart and install</button>
   </section>
 
-  <main>
-    <h2>Your app goes here</h2>
-    <h2>My app goes there</h2>
-    <p>Replace this with your own HTML, CSS and JavaScript. Everything in the <code>renderer</code> folder is your web app.</p>
-    <button id="check-btn">Check for updates</button>
+  <main id="mission-tracker">
+    <h2>Mission Tracker</h2>
+
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Cycle">
+        <button type="button" data-cycle="All" aria-pressed="true">All</button>
+        <button type="button" data-cycle="Daily" aria-pressed="false">Daily</button>
+        <button type="button" data-cycle="Weekly" aria-pressed="false">Weekly</button>
+        <button type="button" data-cycle="Monthly" aria-pressed="false">Monthly</button>
+      </div>
+      <select id="map-filter" aria-label="Map">
+        <option value="">All maps</option>
+      </select>
+      <input type="search" id="search" placeholder="Search mission, area or location" aria-label="Search" />
+      <label class="status">
+        <input type="checkbox" id="fav-only" /> Favorites only
+      </label>
+      <button type="button" class="ghost" id="refresh-btn">Refresh data</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Boss / Mission</th>
+            <th>Area and location</th>
+            <th id="time-head">Spawn time</th>
+            <th>Status</th>
+            <th><span class="sr-only">Favorite</span></th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p id="empty" class="muted" hidden></p>
+    <p id="data-status" class="muted" role="status"></p>
   </main>
 
   <script src="app.js"></script>

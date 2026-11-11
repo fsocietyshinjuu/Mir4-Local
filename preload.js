@@ -5,4 +5,5 @@ contextBridge.exposeInMainWorld('desktop', {
   checkForUpdates: () => ipcRenderer.invoke('update:check'),
   installUpdate: () => ipcRenderer.invoke('update:install'),
   onUpdateStatus: (cb) => ipcRenderer.on('update:status', (_e, data) => cb(data)),
+  loadMissions: () => ipcRenderer.invoke('missions:load'),
 });

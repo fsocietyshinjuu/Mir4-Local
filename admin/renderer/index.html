@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'" />
+  <title>Mir4Local Admin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Mir4Local Admin</h1>
+      <span id="dirty" class="muted"></span>
+    </div>
+    <div class="actions">
+      <button type="button" class="ghost" id="settings-btn">Settings</button>
+      <button type="button" class="ghost" id="pull-btn">Pull from GitHub</button>
+      <button type="button" id="publish-btn">Publish</button>
+    </div>
+  </header>
+
+  <p id="msg" class="msg" role="status" hidden></p>
+
+  <main>
+    <section class="card">
+      <h2 id="form-title">Add mission</h2>
+      <form id="form" autocomplete="off">
+        <div class="grid">
+          <label>Mission / Boss
+            <input id="f-name" required />
+          </label>
+          <label>Map
+            <input id="f-map" list="maps" required />
+          </label>
+          <label>Area
+            <input id="f-area" list="areas" required />
+          </label>
+          <label>Location
+            <input id="f-location" required />
+          </label>
+          <label>Type
+            <select id="f-type">
+              <option>Spawn</option>
+              <option>Summon</option>
+            </select>
+          </label>
+          <label>Cycle
+            <select id="f-cycle">
+              <option>Daily</option>
+              <option>Weekly</option>
+              <option>Monthly</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="times-group" class="times">
+          <label for="f-time">Spawn times</label>
+          <div class="time-row">
+            <input id="f-time" type="time" />
+            <button type="button" class="ghost" id="add-time">Add time</button>
+          </div>
+          <div id="chips" class="chips"></div>
+        </div>
+
+        <p id="form-error" class="error" role="alert" hidden></p>
+        <div class="form-actions">
+          <button type="submit" id="save-btn">Add mission</button>
+          <button type="button" class="ghost" id="cancel-btn" hidden>Cancel</button>
+        </div>
+      </form>
+      <datalist id="maps"></datalist>
+      <datalist id="areas"></datalist>
+    </section>
+
+    <section class="card">
+      <div class="list-head">
+        <h2>Missions <span id="count" class="muted"></span></h2>
+        <label class="inline">Time zone label shown to users
+          <input id="time-label" placeholder="e.g. Server time (UTC)" />
+        </label>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mission / Boss</th><th>Map</th><th>Area</th><th>Location</th>
+              <th>Type</th><th>Cycle</th><th>Spawn times</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="settings-dialog">
+    <form method="dialog" id="settings-form">
+      <h2>GitHub settings</h2>
+      <label>Owner <input id="s-owner" required /></label>
+      <label>Repository <input id="s-repo" required /></label>
+      <label>Branch <input id="s-branch" required /></label>
+      <label>Access token
+        <input id="s-token" type="password" autocomplete="off" />
+        <span class="hint" id="token-hint"></span>
+      </label>
+      <div class="form-actions">
+        <button type="submit" id="s-save">Save settings</button>
+        <button type="button" class="ghost" id="s-cancel">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

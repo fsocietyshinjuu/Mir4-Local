@@ -1,0 +1,22 @@
+{
+  "name": "mir4local-admin",
+  "productName": "Mir4Local Admin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Private admin tool for Mir4Local content. Do not distribute.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.fsocietyshinjuu.mir4local.admin",
+    "files": ["main.js", "preload.js", "renderer/**/*"],
+    "win": { "target": "portable" },
+    "publish": null
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}
