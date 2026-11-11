@@ -1,6 +1,30 @@
 {
   "version": 1,
-  "updatedAt": null,
+  "updatedAt": "2026-11-11T20:49:27.867Z",
   "timeLabel": "Server time",
-  "missions": []
+  "missions": [
+    {
+      "id": "mwcle047hzdmo1",
+      "name": "Mata",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "W1 Bullface Forest",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "00:00",
+        "02:00",
+        "04:00",
+        "06:00",
+        "08:00",
+        "10:00",
+        "12:00",
+        "14:00",
+        "16:00",
+        "18:00",
+        "20:00",
+        "22:00"
+      ]
+    }
+  ]
 }
