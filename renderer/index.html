@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'" />
+  <title>My Desktop App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>My Desktop App</h1>
+    <span class="version" id="version">v…</span>
+  </header>
+
+  <section id="update-banner" class="banner" hidden>
+    <p id="update-message"></p>
+    <progress id="update-progress" max="100" value="0" hidden></progress>
+    <button id="install-btn" hidden>Restart and install</button>
+  </section>
+
+  <main>
+    <h2>Your app goes here</h2>
+    <p>Replace this with your own HTML, CSS and JavaScript. Everything in the <code>renderer</code> folder is your web app.</p>
+    <button id="check-btn">Check for updates</button>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
