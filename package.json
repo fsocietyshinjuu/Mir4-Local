@@ -1,7 +1,7 @@
 {
   "name": "mydesktopapp",
   "productName": "My Desktop App",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Plain HTML/JS app packaged with Electron, auto-updating from GitHub Releases",
   "main": "main.js",
   "author": "fsocietyshinjuu",
@@ -15,8 +15,13 @@
     "appId": "com.fsocietyshinjuu.mydesktopapp",
     "files": ["main.js", "preload.js", "renderer/**/*"],
     "publish": [
-      { "provider": "github", "owner": "fsocietyshinjuu", "repo": "mydesktopapp"}
-    ],
+  {
+    "provider": "github",
+    "owner": "fsocietyshinjuu",
+    "repo": "mydesktopapp",
+    "releaseType": "release"
+  }
+],
     "win": { "target": "nsis" },
     "mac": { "target": ["dmg", "zip"], "category": "public.app-category.productivity" },
     "linux": { "target": "AppImage", "category": "Utility" }
