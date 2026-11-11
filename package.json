@@ -1,7 +1,7 @@
 {
-  "name": "mydesktopapp",
+  "name": "Mir4-Local",
   "productName": "My Desktop App",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Plain HTML/JS app packaged with Electron, auto-updating from GitHub Releases",
   "main": "main.js",
   "author": "fsocietyshinjuu",
@@ -12,13 +12,13 @@
     "release": "electron-builder --publish always"
   },
   "build": {
-    "appId": "com.fsocietyshinjuu.mydesktopapp",
+    "appId": "com.fsocietyshinjuu.Mir4-Local",
     "files": ["main.js", "preload.js", "renderer/**/*"],
     "publish": [
   {
     "provider": "github",
     "owner": "fsocietyshinjuu",
-    "repo": "mydesktopapp",
+    "repo": "Mir4-Local",
     "releaseType": "release"
   }
 ],

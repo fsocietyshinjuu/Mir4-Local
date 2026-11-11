@@ -36,7 +36,7 @@ function getSettings() {
   }
   return {
     owner: s.owner || 'fsocietyshinjuu',
-    repo: s.repo || 'mydesktopapp',
+    repo: s.repo || 'Mir4-Local',
     branch: s.branch || 'main',
     token,
   };

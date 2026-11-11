@@ -5,7 +5,7 @@ const fs = require('fs');
 
 // Where the public app reads its content. Keep in sync with package.json "publish".
 const GITHUB_OWNER = 'fsocietyshinjuu';
-const GITHUB_REPO = 'mydesktopapp';
+const GITHUB_REPO = 'Mir4-Local';
 const DATA_BRANCH = 'main';
 const MISSIONS_URL =
   `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${DATA_BRANCH}/data/missions.json`;
