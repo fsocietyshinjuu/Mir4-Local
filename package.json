@@ -1,6 +1,6 @@
 {
   "name": "Mir4-Local",
-  "productName": "My Desktop App",
+  "productName": "Mir4Local",
   "version": "1.1.0",
   "description": "Plain HTML/JS app packaged with Electron, auto-updating from GitHub Releases",
   "main": "main.js",
