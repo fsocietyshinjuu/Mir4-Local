@@ -1,7 +1,7 @@
 {
   "name": "mydesktopapp",
   "productName": "My Desktop App",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Plain HTML/JS app packaged with Electron, auto-updating from GitHub Releases",
   "main": "main.js",
   "author": "fsocietyshinjuu",
