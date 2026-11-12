@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T05:37:41.063Z",
+  "updatedAt": "2026-11-12T06:18:04.314Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -9,7 +9,7 @@
       "name": "Mata",
       "map": "Mirage Ship",
       "area": "Layer 3",
-      "location": "W1 Bullface Forest",
+      "location": "[World 1] Bullface Forest",
       "type": "Spawn",
       "cycle": "Weekly",
       "spawnTimes": [
@@ -32,7 +32,7 @@
       "name": "Boltox",
       "map": "Mirage Ship",
       "area": "Layer 3",
-      "location": "W1 Demon Bull Temple 1F",
+      "location": "[World 1] Demon Bull Temple 1F",
       "type": "Spawn",
       "cycle": "Weekly",
       "spawnTimes": [
@@ -55,7 +55,7 @@
       "name": "Bullface Fiend King",
       "map": "Mirage Ship",
       "area": "Layer 3",
-      "location": "W1 Bullface Fiend King's Sanctuary",
+      "location": "[World 1] Bullface Fiend King's Sanctuary",
       "type": "Spawn",
       "cycle": "Weekly",
       "spawnTimes": [
@@ -74,7 +74,7 @@
       "name": "Yeo Wihuang",
       "map": "Mirage Ship",
       "area": "Layer 3",
-      "location": "W8 Whitemaur Sealing Circle",
+      "location": "[World 8] Whitemaur Sealing Circle",
       "type": "Spawn",
       "cycle": "Weekly",
       "spawnTimes": [
@@ -83,6 +83,90 @@
         "09:00",
         "13:00",
         "17:00",
+        "21:00"
+      ]
+    },
+    {
+      "id": "mwd5isf6syfnw5",
+      "name": "Taehyul",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 7] Taehyul's Garden",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "01:00",
+        "03:00",
+        "05:00",
+        "07:00",
+        "09:00",
+        "11:00",
+        "13:00",
+        "15:00",
+        "17:00",
+        "19:00",
+        "21:00",
+        "23:00"
+      ]
+    },
+    {
+      "id": "mwd5nczummyu7f",
+      "name": "Yiun",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 7] Demonic Cult Main Hall",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "02:00",
+        "05:00",
+        "08:00",
+        "11:00",
+        "14:00",
+        "17:00",
+        "20:00",
+        "23:00"
+      ]
+    },
+    {
+      "id": "mwd5nyltduda2c",
+      "name": "Nefariox Obdurate Zenith",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 4] Phantasia Desert",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "00:00",
+        "02:00",
+        "04:00",
+        "06:00",
+        "08:00",
+        "10:00",
+        "12:00",
+        "14:00",
+        "16:00",
+        "18:00",
+        "20:00",
+        "22:00"
+      ]
+    },
+    {
+      "id": "mwd5onu2hemgwg",
+      "name": "Kurilaica",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 4] Overlord Sealing Circle",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "00:00",
+        "03:00",
+        "06:00",
+        "09:00",
+        "12:00",
+        "15:00",
+        "18:00",
         "21:00"
       ]
     }
