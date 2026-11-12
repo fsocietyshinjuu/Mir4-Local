@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T06:22:52.114Z",
+  "updatedAt": "2026-11-12T06:27:45.826Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -384,6 +384,104 @@
         "17:30",
         "20:30",
         "23:30"
+      ]
+    },
+    {
+      "id": "mwd5yupe8ih54l",
+      "name": "Nighteyes Yaksha",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 1] Seven Valleys Mountain",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "03:30",
+        "09:30",
+        "15:30",
+        "21:30"
+      ]
+    },
+    {
+      "id": "mwd5zfveo9jixx",
+      "name": "Black Carapace Dusk Armado",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 1] Seven Valleys Mountain",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "00:30",
+        "03:30",
+        "06:30",
+        "09:30",
+        "12:30",
+        "15:30",
+        "18:30",
+        "21:30"
+      ]
+    },
+    {
+      "id": "mwd5zqrerximqz",
+      "name": "Bulhu",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 1] Roaring Flame Island",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "04:30",
+        "10:30",
+        "16:30",
+        "22:30"
+      ]
+    },
+    {
+      "id": "mwd600qysqp2er",
+      "name": "Guemugwang",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 2] Nine Dragon Ice Field",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "05:30",
+        "11:30",
+        "17:30",
+        "23:30"
+      ]
+    },
+    {
+      "id": "mwd60i4y45pwum",
+      "name": "Do Maeongryong",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 2] Underground Jail",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "00:30",
+        "06:30",
+        "12:30",
+        "18:30"
+      ]
+    },
+    {
+      "id": "mwd60yn67el6fl",
+      "name": "Molgrash",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 2] Underground Jail",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "01:30",
+        "04:30",
+        "07:30",
+        "10:30",
+        "13:30",
+        "16:30",
+        "19:30",
+        "22:30"
       ]
     }
   ]
