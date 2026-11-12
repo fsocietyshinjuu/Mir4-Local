@@ -1,62 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'" />
   <title>Mir4Local</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="theme.js" data-key="mir4local.prefs.v1"></script>
 </head>
 <body>
-  <header class="topbar">
-    <h1>Mir4Local</h1>
-    <span class="muted" id="version"></span>
-  </header>
-
-  <section id="update-banner" class="banner" hidden>
-    <p id="update-message"></p>
-    <progress id="update-progress" max="100" value="0" hidden></progress>
-    <button id="install-btn" hidden>Restart and install</button>
-  </section>
-
-  <main id="mission-tracker">
-    <h2>Mission Tracker</h2>
-
-    <div class="toolbar">
-      <div class="seg" role="group" aria-label="Cycle">
-        <button type="button" data-cycle="All" aria-pressed="true">All</button>
-        <button type="button" data-cycle="Daily" aria-pressed="false">Daily</button>
-        <button type="button" data-cycle="Weekly" aria-pressed="false">Weekly</button>
-        <button type="button" data-cycle="Monthly" aria-pressed="false">Monthly</button>
+  <div class="app" id="app">
+    <aside class="side">
+      <div class="brand"><span class="mark">M4</span><span class="label">Mir4Local</span></div>
+      <nav aria-label="Main">
+        <button type="button" class="nav-item" data-view="missions" aria-current="page" title="Mission Tracker">
+          <i data-icon="check"></i><span class="label">Mission Tracker</span>
+        </button>
+        <button type="button" class="nav-item" data-view="settings" aria-current="false" title="Settings">
+          <i data-icon="sliders"></i><span class="label">Settings</span>
+        </button>
+      </nav>
+      <div class="side-foot">
+        <button type="button" class="nav-item" id="theme-btn" title="Switch theme">
+          <i data-icon="moon"></i><span class="label">Dark mode</span>
+        </button>
+        <button type="button" class="nav-item" id="collapse-btn" title="Collapse sidebar">
+          <i data-icon="collapse"></i><span class="label">Collapse</span>
+        </button>
+        <span class="ver" id="version"></span>
       </div>
-      <select id="map-filter" aria-label="Map">
-        <option value="">All maps</option>
-      </select>
-      <input type="search" id="search" placeholder="Search mission, area or location" aria-label="Search" />
-      <label class="status">
-        <input type="checkbox" id="fav-only" /> Favorites only
-      </label>
-      <button type="button" class="ghost" id="refresh-btn">Refresh data</button>
-    </div>
+    </aside>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Boss / Mission</th>
-            <th>Area and location</th>
-            <th id="time-head">Spawn time</th>
-            <th>Status</th>
-            <th><span class="sr-only">Favorite</span></th>
-          </tr>
-        </thead>
-        <tbody id="rows"></tbody>
-      </table>
-    </div>
-    <p id="empty" class="muted" hidden></p>
-    <p id="data-status" class="muted" role="status"></p>
-  </main>
+    <div class="content">
+      <section id="update-banner" class="banner" hidden>
+        <p id="update-message"></p>
+        <progress id="update-progress" max="100" value="0" hidden></progress>
+        <button type="button" class="btn small primary" id="install-btn" hidden>Restart and install</button>
+      </section>
 
+      <main class="view" id="view-missions">
+        <div class="view-head">
+          <div>
+            <h2>Mission Tracker</h2>
+            <div class="sub">Countdowns use your local time.</div>
+          </div>
+          <div class="progress" aria-live="polite">
+            <span id="progress-text"></span>
+            <progress id="progress" max="100" value="0" hidden></progress>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="search">
+            <i data-icon="search"></i>
+            <input id="search" class="field" type="search" placeholder="Search (press /)" aria-label="Search missions" />
+          </div>
+          <div class="seg" id="cycle-seg" role="group" aria-label="Cycle">
+            <button type="button" data-v="All" aria-pressed="true">All <span class="count"></span></button>
+            <button type="button" data-v="Daily" aria-pressed="false">Daily <span class="count"></span></button>
+            <button type="button" data-v="Weekly" aria-pressed="false">Weekly <span class="count"></span></button>
+            <button type="button" data-v="Monthly" aria-pressed="false">Monthly <span class="count"></span></button>
+          </div>
+          <select id="map-filter" class="field" aria-label="Map"><option value="">All maps</option></select>
+          <select id="sort" class="field" aria-label="Sort order">
+            <option value="soonest">Soonest first</option>
+            <option value="list">List order</option>
+          </select>
+          <button type="button" class="btn" id="fav-only" aria-pressed="false"><i data-icon="star"></i>Favorites</button>
+          <button type="button" class="btn" id="hide-done" aria-pressed="false">Hide done</button>
+          <button type="button" class="btn icon" id="refresh-btn" title="Refresh data" aria-label="Refresh data"><i data-icon="refresh"></i></button>
+        </div>
+
+        <div class="panel">
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Boss / Mission</th>
+                  <th>Area and location</th>
+                  <th>Countdown</th>
+                  <th>Status</th>
+                  <th><span class="sr-only">Favorite</span></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="empty" hidden>
+            <p id="empty-text"></p>
+            <button type="button" class="btn" id="empty-btn"></button>
+          </div>
+        </div>
+        <p class="sub" id="data-status" role="status"></p>
+      </main>
+
+      <main class="view" id="view-settings" hidden>
+        <div class="view-head"><h2>Settings</h2></div>
+        <div id="settings-body"></div>
+      </main>
+    </div>
+  </div>
+
+  <script src="icons.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
