@@ -2,9 +2,14 @@
 const STORE_KEY = 'mir4local.state.v1';
 const PREFS_KEY = 'mir4local.prefs.v1';
 const REFRESH_MS = 15 * 60 * 1000;
-const SOON_MIN = 10;   // countdown turns amber under this many minutes
+const SOON_MIN = 10;   // countdown turns orange under this many minutes
 const LIVE_MIN = 5;    // shows "Live now" for this long after a spawn
+const REMIND_MIN = 5;  // reminder distance before / after a spawn
 const DAY = 86400000;
+
+const CLASSES = ['Warrior', 'Sorcerer', 'Taoist', 'Arbalist', 'Lancer', 'Darkist'];
+const SERVERS = ['ASIA', 'EU', 'NA', 'SA', 'INMENA'];
+const ALLIANCES = ['HOF', 'FF', 'GOW'];
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -22,14 +27,29 @@ function h(tag, props = {}, ...kids) {
 
 function readJson(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
 function writeJson(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch {} }
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 
-/* ---------- Preferences and per-user progress ---------- */
-const prefs = { theme: 'system', timeFormat: 'system', resetHour: 0, weekStart: 1, collapsed: false, sort: 'soonest', ...readJson(PREFS_KEY, {}) };
+/* ---------- Preferences ---------- */
+const prefs = {
+  theme: 'system', timeFormat: 'system', resetHour: 0, weekStart: 1, collapsed: false, sort: 'soonest',
+  notify: false, sound: false, remindBefore: true, remindAt: false, remindAfter: true, remindScope: 'favorites',
+  ...readJson(PREFS_KEY, {}),
+};
 const savePrefs = () => writeJson(PREFS_KEY, prefs);
 
+/* ---------- Characters, favorites and progress ---------- */
+// Top-level favorites/completed are used until a first character is added (then they move to it).
 const saved = readJson(STORE_KEY, {});
-const state = { favorites: saved.favorites || {}, completed: saved.completed || {} };
+const state = {
+  favorites: saved.favorites || {},
+  completed: saved.completed || {},
+  characters: Array.isArray(saved.characters)
+    ? saved.characters.map((c) => ({ ...c, favorites: c.favorites || {}, completed: c.completed || {} })) : [],
+  activeId: saved.activeId || '',
+};
+if (state.characters.length && !state.characters.some((c) => c.id === state.activeId)) state.activeId = state.characters[0].id;
 const saveState = () => writeJson(STORE_KEY, state);
+const profile = () => state.characters.find((c) => c.id === state.activeId) || state;
 
 /* ---------- Time helpers ---------- */
 const hour12 = () => (prefs.timeFormat === '12' ? true : prefs.timeFormat === '24' ? false : undefined);
@@ -40,18 +60,24 @@ const fmtDate = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : d.toL
 // Spawn times are written in the admin's time zone (minutes from UTC). Without one, assume your own.
 const zoneOffset = () => (Number.isFinite(meta.utcOffset) ? meta.utcOffset : -new Date().getTimezoneOffset());
 
-// Most recent and next occurrence of any daily "HH:MM" time.
-function nextSpawn(times, offsetMin, now = Date.now()) {
+// Every occurrence of the daily "HH:MM" times from yesterday through tomorrow.
+function occurrences(times, offsetMin, now = Date.now()) {
   const shifted = new Date(now + offsetMin * 60000);
   const y = shifted.getUTCFullYear(), mo = shifted.getUTCMonth(), d = shifted.getUTCDate();
-  let next = Infinity, prev = -Infinity;
+  const out = [];
   for (const t of times) {
     const [hh, mm] = t.split(':').map(Number);
     const base = Date.UTC(y, mo, d, hh, mm) - offsetMin * 60000;
-    for (const c of [base - DAY, base, base + DAY]) {
-      if (c > now && c < next) next = c;
-      if (c <= now && c > prev) prev = c;
-    }
+    out.push(base - DAY, base, base + DAY);
+  }
+  return out;
+}
+
+function nextSpawn(times, offsetMin, now = Date.now()) {
+  let next = Infinity, prev = -Infinity;
+  for (const c of occurrences(times, offsetMin, now)) {
+    if (c > now && c < next) next = c;
+    if (c <= now && c > prev) prev = c;
   }
   return { next, prev };
 }
@@ -71,7 +97,7 @@ function periodStart(cycle, now = new Date()) {
   else if (cycle === 'Monthly') d.setDate(1);
   return d.getTime();
 }
-const isComplete = (m) => (state.completed[m.id] || 0) >= periodStart(m.cycle);
+const isComplete = (m) => (profile().completed[m.id] || 0) >= periodStart(m.cycle);
 const isSpawn = (m) => m.type === 'Spawn' && Array.isArray(m.spawnTimes) && m.spawnTimes.length > 0;
 
 /* ---------- Segmented control helpers ---------- */
@@ -98,25 +124,31 @@ let loadError = '';
 let lastLoad = { source: '', updatedAt: '' };
 let currentBase = [];
 let cdRefs = [];
-const filters = { cycle: '', map: '', area: '', q: '', favOnly: false, hideDone: false };
+let editingCharId = null;
+const filters = { type: '', cycle: '', map: '', area: '', q: '', favOnly: false, hideDone: false };
 
 const els = {
   app: $('#app'), rows: $('#rows'), scroll: $('.scroll'), empty: $('#empty'), emptyText: $('#empty-text'),
-  emptyBtn: $('#empty-btn'), status: $('#data-status'), search: $('#search'), clear: $('#clear-btn'), mapGroup: $('#map-group'), areaGroup: $('#area-group'),
-  sort: $('#sort'), favOnly: $('#fav-only'), hideDone: $('#hide-done'), refresh: $('#refresh-btn'),
-  progress: $('#progress'), progressText: $('#progress-text'), cycleChips: $('#cycle-chips'), mapChips: $('#map-chips'), areaChips: $('#area-chips'),
+  emptyBtn: $('#empty-btn'), status: $('#data-status'), search: $('#search'), sort: $('#sort'),
+  favOnly: $('#fav-only'), hideDone: $('#hide-done'), refresh: $('#refresh-btn'), clear: $('#clear-btn'),
+  typeSel: $('#f-type'), cycleSel: $('#f-cycle'), mapSel: $('#f-map'), areaSel: $('#f-area'), charSel: $('#char-select'),
+  progressText: $('#progress-text'), pct: $('#progress-pct'), meter: $('#meter'), meterFill: $('#meter-fill'),
 };
 
 hydrateIcons();
 
 /* ---------- Rendering ---------- */
+const anyFilter = () => !!(filters.type || filters.cycle || filters.map || filters.area || filters.q || filters.favOnly || filters.hideDone);
+
 function filtered() {
   const q = filters.q.trim().toLowerCase();
+  const favs = profile().favorites;
   return missions.filter((m) =>
+    (!filters.type || m.type === filters.type) &&
     (!filters.cycle || m.cycle === filters.cycle) &&
     (!filters.map || m.map === filters.map) &&
     (!filters.area || m.area === filters.area) &&
-    (!filters.favOnly || state.favorites[m.id]) &&
+    (!filters.favOnly || favs[m.id]) &&
     (!q || [m.name, m.map, m.area, m.location].join(' ').toLowerCase().includes(q)));
 }
 
@@ -128,13 +160,15 @@ function sortKey(m, now) {
 
 function sortList(list) {
   const now = Date.now();
+  const favs = profile().favorites;
   const keys = new Map(list.map((m) => [m.id, prefs.sort === 'soonest' ? sortKey(m, now) : 0]));
   return [...list].sort((a, b) =>
-    (state.favorites[b.id] ? 1 : 0) - (state.favorites[a.id] ? 1 : 0) ||
+    (favs[b.id] ? 1 : 0) - (favs[a.id] ? 1 : 0) ||
     (keys.get(a.id) === keys.get(b.id) ? 0 : keys.get(a.id) < keys.get(b.id) ? -1 : 1));
 }
 
 function renderRow(m) {
+  const p = profile();
   const done = isComplete(m);
   const statusText = h('span', {}, done ? 'Complete' : 'Pending');
 
@@ -142,7 +176,7 @@ function renderRow(m) {
     type: 'checkbox', class: 'check', checked: done, 'aria-label': `${m.name} complete`,
     onchange: (e) => {
       const on = e.target.checked;
-      if (on) state.completed[m.id] = Date.now(); else delete state.completed[m.id];
+      if (on) p.completed[m.id] = Date.now(); else delete p.completed[m.id];
       saveState();
       statusText.textContent = on ? 'Complete' : 'Pending';
       e.target.closest('tr').classList.toggle('done', on);
@@ -151,14 +185,15 @@ function renderRow(m) {
     },
   });
 
-  const isFav = !!state.favorites[m.id];
+  const isFav = !!p.favorites[m.id];
   const fav = h('button', {
     type: 'button', class: 'btn icon fav', 'data-fav': m.id, 'aria-pressed': String(isFav),
     title: isFav ? 'Remove favorite' : 'Add favorite', 'aria-label': `Favorite ${m.name}`,
     onclick: () => {
-      if (state.favorites[m.id]) delete state.favorites[m.id]; else state.favorites[m.id] = true;
+      if (p.favorites[m.id]) delete p.favorites[m.id]; else p.favorites[m.id] = true;
       saveState();
       render();
+      renderCharacters();
       els.rows.querySelector(`[data-fav="${m.id}"]`)?.focus();
     },
   }, icon('star'));
@@ -200,7 +235,7 @@ function render() {
   if (none) {
     if (!missions.length) {
       els.emptyText.textContent = !loaded ? 'Loading missions…'
-        : loadError ? `Couldn't load missions (${loadError}).` : 'No missions have been published yet.';
+        : loadError ? `Couldn’t load missions (${loadError}).` : 'No missions have been published yet.';
       els.emptyBtn.textContent = 'Refresh data';
       els.emptyBtn.onclick = loadData;
     } else {
@@ -236,16 +271,19 @@ function tick() {
 function updateSummary() {
   const total = currentBase.length;
   const done = currentBase.filter(isComplete).length;
-  els.progressText.textContent = total ? `${done} of ${total} complete` : '';
-  els.progress.hidden = !total;
-  els.progress.value = total ? Math.round((done / total) * 100) : 0;
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  els.progressText.textContent = total ? `${done} of ${total} complete` : 'No missions';
+  els.pct.textContent = total ? `${pct}%` : '';
+  els.meterFill.style.width = `${pct}%`;
+  els.meter.setAttribute('aria-valuenow', String(pct));
 }
 
-const anyFilter = () => !!(filters.cycle || filters.map || filters.area || filters.q || filters.favOnly || filters.hideDone);
-
-function chipRow(el, values, current, label) {
-  el.replaceChildren(...['', ...values].map((v) =>
-    h('button', { type: 'button', class: 'fchip', 'data-v': v, 'aria-pressed': String(v === current) }, label ? label(v) : v || 'All')));
+/* ---------- Filters (dropdowns) ---------- */
+function fillSelect(sel, values, current, allLabel, labelFn) {
+  sel.replaceChildren(
+    h('option', { value: '' }, allLabel),
+    ...values.map((v) => h('option', { value: v }, labelFn ? labelFn(v) : v)));
+  sel.value = current;
 }
 
 function renderFilters() {
@@ -253,12 +291,11 @@ function renderFilters() {
   if (!maps.includes(filters.map)) filters.map = '';
   const areas = [...new Set(missions.filter((m) => !filters.map || m.map === filters.map).map((m) => m.area))].sort();
   if (!areas.includes(filters.area)) filters.area = '';
-  const count = (v) => (v ? missions.filter((m) => m.cycle === v).length : missions.length);
-  chipRow(els.cycleChips, ['Daily', 'Weekly', 'Monthly'], filters.cycle, (v) => [v || 'All', h('span', { class: 'count' }, String(count(v)))]);
-  chipRow(els.mapChips, maps, filters.map);
-  chipRow(els.areaChips, areas, filters.area);
-  els.mapGroup.hidden = !maps.length;
-  els.areaGroup.hidden = !areas.length;
+  const n = (key, v) => missions.filter((m) => m[key] === v).length;
+  fillSelect(els.typeSel, ['Spawn', 'Summon'], filters.type, 'All types', (v) => `${v} (${n('type', v)})`);
+  fillSelect(els.cycleSel, ['Daily', 'Weekly', 'Monthly'], filters.cycle, 'All cycles', (v) => `${v} (${n('cycle', v)})`);
+  fillSelect(els.mapSel, maps, filters.map, 'All maps');
+  fillSelect(els.areaSel, areas, filters.area, 'All areas');
 }
 
 function syncControls() {
@@ -270,15 +307,119 @@ function syncControls() {
 }
 
 function clearFilters() {
-  Object.assign(filters, { cycle: '', map: '', area: '', q: '', favOnly: false, hideDone: false });
+  Object.assign(filters, { type: '', cycle: '', map: '', area: '', q: '', favOnly: false, hideDone: false });
   syncControls();
   render();
 }
 
+/* ---------- Characters ---------- */
+function renderCharSelect() {
+  const opts = state.characters.map((c) => h('option', { value: c.id }, `${c.ign} (${c.cls})`));
+  if (!opts.length) opts.push(h('option', { value: '' }, 'No character'));
+  opts.push(h('option', { value: '__add' }, '+ Add character…'));
+  els.charSel.replaceChildren(...opts);
+  els.charSel.value = state.characters.some((c) => c.id === state.activeId) ? state.activeId : '';
+}
+
+function setActive(id) {
+  state.activeId = id;
+  saveState();
+  renderCharSelect();
+  renderCharacters();
+  render();
+}
+
+function renderCharacters() {
+  const rows = $('#char-rows');
+  $('#char-empty').hidden = state.characters.length > 0;
+  $('#char-rows').closest('.scroll').hidden = state.characters.length === 0;
+  const btn = (label, fn, danger) => h('button', { type: 'button', class: `btn act ${danger ? 'danger' : ''}`, onclick: fn }, label);
+  rows.replaceChildren(...state.characters.map((c) => {
+    const active = c.id === state.activeId;
+    return h('tr', {},
+      h('td', {}, h('span', { class: 'name' }, c.ign), active ? h('span', { class: 'badge active' }, 'Active') : null),
+      h('td', {}, c.cls), h('td', {}, c.server), h('td', {}, c.alliance),
+      h('td', { class: 'muted' }, c.clan || 'None'),
+      h('td', { class: 'muted' }, String(Object.keys(c.favorites).length)),
+      h('td', { class: 'acts' },
+        active ? null : btn('Use', () => setActive(c.id)),
+        btn('Edit', () => openCharDialog(c)),
+        btn('Delete', () => deleteChar(c), true)));
+  }));
+}
+
+function deleteChar(c) {
+  if (!confirm(`Delete ${c.ign}? Their favorites and progress will be removed.`)) return;
+  state.characters = state.characters.filter((x) => x.id !== c.id);
+  if (state.activeId === c.id) state.activeId = state.characters[0]?.id || '';
+  saveState();
+  renderCharSelect();
+  renderCharacters();
+  render();
+}
+
+const dlg = $('#char-dialog');
+function fillOptions(sel, list, placeholder) {
+  sel.replaceChildren(h('option', { value: '' }, placeholder), ...list.map((v) => h('option', { value: v }, v)));
+}
+fillOptions($('#c-class'), CLASSES, 'Select class');
+fillOptions($('#c-server'), SERVERS, 'Select server');
+fillOptions($('#c-alliance'), ALLIANCES, 'Select alliance');
+
+function openCharDialog(c) {
+  editingCharId = c ? c.id : null;
+  $('#char-title').textContent = c ? 'Edit character' : 'Add character';
+  $('#c-ign').value = c ? c.ign : '';
+  $('#c-class').value = c ? c.cls : '';
+  $('#c-server').value = c ? c.server : '';
+  $('#c-alliance').value = c ? c.alliance : '';
+  $('#c-clan').value = c ? c.clan || '' : '';
+  $('#char-error').hidden = true;
+  dlg.showModal();
+  $('#c-ign').focus();
+}
+
+$('#char-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const rec = {
+    ign: $('#c-ign').value.trim(), cls: $('#c-class').value, server: $('#c-server').value,
+    alliance: $('#c-alliance').value, clan: $('#c-clan').value.trim(),
+  };
+  const dup = state.characters.some((c) => c.id !== editingCharId && c.server === rec.server && c.ign.toLowerCase() === rec.ign.toLowerCase());
+  if (dup) {
+    $('#char-error').textContent = 'You already have a character with this IGN on that server.';
+    $('#char-error').hidden = false;
+    return;
+  }
+  if (editingCharId) {
+    Object.assign(state.characters.find((c) => c.id === editingCharId), rec);
+  } else {
+    const c = { id: newId(), ...rec, favorites: {}, completed: {} };
+    if (!state.characters.length) { // first character inherits what was tracked before characters existed
+      c.favorites = state.favorites; c.completed = state.completed;
+      state.favorites = {}; state.completed = {};
+    }
+    state.characters.push(c);
+    state.activeId = c.id;
+  }
+  saveState();
+  dlg.close();
+  renderCharSelect();
+  renderCharacters();
+  render();
+});
+$('#c-cancel').addEventListener('click', () => dlg.close());
+$('#add-char-btn').addEventListener('click', () => openCharDialog(null));
+$('#char-empty-btn').addEventListener('click', () => openCharDialog(null));
+els.charSel.addEventListener('change', () => {
+  if (els.charSel.value === '__add') { renderCharSelect(); openCharDialog(null); return; }
+  setActive(els.charSel.value);
+});
+
 /* ---------- Data ---------- */
 function dataSummary() {
   const when = lastLoad.updatedAt ? fmtDate(lastLoad.updatedAt) : '';
-  if (loadError && !missions.length) return `Couldn't load missions (${loadError}).`;
+  if (loadError && !missions.length) return `Couldn’t load missions (${loadError}).`;
   if (lastLoad.source === 'cache') return `Offline. Showing saved data${when ? ` from ${when}` : ''}.`;
   if (lastLoad.source === 'empty') return 'Nothing has been published yet.';
   return when ? `Data updated ${when}.` : '';
@@ -338,6 +479,69 @@ function applyCollapsed() {
 }
 $('#collapse-btn').addEventListener('click', () => { prefs.collapsed = !prefs.collapsed; savePrefs(); applyCollapsed(); });
 
+/* ---------- Reminders (desktop notification + sound) ---------- */
+let audioCtx;
+function playChime() {
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const t0 = audioCtx.currentTime;
+    [[880, 0], [1175, 0.17], [1480, 0.34]].forEach(([freq, delay]) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.0001, t0 + delay);
+      gain.gain.exponentialRampToValueAtTime(0.28, t0 + delay + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + delay + 0.3);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(t0 + delay);
+      osc.stop(t0 + delay + 0.32);
+    });
+  } catch {}
+}
+
+function fireReminder(kind, items) {
+  const n = items.length;
+  const first = items[0].m;
+  const phrase = { before: `in ${REMIND_MIN} minutes`, at: 'now', after: `${REMIND_MIN} minutes ago` }[kind];
+  const title = n === 1
+    ? (kind === 'at' ? `${first.name} has spawned` : kind === 'before' ? `${first.name} spawns ${phrase}` : `${first.name} spawned ${phrase}`)
+    : (kind === 'at' ? `${n} bosses have spawned` : kind === 'before' ? `${n} bosses spawn ${phrase}` : `${n} bosses spawned ${phrase}`);
+  const body = n === 1 ? [first.map, first.area, first.location].join(', ') : items.map((i) => i.m.name).join(', ');
+  if (prefs.notify) window.desktop.notify({ title, body });
+  if (prefs.sound) playChime();
+}
+
+let lastReminderTick = Date.now();
+function checkReminders() {
+  const now = Date.now();
+  const from = Math.max(lastReminderTick, now - 90000); // never replay old events after sleep or a long pause
+  lastReminderTick = now;
+  if (!prefs.notify && !prefs.sound) return;
+
+  const kinds = [];
+  if (prefs.remindBefore) kinds.push(['before', -REMIND_MIN]);
+  if (prefs.remindAt) kinds.push(['at', 0]);
+  if (prefs.remindAfter) kinds.push(['after', REMIND_MIN]);
+  if (!kinds.length) return;
+
+  const off = zoneOffset();
+  const favs = profile().favorites;
+  const groups = { before: [], at: [], after: [] };
+  for (const m of missions) {
+    if (!isSpawn(m) || isComplete(m)) continue;
+    if (prefs.remindScope === 'favorites' && !favs[m.id]) continue;
+    for (const spawnAt of occurrences(m.spawnTimes, off, now)) {
+      for (const [kind, delta] of kinds) {
+        const at = spawnAt + delta * 60000;
+        if (at > from && at <= now) groups[kind].push({ m, spawnAt });
+      }
+    }
+  }
+  for (const kind of ['before', 'at', 'after']) if (groups[kind].length) fireReminder(kind, groups[kind]);
+}
+
 /* ---------- Settings view ---------- */
 const settingsRefs = {};
 
@@ -347,10 +551,27 @@ function row(title, hint, control) {
     control);
 }
 
+function switchEl(label, key) {
+  const input = h('input', { type: 'checkbox', class: 'switch', role: 'switch', 'aria-label': label, checked: !!prefs[key] });
+  input.addEventListener('change', () => { prefs[key] = input.checked; savePrefs(); });
+  return input;
+}
+
+function checkRow(label, key) {
+  const input = h('input', { type: 'checkbox', class: 'check', checked: !!prefs[key] });
+  input.addEventListener('change', () => { prefs[key] = input.checked; savePrefs(); });
+  return h('label', { class: 'checkrow' }, input, label);
+}
+
 function fillResetOptions() {
   settingsRefs.reset.replaceChildren(...Array.from({ length: 24 }, (_, i) =>
     h('option', { value: String(i), selected: i === prefs.resetHour }, fmtHour(i))));
   settingsRefs.reset.value = String(prefs.resetHour);
+}
+
+async function testNotification() {
+  const res = await window.desktop.notify({ title: 'Mir4Local test', body: 'Desktop notifications are working.' });
+  settingsRefs.notifyMsg.textContent = res && res.ok ? 'Sent.' : 'Not available on this computer.';
 }
 
 function buildSettings() {
@@ -368,9 +589,15 @@ function buildSettings() {
   const weekSeg = segEl([['1', 'Monday'], ['0', 'Sunday']], String(prefs.weekStart));
   bindSeg(weekSeg, (v) => { prefs.weekStart = Number(v); savePrefs(); render(); });
 
+  const scopeSeg = segEl([['favorites', 'Favorites'], ['all', 'All spawn bosses']], prefs.remindScope);
+  bindSeg(scopeSeg, (v) => { prefs.remindScope = v; savePrefs(); });
+
+  settingsRefs.notifyMsg = h('span', { class: 'sub', role: 'status' });
+  const testNote = h('button', { type: 'button', class: 'btn small', onclick: testNotification }, 'Send test');
+  const testSound = h('button', { type: 'button', class: 'btn small', onclick: playChime }, 'Play sound');
+
   settingsRefs.data = h('span', { class: 'sub' }, 'No data loaded yet.');
   const refreshBtn = h('button', { type: 'button', class: 'btn', onclick: loadData }, icon('refresh'), 'Refresh');
-
   settingsRefs.update = h('span', { class: 'sub' }, 'Not checked yet.');
   const updateBtn = h('button', { type: 'button', class: 'btn', onclick: () => window.desktop.checkForUpdates() }, 'Check for updates');
   settingsRefs.version = h('span', { class: 'sub' });
@@ -378,6 +605,19 @@ function buildSettings() {
   $('#settings-body').append(
     h('h3', {}, 'Appearance'),
     h('div', { class: 'panel' }, row('Theme', 'System follows your Windows setting.', themeSeg)),
+    h('h3', {}, 'Reminders'),
+    h('div', { class: 'panel' },
+      row('Desktop notifications', 'A Windows pop-up. If you don’t see it, check Focus assist.',
+        h('div', { class: 'setting-end' }, settingsRefs.notifyMsg, testNote, switchEl('Desktop notifications', 'notify'))),
+      row('Sound reminder', 'A short chime at the same moments.',
+        h('div', { class: 'setting-end' }, testSound, switchEl('Sound reminder', 'sound'))),
+      row('Remind me', 'Spawn bosses only. Summon missions have no spawn time.',
+        h('div', { class: 'checks' },
+          checkRow(`${REMIND_MIN} minutes before spawn`, 'remindBefore'),
+          checkRow('At spawn', 'remindAt'),
+          checkRow(`${REMIND_MIN} minutes after spawn`, 'remindAfter'))),
+      row('Which bosses', 'Favorites means the active character’s favorites. Missions marked complete are skipped.', scopeSeg)),
+    h('p', { class: 'sub' }, 'Keep Mir4Local open (it can stay minimized) for reminders to work.'),
     h('h3', {}, 'Time and resets'),
     h('div', { class: 'panel' },
       row('Time format', null, fmtSeg),
@@ -386,26 +626,25 @@ function buildSettings() {
     h('h3', {}, 'Mission data'),
     h('div', { class: 'panel' }, row('Published data', null, h('div', { class: 'setting-end' }, settingsRefs.data, refreshBtn))),
     h('h3', {}, 'App'),
-    h('div', { class: 'panel' }, row('Updates', null, h('div', { class: 'setting-end' }, settingsRefs.update, updateBtn)),
+    h('div', { class: 'panel' },
+      row('Updates', null, h('div', { class: 'setting-end' }, settingsRefs.update, updateBtn)),
       row('Version', null, settingsRefs.version)));
   fillResetOptions();
 }
 
 /* ---------- Events ---------- */
-[[els.cycleChips, 'cycle'], [els.mapChips, 'map'], [els.areaChips, 'area']].forEach(([el, key]) =>
-  el.addEventListener('click', (e) => {
-    const b = e.target.closest('button[data-v]');
-    if (!b) return;
-    filters[key] = b.dataset.v;
+[['typeSel', 'type'], ['cycleSel', 'cycle'], ['mapSel', 'map'], ['areaSel', 'area']].forEach(([id, key]) =>
+  els[id].addEventListener('change', () => {
+    filters[key] = els[id].value;
     if (key === 'map') filters.area = '';
     renderFilters();
     render();
   }));
-els.clear.addEventListener('click', clearFilters);
 els.sort.addEventListener('change', () => { prefs.sort = els.sort.value; savePrefs(); render(); });
 els.search.addEventListener('input', () => { filters.q = els.search.value; render(); });
 els.favOnly.addEventListener('click', () => { filters.favOnly = !filters.favOnly; syncControls(); render(); });
 els.hideDone.addEventListener('click', () => { filters.hideDone = !filters.hideDone; syncControls(); render(); });
+els.clear.addEventListener('click', clearFilters);
 els.refresh.addEventListener('click', loadData);
 
 document.addEventListener('keydown', (e) => {
@@ -443,9 +682,11 @@ buildSettings();
 applyCollapsed();
 syncThemeBtn();
 syncControls();
+renderCharSelect();
+renderCharacters();
 render();
 loadData();
-setInterval(tick, 1000);
+setInterval(() => { tick(); checkReminders(); }, 1000);
 setInterval(loadData, REFRESH_MS);
 
 // Once a minute: apply resets that just passed, and re-sort by soonest unless you're mid-interaction.

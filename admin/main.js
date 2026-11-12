@@ -10,6 +10,7 @@ function createWindow() {
     height: 800,
     minWidth: 900,
     title: 'Mir4Local Admin',
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -17,6 +18,7 @@ function createWindow() {
     },
   });
   win.setMenuBarVisibility(false);
+  win.once('ready-to-show', () => { win.maximize(); win.show(); });
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 }
 

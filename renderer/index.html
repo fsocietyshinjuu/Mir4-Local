@@ -17,6 +17,10 @@
         <button type="button" class="nav-item" data-view="missions" aria-current="page" title="Mission Tracker">
           <i data-icon="check"></i><span class="label">Mission Tracker</span>
         </button>
+        <div class="nav-label">Account</div>
+        <button type="button" class="nav-item" data-view="characters" aria-current="false" title="Characters">
+          <i data-icon="user"></i><span class="label">Characters</span>
+        </button>
         <div class="nav-label">App</div>
         <button type="button" class="nav-item" data-view="settings" aria-current="false" title="Settings">
           <i data-icon="sliders"></i><span class="label">Settings</span>
@@ -47,6 +51,9 @@
             <div class="sub">Countdowns use your local time.</div>
           </div>
           <div class="head-tools">
+            <label class="fsel"><span class="flabel">Character</span>
+              <select id="char-select" class="field" aria-label="Active character"></select>
+            </label>
             <div class="search">
               <i data-icon="search"></i>
               <input id="search" class="field" type="search" placeholder="Search bosses (press /)" aria-label="Search missions" />
@@ -60,20 +67,18 @@
         </div>
 
         <div class="filters">
-          <div class="fgroup"><span class="flabel">Cycle</span><div class="fchips" id="cycle-chips"></div></div>
-          <div class="fgroup" id="map-group"><span class="flabel">Map</span><div class="fchips" id="map-chips"></div></div>
-          <div class="fgroup" id="area-group"><span class="flabel">Area</span><div class="fchips" id="area-chips"></div></div>
-          <div class="fgroup">
-            <span class="flabel">Show</span>
-            <div class="fchips">
-              <button type="button" class="fchip" id="fav-only" aria-pressed="false"><i data-icon="star"></i>Favorites</button>
-              <button type="button" class="fchip" id="hide-done" aria-pressed="false">Hide done</button>
-            </div>
+          <div class="filters-left">
+            <label class="fsel"><span class="flabel">Type</span><select id="f-type" class="field"></select></label>
+            <label class="fsel"><span class="flabel">Cycle</span><select id="f-cycle" class="field"></select></label>
+            <label class="fsel"><span class="flabel">Map</span><select id="f-map" class="field"></select></label>
+            <label class="fsel"><span class="flabel">Area</span><select id="f-area" class="field"></select></label>
+            <button type="button" class="fchip" id="fav-only" aria-pressed="false"><i data-icon="star"></i>Favorites</button>
+            <button type="button" class="fchip" id="hide-done" aria-pressed="false">Hide done</button>
+            <button type="button" class="clear" id="clear-btn" hidden><i data-icon="x"></i>Clear</button>
           </div>
-          <button type="button" class="clear" id="clear-btn" hidden><i data-icon="x"></i>Clear</button>
           <div class="progress" aria-live="polite">
-            <span id="progress-text"></span>
-            <progress id="progress" max="100" value="0" hidden></progress>
+            <div class="progress-text"><span id="progress-text"></span><span id="progress-pct"></span></div>
+            <div class="meter" id="meter" role="progressbar" aria-label="Completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="meter-fill"></span></div>
           </div>
         </div>
 
@@ -100,12 +105,58 @@
         <p class="sub" id="data-status" role="status"></p>
       </main>
 
+      <main class="view" id="view-characters" hidden>
+        <div class="view-head">
+          <div>
+            <h2>Characters</h2>
+            <div class="sub">Each character keeps its own favorites and completed missions.</div>
+          </div>
+          <div class="head-tools">
+            <button type="button" class="btn primary" id="add-char-btn"><i data-icon="plus"></i>Add character</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr><th>IGN</th><th>Class</th><th>Server</th><th>Alliance</th><th>Clan</th><th>Favorites</th><th><span class="sr-only">Actions</span></th></tr>
+              </thead>
+              <tbody id="char-rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="char-empty" hidden>
+            <p>No characters yet. Add one to keep your own favorites and progress.</p>
+            <button type="button" class="btn primary" id="char-empty-btn"><i data-icon="plus"></i>Add character</button>
+          </div>
+        </div>
+      </main>
+
       <main class="view" id="view-settings" hidden>
         <div class="view-head"><h2>Settings</h2></div>
         <div id="settings-body"></div>
       </main>
     </div>
   </div>
+
+  <dialog id="char-dialog" aria-labelledby="char-title">
+    <form id="char-form" autocomplete="off">
+      <h2 id="char-title">Add character</h2>
+      <label class="fld"><span>IGN</span><input id="c-ign" class="field" required maxlength="30" /></label>
+      <div class="two">
+        <label class="fld"><span>Class</span><select id="c-class" class="field" required></select></label>
+        <label class="fld"><span>Server</span><select id="c-server" class="field" required></select></label>
+      </div>
+      <div class="two">
+        <label class="fld"><span>Alliance</span><select id="c-alliance" class="field" required></select></label>
+        <label class="fld"><span>Clan (optional)</span><input id="c-clan" class="field" maxlength="30" /></label>
+      </div>
+      <p class="error" id="char-error" role="alert" hidden></p>
+      <div class="dialog-foot">
+        <button type="submit" class="btn primary">Save character</button>
+        <button type="button" class="btn" id="c-cancel">Cancel</button>
+      </div>
+    </form>
+  </dialog>
 
   <script src="icons.js"></script>
   <script src="app.js"></script>

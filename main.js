@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, Notification } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const fs = require('fs');
@@ -11,6 +11,13 @@ const MISSIONS_URL =
   `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${DATA_BRANCH}/data/missions.json`;
 
 let win;
+const liveNotes = new Set(); // keeps notifications alive until they close
+
+// Lets Windows attribute notifications to this app (matches the installer's appId).
+try {
+  const appId = require('./package.json').build?.appId;
+  if (appId && process.platform === 'win32') app.setAppUserModelId(appId);
+} catch {}
 
 function createWindow() {
   win = new BrowserWindow({
@@ -19,13 +26,17 @@ function createWindow() {
     minWidth: 760,
     minHeight: 480,
     title: 'Mir4Local',
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
+      backgroundThrottling: false,                // keep reminders on time while minimized
+      autoplayPolicy: 'no-user-gesture-required', // allow reminder sounds
     },
   });
   win.setMenuBarVisibility(false);
+  win.once('ready-to-show', () => { win.maximize(); win.show(); });
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 }
 
@@ -85,6 +96,25 @@ function setupAutoUpdate() {
 
   autoUpdater.checkForUpdates().catch(() => {});
 }
+
+ipcMain.handle('notify:show', (_e, n) => {
+  if (!Notification.isSupported()) return { ok: false };
+  const note = new Notification({
+    title: String((n && n.title) || 'Mir4Local').slice(0, 120),
+    body: String((n && n.body) || '').slice(0, 300),
+    silent: true, // sounds are handled by the app's own reminder setting
+  });
+  liveNotes.add(note);
+  note.on('close', () => liveNotes.delete(note));
+  note.on('click', () => {
+    if (!win || win.isDestroyed()) return;
+    if (win.isMinimized()) win.restore();
+    win.show();
+    win.focus();
+  });
+  note.show();
+  return { ok: true };
+});
 
 ipcMain.handle('app:version', () => app.getVersion());
 ipcMain.handle('update:check', () => {
