@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T08:30:00.914Z",
+  "updatedAt": "2026-11-12T08:40:01.653Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -692,6 +692,236 @@
       "map": "Mirage Ship",
       "area": "Layer 3",
       "location": "[World 7] Redmoon Gorge 3F",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdamfh7wia6nx",
+      "name": "Rotten Judok",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 7] Underground Jail",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdamnu3gmwzx6",
+      "name": "Nefariox Adamant Zenith",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 4] Sabuk Town",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdamypug585y0",
+      "name": "Nefariox Thunderclap Zenith",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 4] Bladehaven 1F",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdan6jurkv5qp",
+      "name": "Nefariox Divine Draconic Zenith",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 4] Bladehaven 2F",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdane9m2o4ljx",
+      "name": "Dark Blood Monk",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 4] Dark Blood Monk",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdanm633gebd2",
+      "name": "Jangryang",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 2] Seocheon Trading Post",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdanrz6rag12o",
+      "name": "Jangbo",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 2] Redmoon Mountain",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdanz8q1ikcbs",
+      "name": "Baegsan",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 2] Twinway Maze",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdao60sb6hpdg",
+      "name": "Bullface Fiend King",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 2] Bullface Fiend King",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaoda220e0k9",
+      "name": "Whitemaur Illusion Beast",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 5] Nine Dragon Ice Field",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaomnux2q4si",
+      "name": "Overlord Celestial Fiend",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 5] Illusion Temple",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaoymj3z802j",
+      "name": "Arisen Nefariox Khan",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 5] Demon's Ruin",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdap7m2kjo3km",
+      "name": "Skyscale Ethershade Spider Fiend",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 5] Ethershade Spider Fiend",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdapgqiv8ecku",
+      "name": "Urunka",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 3] Nefariox Necropolis",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdapo6qfbs9jj",
+      "name": "Kaya",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 3] Viperbeast Plain",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdapwaaqxd7cc",
+      "name": "Dusk Armado King",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 3] Dusk Armado Lair",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaq46yetm0jn",
+      "name": "Steelbone Specter",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 3] Steelbone Specter",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaqazemu08ej",
+      "name": "Hangga",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 6] Bicheon Labyrinth",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaqi2yydd6zp",
+      "name": "Jo Gyu",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 6] Bicheon Labyrinth",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaqp8i444x6r",
+      "name": "Phantom Ghoul",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 6] Demoniac Mine",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdar4w3nu10js",
+      "name": "Transformed Hong Yeom",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 6] Demoniac Mine Depths",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdarakiae1cbg",
+      "name": "Grand Centipedeus",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 6] Grand Centipedeus",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdarmmacp3qyq",
+      "name": "Song Gwang",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 1] Seven Valleys Mountain",
       "type": "Summon",
       "cycle": "Weekly",
       "spawnTimes": []
