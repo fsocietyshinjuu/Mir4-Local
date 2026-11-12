@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T06:37:35.796Z",
+  "updatedAt": "2026-11-12T08:30:00.914Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -615,6 +615,86 @@
         "17:30",
         "23:30"
       ]
+    },
+    {
+      "id": "mwdabgyye4f3lw",
+      "name": "Celestial Water Dragon Larva",
+      "map": "Field",
+      "area": "Phantasia Area",
+      "location": "Phantasia Desert",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaci1ebaydyj",
+      "name": "Viper Queen",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 8] Pakua Stonehall",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdad9h6lxohas",
+      "name": "Arahan",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 8] Pakua Stonehall",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdadwv6sb2mr0",
+      "name": "Etherbolt",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 8] Abandoned Mine 3F",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdae2dm6rbcnn",
+      "name": "Terragod",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 8] Abandoned Mine 3F",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaebjmkcvuxz",
+      "name": "First Elder Crimsonmaur",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 8] Abandoned Mine 3F",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaemnmim57jx",
+      "name": "Redmoon Ghost Wolf",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 7] Redmoon Gorge 2F",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaewyqrzv672",
+      "name": "Empowered Gorefiend",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 7] Redmoon Gorge 3F",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
     }
   ]
 }
