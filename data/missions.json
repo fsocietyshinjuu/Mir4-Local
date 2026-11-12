@@ -1,7 +1,8 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-11T20:49:27.867Z",
-  "timeLabel": "Server time",
+  "updatedAt": "2026-11-12T05:32:48.776Z",
+  "utcOffset": 480,
+  "timeLabel": "UTC+8",
   "missions": [
     {
       "id": "mwcle047hzdmo1",
@@ -24,6 +25,48 @@
         "18:00",
         "20:00",
         "22:00"
+      ]
+    },
+    {
+      "id": "mwd41jkwm9iz9c",
+      "name": "Boltox",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "W1 Demon Bull Temple 1F",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "01:00",
+        "03:00",
+        "05:00",
+        "07:00",
+        "09:00",
+        "11:00",
+        "13:00",
+        "15:00",
+        "17:00",
+        "19:00",
+        "21:00",
+        "23:00"
+      ]
+    },
+    {
+      "id": "mwd42ndjrdj0un",
+      "name": "Bullface Fiend King",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "W1 Bullface Fiend King's Sanctuary",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "00:00",
+        "03:00",
+        "06:00",
+        "09:00",
+        "12:00",
+        "15:00",
+        "18:00",
+        "21:00"
       ]
     }
   ]
