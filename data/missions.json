@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T08:40:01.653Z",
+  "updatedAt": "2026-11-12T08:42:39.271Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -922,6 +922,66 @@
       "map": "Mirage Ship",
       "area": "Layer 1",
       "location": "[World 1] Seven Valleys Mountain",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdatmzvfxwd8z",
+      "name": "Porung",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 1] Roaring Flame Island",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaty8j3of9bl",
+      "name": "Rebel Army Commander in Chief",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 2] Nine Dragon Ice Field",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaug0rh3qznv",
+      "name": "Lord of Order",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 2] Celestial Blood Valley",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdaur9ulshd94",
+      "name": "Gordo",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 3] Cloud Sea Village",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdauyp65btpof",
+      "name": "Kairark",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 3] Hydra's Depths",
+      "type": "Summon",
+      "cycle": "Weekly",
+      "spawnTimes": []
+    },
+    {
+      "id": "mwdav6zva02tbx",
+      "name": "Arkanos",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 3] Akamtul's Altar",
       "type": "Summon",
       "cycle": "Weekly",
       "spawnTimes": []
