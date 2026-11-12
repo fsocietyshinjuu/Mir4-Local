@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T05:32:48.776Z",
+  "updatedAt": "2026-11-12T05:37:41.063Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -66,6 +66,23 @@
         "12:00",
         "15:00",
         "18:00",
+        "21:00"
+      ]
+    },
+    {
+      "id": "mwd49acnd8r2uj",
+      "name": "Yeo Wihuang",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "W8 Whitemaur Sealing Circle",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "01:00",
+        "05:00",
+        "09:00",
+        "13:00",
+        "17:00",
         "21:00"
       ]
     }
