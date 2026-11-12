@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T06:18:04.314Z",
+  "updatedAt": "2026-11-12T06:22:52.114Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -168,6 +168,222 @@
         "15:00",
         "18:00",
         "21:00"
+      ]
+    },
+    {
+      "id": "mwd5r3pe563056",
+      "name": "Juhui",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 2] Redmoon Mountain",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "02:30",
+        "05:30",
+        "08:30",
+        "11:30",
+        "14:30",
+        "17:30",
+        "20:30",
+        "23:30"
+      ]
+    },
+    {
+      "id": "mwd5ro1udpdzmc",
+      "name": "Faluk",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 5] Great Sabuk Wall",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "00:30",
+        "03:30",
+        "06:30",
+        "09:30",
+        "12:30",
+        "15:30",
+        "18:30",
+        "21:30"
+      ]
+    },
+    {
+      "id": "mwd5s2sqfu160e",
+      "name": "Tale Warper Fiend",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 5] Illusion Temple",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "01:30",
+        "04:30",
+        "07:30",
+        "10:30",
+        "13:30",
+        "16:30",
+        "19:30",
+        "22:30"
+      ]
+    },
+    {
+      "id": "mwd5sdiiwu1b8v",
+      "name": "Tombbeast Gyo",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 3] Nefariox Necropolis",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "02:30",
+        "08:30",
+        "14:30",
+        "20:30"
+      ]
+    },
+    {
+      "id": "mwd5soxmjuh0qr",
+      "name": "Dusk Armado Emperor",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 3] Viperbeast Plain",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "01:30",
+        "03:30",
+        "05:30",
+        "07:30",
+        "09:30",
+        "11:30",
+        "13:30",
+        "15:30",
+        "17:30",
+        "19:30",
+        "21:30",
+        "23:30"
+      ]
+    },
+    {
+      "id": "mwd5t0waqbs1ja",
+      "name": "Mara",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 3] Rockut Tomb",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "02:30",
+        "05:30",
+        "08:30",
+        "11:30",
+        "14:30",
+        "17:30",
+        "20:30",
+        "23:30"
+      ]
+    },
+    {
+      "id": "mwd5tbbut7mt4j",
+      "name": "Boodo",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 3] Rockut Tomb",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "03:30",
+        "09:30",
+        "15:30",
+        "21:30"
+      ]
+    },
+    {
+      "id": "mwd5tnzmr3iot9",
+      "name": "Bicheon Sura",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 6] Bicheon Town",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "04:30",
+        "10:30",
+        "16:30",
+        "22:30"
+      ]
+    },
+    {
+      "id": "mwd5u5pmtsr730",
+      "name": "Cheol Mokgang",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 6] Bicheon Town",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "00:30",
+        "02:30",
+        "04:30",
+        "06:30",
+        "08:30",
+        "10:30",
+        "12:30",
+        "14:30",
+        "16:30",
+        "18:30",
+        "20:30",
+        "22:30"
+      ]
+    },
+    {
+      "id": "mwd5ug4ihafxlx",
+      "name": "Wuihan",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 6] Phantom Woods",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "05:30",
+        "11:30",
+        "17:30",
+        "23:30"
+      ]
+    },
+    {
+      "id": "mwd5uvmqfva4qx",
+      "name": "Obscene Yeticlops",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 6] Bicheon Labyrinth",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "00:30",
+        "06:30",
+        "12:30",
+        "18:30"
+      ]
+    },
+    {
+      "id": "mwd5vehu4i8qo1",
+      "name": "Jihwa",
+      "map": "Mirage Ship",
+      "area": "Layer 1",
+      "location": "[World 1] Unseo Town",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [
+        "02:30",
+        "05:30",
+        "08:30",
+        "11:30",
+        "14:30",
+        "17:30",
+        "20:30",
+        "23:30"
       ]
     }
   ]
