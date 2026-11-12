@@ -98,13 +98,13 @@ let loadError = '';
 let lastLoad = { source: '', updatedAt: '' };
 let currentBase = [];
 let cdRefs = [];
-const filters = { cycle: 'All', map: '', q: '', favOnly: false, hideDone: false };
+const filters = { cycle: '', map: '', area: '', q: '', favOnly: false, hideDone: false };
 
 const els = {
   app: $('#app'), rows: $('#rows'), scroll: $('.scroll'), empty: $('#empty'), emptyText: $('#empty-text'),
-  emptyBtn: $('#empty-btn'), status: $('#data-status'), search: $('#search'), mapFilter: $('#map-filter'),
+  emptyBtn: $('#empty-btn'), status: $('#data-status'), search: $('#search'), clear: $('#clear-btn'), mapGroup: $('#map-group'), areaGroup: $('#area-group'),
   sort: $('#sort'), favOnly: $('#fav-only'), hideDone: $('#hide-done'), refresh: $('#refresh-btn'),
-  progress: $('#progress'), progressText: $('#progress-text'), cycleSeg: $('#cycle-seg'),
+  progress: $('#progress'), progressText: $('#progress-text'), cycleChips: $('#cycle-chips'), mapChips: $('#map-chips'), areaChips: $('#area-chips'),
 };
 
 hydrateIcons();
@@ -113,8 +113,9 @@ hydrateIcons();
 function filtered() {
   const q = filters.q.trim().toLowerCase();
   return missions.filter((m) =>
-    (filters.cycle === 'All' || m.cycle === filters.cycle) &&
+    (!filters.cycle || m.cycle === filters.cycle) &&
     (!filters.map || m.map === filters.map) &&
+    (!filters.area || m.area === filters.area) &&
     (!filters.favOnly || state.favorites[m.id]) &&
     (!q || [m.name, m.map, m.area, m.location].join(' ').toLowerCase().includes(q)));
 }
@@ -186,6 +187,7 @@ function renderRow(m) {
 
 function render() {
   currentBase = filtered();
+  els.clear.hidden = !anyFilter();
   const list = sortList(filters.hideDone ? currentBase.filter((m) => !isComplete(m)) : currentBase);
   cdRefs = [];
   els.rows.replaceChildren(...list.map(renderRow));
@@ -239,32 +241,36 @@ function updateSummary() {
   els.progress.value = total ? Math.round((done / total) * 100) : 0;
 }
 
-function updateCounts() {
-  $$('button[data-v]', els.cycleSeg).forEach((b) => {
-    const v = b.dataset.v;
-    const n = v === 'All' ? missions.length : missions.filter((m) => m.cycle === v).length;
-    $('.count', b).textContent = missions.length ? n : '';
-  });
+const anyFilter = () => !!(filters.cycle || filters.map || filters.area || filters.q || filters.favOnly || filters.hideDone);
+
+function chipRow(el, values, current, label) {
+  el.replaceChildren(...['', ...values].map((v) =>
+    h('button', { type: 'button', class: 'fchip', 'data-v': v, 'aria-pressed': String(v === current) }, label ? label(v) : v || 'All')));
 }
 
-function renderMapOptions() {
+function renderFilters() {
   const maps = [...new Set(missions.map((m) => m.map))].sort();
   if (!maps.includes(filters.map)) filters.map = '';
-  els.mapFilter.replaceChildren(h('option', { value: '' }, 'All maps'), ...maps.map((m) => h('option', { value: m }, m)));
-  els.mapFilter.value = filters.map;
+  const areas = [...new Set(missions.filter((m) => !filters.map || m.map === filters.map).map((m) => m.area))].sort();
+  if (!areas.includes(filters.area)) filters.area = '';
+  const count = (v) => (v ? missions.filter((m) => m.cycle === v).length : missions.length);
+  chipRow(els.cycleChips, ['Daily', 'Weekly', 'Monthly'], filters.cycle, (v) => [v || 'All', h('span', { class: 'count' }, String(count(v)))]);
+  chipRow(els.mapChips, maps, filters.map);
+  chipRow(els.areaChips, areas, filters.area);
+  els.mapGroup.hidden = !maps.length;
+  els.areaGroup.hidden = !areas.length;
 }
 
 function syncControls() {
-  setSeg(els.cycleSeg, filters.cycle);
-  els.mapFilter.value = filters.map;
   els.search.value = filters.q;
   els.sort.value = prefs.sort;
   els.favOnly.setAttribute('aria-pressed', String(filters.favOnly));
   els.hideDone.setAttribute('aria-pressed', String(filters.hideDone));
+  renderFilters();
 }
 
 function clearFilters() {
-  Object.assign(filters, { cycle: 'All', map: '', q: '', favOnly: false, hideDone: false });
+  Object.assign(filters, { cycle: '', map: '', area: '', q: '', favOnly: false, hideDone: false });
   syncControls();
   render();
 }
@@ -296,8 +302,7 @@ async function loadData() {
       lastSig = sig;
       meta = res.data;
       missions = Array.isArray(res.data.missions) ? res.data.missions : [];
-      renderMapOptions();
-      updateCounts();
+      renderFilters();
     }
   }
   render();
@@ -387,8 +392,16 @@ function buildSettings() {
 }
 
 /* ---------- Events ---------- */
-bindSeg(els.cycleSeg, (v) => { filters.cycle = v; render(); });
-els.mapFilter.addEventListener('change', () => { filters.map = els.mapFilter.value; render(); });
+[[els.cycleChips, 'cycle'], [els.mapChips, 'map'], [els.areaChips, 'area']].forEach(([el, key]) =>
+  el.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-v]');
+    if (!b) return;
+    filters[key] = b.dataset.v;
+    if (key === 'map') filters.area = '';
+    renderFilters();
+    render();
+  }));
+els.clear.addEventListener('click', clearFilters);
 els.sort.addEventListener('change', () => { prefs.sort = els.sort.value; savePrefs(); render(); });
 els.search.addEventListener('input', () => { filters.q = els.search.value; render(); });
 els.favOnly.addEventListener('click', () => { filters.favOnly = !filters.favOnly; syncControls(); render(); });

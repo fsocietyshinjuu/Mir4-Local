@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,11 +11,13 @@
 <body>
   <div class="app" id="app">
     <aside class="side">
-      <div class="brand"><span class="mark">M4</span><span class="label">Mir4Local</span></div>
+      <div class="brand"><span class="mark">M4</span><span class="label"><span class="brand-name">Mir4Local</span></span></div>
       <nav aria-label="Main">
+        <div class="nav-label">Content</div>
         <button type="button" class="nav-item" data-view="missions" aria-current="page" title="Mission Tracker">
           <i data-icon="check"></i><span class="label">Mission Tracker</span>
         </button>
+        <div class="nav-label">App</div>
         <button type="button" class="nav-item" data-view="settings" aria-current="false" title="Settings">
           <i data-icon="sliders"></i><span class="label">Settings</span>
         </button>
@@ -44,31 +46,35 @@
             <h2>Mission Tracker</h2>
             <div class="sub">Countdowns use your local time.</div>
           </div>
+          <div class="head-tools">
+            <div class="search">
+              <i data-icon="search"></i>
+              <input id="search" class="field" type="search" placeholder="Search bosses (press /)" aria-label="Search missions" />
+            </div>
+            <select id="sort" class="field" aria-label="Sort order">
+              <option value="soonest">Soonest first</option>
+              <option value="list">List order</option>
+            </select>
+            <button type="button" class="btn icon" id="refresh-btn" title="Refresh data" aria-label="Refresh data"><i data-icon="refresh"></i></button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <div class="fgroup"><span class="flabel">Cycle</span><div class="fchips" id="cycle-chips"></div></div>
+          <div class="fgroup" id="map-group"><span class="flabel">Map</span><div class="fchips" id="map-chips"></div></div>
+          <div class="fgroup" id="area-group"><span class="flabel">Area</span><div class="fchips" id="area-chips"></div></div>
+          <div class="fgroup">
+            <span class="flabel">Show</span>
+            <div class="fchips">
+              <button type="button" class="fchip" id="fav-only" aria-pressed="false"><i data-icon="star"></i>Favorites</button>
+              <button type="button" class="fchip" id="hide-done" aria-pressed="false">Hide done</button>
+            </div>
+          </div>
+          <button type="button" class="clear" id="clear-btn" hidden><i data-icon="x"></i>Clear</button>
           <div class="progress" aria-live="polite">
             <span id="progress-text"></span>
             <progress id="progress" max="100" value="0" hidden></progress>
           </div>
-        </div>
-
-        <div class="toolbar">
-          <div class="search">
-            <i data-icon="search"></i>
-            <input id="search" class="field" type="search" placeholder="Search (press /)" aria-label="Search missions" />
-          </div>
-          <div class="seg" id="cycle-seg" role="group" aria-label="Cycle">
-            <button type="button" data-v="All" aria-pressed="true">All <span class="count"></span></button>
-            <button type="button" data-v="Daily" aria-pressed="false">Daily <span class="count"></span></button>
-            <button type="button" data-v="Weekly" aria-pressed="false">Weekly <span class="count"></span></button>
-            <button type="button" data-v="Monthly" aria-pressed="false">Monthly <span class="count"></span></button>
-          </div>
-          <select id="map-filter" class="field" aria-label="Map"><option value="">All maps</option></select>
-          <select id="sort" class="field" aria-label="Sort order">
-            <option value="soonest">Soonest first</option>
-            <option value="list">List order</option>
-          </select>
-          <button type="button" class="btn" id="fav-only" aria-pressed="false"><i data-icon="star"></i>Favorites</button>
-          <button type="button" class="btn" id="hide-done" aria-pressed="false">Hide done</button>
-          <button type="button" class="btn icon" id="refresh-btn" title="Refresh data" aria-label="Refresh data"><i data-icon="refresh"></i></button>
         </div>
 
         <div class="panel">
