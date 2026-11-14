@@ -211,3 +211,4 @@ textarea[aria-hidden="true"] { position: fixed; left: -9999px; top: 0; }
 :lang(ja) .flabel, :lang(ja) .nav-label, :lang(ja) th, :lang(ja) .fld > span, :lang(ja) h3, :lang(ja) .btn,
 :lang(ko) .flabel, :lang(ko) .nav-label, :lang(ko) th, :lang(ko) .fld > span, :lang(ko) h3, :lang(ko) .btn,
 :lang(zh) .flabel, :lang(zh) .nav-label, :lang(zh) th, :lang(zh) .fld > span, :lang(zh) h3, :lang(zh) .btn { letter-spacing: 0; text-transform: none; }
+#dismiss-btn { margin-left: auto; color: inherit; }

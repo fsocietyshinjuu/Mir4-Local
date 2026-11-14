@@ -97,8 +97,13 @@ function setupAutoUpdate() {
     send('update:status', { state: 'downloading', percent: Math.round(p.percent), message: 'Downloading update…' }));
   autoUpdater.on('update-downloaded', (info) =>
     send('update:status', { state: 'ready', version: info.version, message: `Version ${info.version} is ready to install.` }));
-  autoUpdater.on('error', (err) =>
-    send('update:status', { state: 'error', error: err.message, message: `Update failed: ${err.message}` }));
+  autoUpdater.on('error', (err) => {
+    const raw = String((err && err.message) || err);
+    // A release that is published but still uploading has no latest.yml yet. Not a real failure.
+    const noFiles = /latest(-mac|-linux)?\.yml/i.test(raw) && /404|cannot find/i.test(raw);
+    const short = raw.split('\n')[0].slice(0, 160);
+    send('update:status', { state: 'error', code: noFiles ? 'nofiles' : 'other', error: short, message: `Update failed: ${short}` });
+  });
 
   autoUpdater.checkForUpdates().catch(() => {});
 }

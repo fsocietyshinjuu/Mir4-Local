@@ -603,7 +603,7 @@ function updateText(s) {
     case 'downloading': return t('u.downloading');
     case 'ready': return t('u.ready', { v: s.version });
     case 'current': return t('u.current');
-    case 'error': return t('u.error', { err: s.error || '' });
+    case 'error': return s.code === 'nofiles' ? t('u.noFiles') : t('u.error', { err: s.error || '' });
     default: return t('s.notChecked');
   }
 }
@@ -738,7 +738,9 @@ function showUpdate(s) {
   progress.hidden = s.state !== 'downloading';
   if (s.state === 'downloading') progress.value = s.percent || 0;
   installBtn.hidden = s.state !== 'ready';
+  $('#dismiss-btn').hidden = s.state !== 'error';
 }
+$('#dismiss-btn').addEventListener('click', () => { banner.hidden = true; });
 window.desktop.getVersion().then((v) => {
   const label = IS_WEB ? 'Web' : `v${v}`;
   $('#version').textContent = label;
