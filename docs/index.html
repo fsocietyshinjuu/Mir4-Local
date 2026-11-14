@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mir4Local: MIR4 boss spawn countdowns and reminders</title>
+  <meta name="description" content="Live boss spawn countdowns, reminders and a checklist for every character. Free for Windows, macOS, Linux and in your browser. Unofficial fan-made MIR4 tool." />
+  <meta property="og:title" content="Mir4Local" />
+  <meta property="og:description" content="Never miss a MIR4 boss spawn. Live countdowns, reminders and per-character checklists." />
+  <link rel="icon" href="assets/icon.png" />
+  <link rel="stylesheet" href="landing.css" />
+  <script src="theme.js" data-key="mir4local.prefs.v1"></script>
+</head>
+<body id="top">
+  <header class="top">
+    <a class="brandlink" href="#top"><img src="assets/icon.png" width="32" height="32" alt="" /><span>Mir4Local</span></a>
+    <nav class="links" aria-label="Sections">
+      <a href="#features" data-i18n="lp.nFeatures"></a>
+      <a href="#download" data-i18n="lp.nDownload"></a>
+      <a href="#about" data-i18n="lp.nAbout"></a>
+    </nav>
+    <div class="tools">
+      <select id="lang" class="field" data-i18n-attr="aria-label:lp.language"></select>
+      <button type="button" id="theme" class="icon-btn" aria-label="Theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path id="theme-icon" d=""/></svg>
+      </button>
+      <a class="gh" href="https://github.com/fsocietyshinjuu/Mir4-Local">GitHub</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <h1 data-i18n="lp.title"></h1>
+        <p class="lead" data-i18n="lp.sub"></p>
+        <div class="cta">
+          <a id="cta-dl" class="btn primary" href="https://github.com/fsocietyshinjuu/Mir4-Local/releases/latest"></a>
+          <a class="btn" href="app/" data-i18n="lp.web"></a>
+        </div>
+        <p class="note" id="ver-line"></p>
+      </div>
+      <figure class="shot">
+        <img class="dark-only" src="assets/shot-dark.webp" alt="Mir4Local mission tracker, dark theme" width="1080" height="640" />
+        <img class="light-only" src="assets/shot-light.webp" alt="Mir4Local mission tracker, light theme" width="1080" height="640" />
+      </figure>
+    </section>
+
+    <section id="features" class="block">
+      <h2 data-i18n="lp.feat"></h2>
+      <div class="feat">
+        <div><h3 data-i18n="lp.f1t"></h3><p data-i18n="lp.f1d"></p></div>
+        <div><h3 data-i18n="lp.f2t"></h3><p data-i18n="lp.f2d"></p></div>
+        <div><h3 data-i18n="lp.f3t"></h3><p data-i18n="lp.f3d"></p></div>
+        <div><h3 data-i18n="lp.f4t"></h3><p data-i18n="lp.f4d"></p><div class="langs" id="langs"></div></div>
+      </div>
+    </section>
+
+    <section id="download" class="block">
+      <h2 data-i18n="lp.get"></h2>
+      <div class="get">
+        <div class="panel">
+          <h3 data-i18n="lp.desktop"></h3>
+          <p data-i18n="lp.desktopText"></p>
+          <div class="stack">
+            <a id="dl-win" class="btn" href="https://github.com/fsocietyshinjuu/Mir4-Local/releases/latest" data-i18n="lp.dlWin"></a>
+            <a id="dl-mac" class="btn" href="https://github.com/fsocietyshinjuu/Mir4-Local/releases/latest" data-i18n="lp.dlMac"></a>
+            <a id="dl-linux" class="btn" href="https://github.com/fsocietyshinjuu/Mir4-Local/releases/latest" data-i18n="lp.dlLinux"></a>
+          </div>
+          <p class="note" id="ver-line-2"></p>
+        </div>
+        <div class="panel">
+          <h3 data-i18n="lp.webApp"></h3>
+          <p data-i18n="lp.webText"></p>
+          <div class="stack"><a class="btn primary" href="app/" data-i18n="lp.web"></a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="block about">
+      <h2 data-i18n="lp.nAbout"></h2>
+      <p data-i18n="lp.aboutText"></p>
+      <dl>
+        <dt data-i18n="lp.dev"></dt><dd>Shinjuu</dd>
+        <dt data-i18n="lp.email"></dt><dd><a href="mailto:fsociety.shinjuu@gmail.com">fsociety.shinjuu@gmail.com</a></dd>
+      </dl>
+    </section>
+  </main>
+
+  <footer>
+    <p data-i18n="lp.disc"></p>
+    <p>© <span id="year"></span> Shinjuu</p>
+  </footer>
+
+  <script src="i18n-landing.js"></script>
+  <script src="landing.js"></script>
+</body>
+</html>

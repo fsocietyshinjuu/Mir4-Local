@@ -199,3 +199,15 @@ dialog h2 { margin: 0; font-size: 17px; }
 .banner progress { -webkit-appearance: none; appearance: none; width: 140px; height: 8px; border: 0; border-radius: 999px; background: var(--line-strong); overflow: hidden; }
 .banner progress::-webkit-progress-bar { background: var(--line-strong); }
 .banner progress::-webkit-progress-value { background: var(--accent); }
+
+/* brand logo, links, scripts without letter-spacing */
+.brand .logo { width: 28px; height: 28px; flex: none; border-radius: 8px; }
+a.nav-item { color: var(--muted); text-decoration: none; }
+a.nav-item:hover { color: var(--text); }
+.link { color: var(--accent-strong); text-decoration: none; }
+.link:hover { text-decoration: underline; }
+textarea[aria-hidden="true"] { position: fixed; left: -9999px; top: 0; }
+:lang(th) .flabel, :lang(th) .nav-label, :lang(th) th, :lang(th) .fld > span, :lang(th) h3, :lang(th) .btn,
+:lang(ja) .flabel, :lang(ja) .nav-label, :lang(ja) th, :lang(ja) .fld > span, :lang(ja) h3, :lang(ja) .btn,
+:lang(ko) .flabel, :lang(ko) .nav-label, :lang(ko) th, :lang(ko) .fld > span, :lang(ko) h3, :lang(ko) .btn,
+:lang(zh) .flabel, :lang(zh) .nav-label, :lang(zh) th, :lang(zh) .fld > span, :lang(zh) h3, :lang(zh) .btn { letter-spacing: 0; text-transform: none; }

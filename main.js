@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Notification } = require('electron');
+const { app, BrowserWindow, ipcMain, Notification, shell } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const fs = require('fs');
@@ -26,6 +26,7 @@ function createWindow() {
     minWidth: 760,
     minHeight: 480,
     title: 'Mir4Local',
+    icon: path.join(__dirname, 'renderer', 'assets', 'icon.png'),
     show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -37,6 +38,11 @@ function createWindow() {
   });
   win.setMenuBarVisibility(false);
   win.once('ready-to-show', () => { win.maximize(); win.show(); });
+
+  // Links (for example the developer email) open in the user's browser or mail app, never inside the app.
+  const openOutside = (url) => { if (/^(https:|mailto:)/i.test(url)) shell.openExternal(url); };
+  win.webContents.setWindowOpenHandler(({ url }) => { openOutside(url); return { action: 'deny' }; });
+  win.webContents.on('will-navigate', (e, url) => { if (!url.startsWith('file:')) { e.preventDefault(); openOutside(url); } });
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 }
 
@@ -84,15 +90,15 @@ function setupAutoUpdate() {
   autoUpdater.on('checking-for-update', () =>
     send('update:status', { state: 'checking', message: 'Checking for updates…' }));
   autoUpdater.on('update-available', (info) =>
-    send('update:status', { state: 'available', message: `Version ${info.version} found. Downloading…` }));
+    send('update:status', { state: 'available', version: info.version, message: `Version ${info.version} found. Downloading…` }));
   autoUpdater.on('update-not-available', () =>
     send('update:status', { state: 'current', message: 'You are on the latest version.' }));
   autoUpdater.on('download-progress', (p) =>
     send('update:status', { state: 'downloading', percent: Math.round(p.percent), message: 'Downloading update…' }));
   autoUpdater.on('update-downloaded', (info) =>
-    send('update:status', { state: 'ready', message: `Version ${info.version} is ready to install.` }));
+    send('update:status', { state: 'ready', version: info.version, message: `Version ${info.version} is ready to install.` }));
   autoUpdater.on('error', (err) =>
-    send('update:status', { state: 'error', message: `Update failed: ${err.message}` }));
+    send('update:status', { state: 'error', error: err.message, message: `Update failed: ${err.message}` }));
 
   autoUpdater.checkForUpdates().catch(() => {});
 }

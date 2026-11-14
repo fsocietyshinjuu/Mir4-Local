@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'" />
+  <title>Mir4Local Admin</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="theme.js" data-key="mir4local.admin.prefs.v1"></script>
+</head>
+<body>
+  <div class="app" id="app">
+    <aside class="side">
+      <div class="brand"><img class="logo" src="assets/icon.png" alt="" /><span class="label"><span class="brand-name">Mir4Local</span><span class="tag">Admin</span></span></div>
+      <nav aria-label="Main">
+        <div class="nav-label">Overview</div>
+        <button type="button" class="nav-item" data-view="dashboard" aria-current="false" title="Dashboard">
+          <i data-icon="grid"></i><span class="label">Dashboard</span>
+        </button>
+        <div class="nav-label">Content</div>
+        <button type="button" class="nav-item" data-view="missions" aria-current="page" title="Missions">
+          <i data-icon="check"></i><span class="label">Missions</span>
+        </button>
+        <button type="button" class="nav-item" data-view="worldboss" aria-current="false" title="World Boss">
+          <i data-icon="target"></i><span class="label">World Boss</span>
+        </button>
+        <button type="button" class="nav-item" data-view="events" aria-current="false" title="Events">
+          <i data-icon="calendar"></i><span class="label">Events</span>
+        </button>
+        <button type="button" class="nav-item" data-view="crafting" aria-current="false" title="Crafting">
+          <i data-icon="wrench"></i><span class="label">Crafting</span>
+        </button>
+        <div class="nav-label">Data</div>
+        <button type="button" class="nav-item" data-view="publish" aria-current="false" title="Publish">
+          <i data-icon="upload"></i><span class="label">Publish</span><span class="dot" id="pub-dot" hidden></span>
+        </button>
+        <div class="nav-label">Settings</div>
+        <button type="button" class="nav-item" data-view="settings" aria-current="false" title="Settings">
+          <i data-icon="sliders"></i><span class="label">Settings</span>
+        </button>
+      </nav>
+      <div class="side-foot">
+        <button type="button" class="nav-item" id="theme-btn" title="Switch theme">
+          <i data-icon="moon"></i><span class="label">Dark mode</span>
+        </button>
+        <button type="button" class="nav-item" id="collapse-btn" title="Collapse sidebar">
+          <i data-icon="collapse"></i><span class="label">Collapse</span>
+        </button>
+      </div>
+    </aside>
+
+    <div class="content">
+      <main class="view" id="view-dashboard" hidden>
+        <div class="view-head"><h2>Dashboard</h2></div>
+      </main>
+
+      <main class="view" id="view-worldboss" hidden>
+        <div class="view-head"><h2>World Boss</h2></div>
+      </main>
+
+      <main class="view" id="view-events" hidden>
+        <div class="view-head"><h2>Events</h2></div>
+      </main>
+
+      <main class="view" id="view-crafting" hidden>
+        <div class="view-head"><h2>Crafting</h2></div>
+      </main>
+
+      <main class="view" id="view-missions">
+        <div class="view-head">
+          <h2>Missions <span class="sub" id="count"></span></h2>
+          <div class="head-tools">
+            <div class="search">
+              <i data-icon="search"></i>
+              <input id="search" class="field" type="search" placeholder="Search bosses (press /)" aria-label="Search missions" />
+            </div>
+            <label class="tz">Spawn times in
+              <select id="tz" class="field" aria-label="Time zone of spawn times"></select>
+            </label>
+            <button type="button" class="btn primary" id="add-btn"><i data-icon="plus"></i>Add mission</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <div class="fgroup"><span class="flabel">Type</span><div class="fchips" id="type-chips"></div></div>
+          <div class="fgroup" id="map-group"><span class="flabel">Map</span><div class="fchips" id="map-chips"></div></div>
+          <div class="fgroup" id="area-group"><span class="flabel">Area</span><div class="fchips" id="area-chips"></div></div>
+          <div class="fgroup"><span class="flabel">Cycle</span><div class="fchips" id="cycle-chips"></div></div>
+          <button type="button" class="clear" id="clear-btn" hidden><i data-icon="x"></i>Clear</button>
+        </div>
+
+        <div class="panel">
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th><th>Name</th><th>Map</th><th>Area</th><th>Type</th><th>Cycle</th><th>Schedule</th>
+                  <th><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="empty" hidden>
+            <p id="empty-text"></p>
+            <div class="row-actions" id="empty-actions"></div>
+          </div>
+        </div>
+      </main>
+
+      <main class="view" id="view-publish" hidden>
+        <div class="view-head"><h2>Publish</h2></div>
+        <div class="panel pad">
+          <div class="pub-state" id="pub-state"></div>
+          <div class="sub" id="pub-meta"></div>
+          <div class="row-actions">
+            <button type="button" class="btn primary" id="publish-btn"><i data-icon="upload"></i>Publish to GitHub</button>
+            <button type="button" class="btn" id="pull-btn"><i data-icon="download"></i>Pull published data</button>
+          </div>
+          <div class="sub" id="pub-target"></div>
+        </div>
+      </main>
+
+      <main class="view" id="view-settings" hidden>
+        <div class="view-head"><h2>Settings</h2></div>
+        <h3>GitHub</h3>
+        <form id="settings-form" class="panel pad form-grid">
+          <label class="fld"><span>Owner</span><input id="s-owner" class="field" required /></label>
+          <label class="fld"><span>Repository</span><input id="s-repo" class="field" required /></label>
+          <label class="fld"><span>Branch</span><input id="s-branch" class="field" required /></label>
+          <label class="fld"><span>Access token</span>
+            <input id="s-token" class="field" type="password" autocomplete="off" />
+            <span class="sub" id="token-hint"></span>
+          </label>
+          <div><button type="submit" class="btn primary">Save settings</button></div>
+        </form>
+        <h3>Appearance</h3>
+        <div class="panel">
+          <div class="setting">
+            <div class="setting-title">Theme</div>
+            <div class="seg" id="theme-seg" role="group" aria-label="Theme">
+              <button type="button" data-v="system" aria-pressed="true">System</button>
+              <button type="button" data-v="light" aria-pressed="false">Light</button>
+              <button type="button" data-v="dark" aria-pressed="false">Dark</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
+    <div class="drawer-head">
+      <h2 id="drawer-title">Add mission</h2>
+      <button type="button" class="btn icon" id="drawer-close" aria-label="Close"><i data-icon="x"></i></button>
+    </div>
+    <form id="form" autocomplete="off">
+      <div class="drawer-body">
+        <label class="fld"><span>Mission / Boss</span><input id="f-name" class="field" required /></label>
+        <div class="two">
+          <label class="fld"><span>Map</span><input id="f-map" class="field" list="maps" required /></label>
+          <label class="fld"><span>Area</span><input id="f-area" class="field" list="areas" required /></label>
+        </div>
+        <label class="fld"><span>Location</span><input id="f-location" class="field" required /></label>
+        <div class="two">
+          <div class="fld"><span>Type</span>
+            <div class="seg" id="f-type" role="group" aria-label="Type">
+              <button type="button" data-v="Spawn" aria-pressed="true">Spawn</button>
+              <button type="button" data-v="Summon" aria-pressed="false">Summon</button>
+            </div>
+          </div>
+          <div class="fld"><span>Cycle</span>
+            <div class="seg" id="f-cycle" role="group" aria-label="Cycle">
+              <button type="button" data-v="Daily" aria-pressed="true">Daily</button>
+              <button type="button" data-v="Weekly" aria-pressed="false">Weekly</button>
+              <button type="button" data-v="Monthly" aria-pressed="false">Monthly</button>
+            </div>
+          </div>
+        </div>
+        <div class="fld" id="times-group">
+          <span>Spawn times</span>
+          <div class="time-row">
+            <input id="f-time" class="field" placeholder="08:00, 12:30, 8pm" aria-label="Spawn times" />
+            <button type="button" class="btn" id="add-time">Add</button>
+          </div>
+          <div class="sub">Press Enter to add. You can paste several at once. Times are in <b id="tz-hint"></b>.</div>
+          <div class="chips" id="chips"></div>
+        </div>
+        <p class="error" id="form-error" role="alert" hidden></p>
+      </div>
+      <div class="drawer-foot">
+        <button type="submit" class="btn primary" id="save-btn">Add mission</button>
+        <button type="submit" class="btn" id="again-btn" data-again="1">Save and add another</button>
+        <button type="button" class="btn" id="cancel-btn">Cancel</button>
+      </div>
+    </form>
+    <datalist id="maps"></datalist>
+    <datalist id="areas"></datalist>
+  </aside>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="icons.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

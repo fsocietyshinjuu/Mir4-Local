@@ -1,4 +1,4 @@
-/* Mir4Local public app */
+/* Mir4Local app (desktop and web share this file) */
 const STORE_KEY = 'mir4local.state.v1';
 const PREFS_KEY = 'mir4local.prefs.v1';
 const REFRESH_MS = 15 * 60 * 1000;
@@ -6,6 +6,8 @@ const SOON_MIN = 10;   // countdown turns orange under this many minutes
 const LIVE_MIN = 5;    // shows "Live now" for this long after a spawn
 const REMIND_MIN = 5;  // reminder distance before / after a spawn
 const DAY = 86400000;
+const DEV = { name: 'Shinjuu', email: 'fsociety.shinjuu@gmail.com' };
+const IS_WEB = !!window.desktop.isWeb;
 
 const CLASSES = ['Warrior', 'Sorcerer', 'Taoist', 'Arbalist', 'Lancer', 'Darkist'];
 const SERVERS = ['ASIA', 'EU', 'NA', 'SA', 'INMENA'];
@@ -28,6 +30,7 @@ function h(tag, props = {}, ...kids) {
 function readJson(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
 function writeJson(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch {} }
 const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const vlabel = (v) => t(`v.${v}`);   // Spawn / Summon / Daily / Weekly / Monthly
 
 /* ---------- Preferences ---------- */
 const prefs = {
@@ -35,6 +38,7 @@ const prefs = {
   notify: false, sound: false, remindBefore: true, remindAt: false, remindAfter: true, remindScope: 'favorites',
   ...readJson(PREFS_KEY, {}),
 };
+prefs.lang = i18n.lang;
 const savePrefs = () => writeJson(PREFS_KEY, prefs);
 
 /* ---------- Characters, favorites and progress ---------- */
@@ -53,9 +57,9 @@ const profile = () => state.characters.find((c) => c.id === state.activeId) || s
 
 /* ---------- Time helpers ---------- */
 const hour12 = () => (prefs.timeFormat === '12' ? true : prefs.timeFormat === '24' ? false : undefined);
-const fmtClock = (ts) => new Date(ts).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: hour12() });
+const fmtClock = (ts) => new Date(ts).toLocaleTimeString([i18n.lang], { hour: 'numeric', minute: '2-digit', hour12: hour12() });
 const fmtHour = (hr) => fmtClock(new Date(2000, 0, 1, hr).getTime());
-const fmtDate = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }); };
+const fmtDate = (iso) => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleString([i18n.lang], { dateStyle: 'medium', timeStyle: 'short' }); };
 
 // Spawn times are written in the admin's time zone (minutes from UTC). Without one, assume your own.
 const zoneOffset = () => (Number.isFinite(meta.utcOffset) ? meta.utcOffset : -new Date().getTimezoneOffset());
@@ -65,8 +69,8 @@ function occurrences(times, offsetMin, now = Date.now()) {
   const shifted = new Date(now + offsetMin * 60000);
   const y = shifted.getUTCFullYear(), mo = shifted.getUTCMonth(), d = shifted.getUTCDate();
   const out = [];
-  for (const t of times) {
-    const [hh, mm] = t.split(':').map(Number);
+  for (const tm of times) {
+    const [hh, mm] = tm.split(':').map(Number);
     const base = Date.UTC(y, mo, d, hh, mm) - offsetMin * 60000;
     out.push(base - DAY, base, base + DAY);
   }
@@ -125,7 +129,9 @@ let lastLoad = { source: '', updatedAt: '' };
 let currentBase = [];
 let cdRefs = [];
 let editingCharId = null;
+let lastUpdate = null;
 const filters = { type: '', cycle: '', map: '', area: '', q: '', favOnly: false, hideDone: false };
+const settingsRefs = {};
 
 const els = {
   app: $('#app'), rows: $('#rows'), scroll: $('.scroll'), empty: $('#empty'), emptyText: $('#empty-text'),
@@ -170,15 +176,15 @@ function sortList(list) {
 function renderRow(m) {
   const p = profile();
   const done = isComplete(m);
-  const statusText = h('span', {}, done ? 'Complete' : 'Pending');
+  const statusText = h('span', {}, done ? t('st.complete') : t('st.pending'));
 
   const check = h('input', {
-    type: 'checkbox', class: 'check', checked: done, 'aria-label': `${m.name} complete`,
+    type: 'checkbox', class: 'check', checked: done, 'aria-label': t('fav.chk', { name: m.name }),
     onchange: (e) => {
       const on = e.target.checked;
       if (on) p.completed[m.id] = Date.now(); else delete p.completed[m.id];
       saveState();
-      statusText.textContent = on ? 'Complete' : 'Pending';
+      statusText.textContent = on ? t('st.complete') : t('st.pending');
       e.target.closest('tr').classList.toggle('done', on);
       updateSummary();
       if (filters.hideDone && on) setTimeout(render, 450);
@@ -188,7 +194,7 @@ function renderRow(m) {
   const isFav = !!p.favorites[m.id];
   const fav = h('button', {
     type: 'button', class: 'btn icon fav', 'data-fav': m.id, 'aria-pressed': String(isFav),
-    title: isFav ? 'Remove favorite' : 'Add favorite', 'aria-label': `Favorite ${m.name}`,
+    title: isFav ? t('fav.remove') : t('fav.add'), 'aria-label': t('fav.aria', { name: m.name }),
     onclick: () => {
       if (p.favorites[m.id]) delete p.favorites[m.id]; else p.favorites[m.id] = true;
       saveState();
@@ -203,17 +209,17 @@ function renderRow(m) {
     const cd = h('span', { class: 'cd' }, '--:--:--');
     const sub = h('div', { class: 'cd-sub' });
     const now = Date.now(), off = zoneOffset();
-    const all = m.spawnTimes.map((t) => nextSpawn([t], off, now).next).sort((a, b) => a - b).map(fmtClock).join(', ');
+    const all = m.spawnTimes.map((tm) => nextSpawn([tm], off, now).next).sort((a, b) => a - b).map(fmtClock).join(', ');
     cdRefs.push({ m, cd, sub });
-    countdown = h('td', { title: `Spawns daily at ${all} (your time)` }, cd, sub);
+    countdown = h('td', { title: t('cd.tip', { times: all }) }, cd, sub);
   } else {
-    countdown = h('td', {}, h('span', { class: 'pill' }, 'Summon'));
+    countdown = h('td', {}, h('span', { class: 'pill' }, vlabel('Summon')));
   }
 
   return h('tr', { class: done ? 'done' : '' },
     h('td', {},
       h('div', { class: 'name' }, m.name),
-      h('div', { class: 'meta' }, m.map, h('span', { class: 'pill' }, m.cycle))),
+      h('div', { class: 'meta' }, m.map, h('span', { class: 'pill' }, vlabel(m.cycle)))),
     h('td', {}, h('div', {}, m.area), h('div', { class: 'meta' }, m.location)),
     countdown,
     h('td', {}, h('label', { class: 'status' }, check, statusText)),
@@ -234,13 +240,12 @@ function render() {
   els.empty.hidden = !none;
   if (none) {
     if (!missions.length) {
-      els.emptyText.textContent = !loaded ? 'Loading missions…'
-        : loadError ? `Couldn’t load missions (${loadError}).` : 'No missions have been published yet.';
-      els.emptyBtn.textContent = 'Refresh data';
+      els.emptyText.textContent = !loaded ? t('e.loading') : loadError ? t('e.failed', { err: loadError }) : t('e.none');
+      els.emptyBtn.textContent = t('tr.refresh');
       els.emptyBtn.onclick = loadData;
     } else {
-      els.emptyText.textContent = 'No missions match your filters.';
-      els.emptyBtn.textContent = 'Clear filters';
+      els.emptyText.textContent = t('e.nomatch');
+      els.emptyBtn.textContent = t('f.clearAll');
       els.emptyBtn.onclick = clearFilters;
     }
     els.emptyBtn.hidden = !loaded;
@@ -255,12 +260,12 @@ function tick() {
     const sinceMin = (now - prev) / 60000;
     let st = 'normal', text, sub;
     if (sinceMin < LIVE_MIN) {
-      st = 'live'; text = 'Live now';
-      sub = sinceMin < 1 ? 'Just spawned' : `Spawned ${Math.floor(sinceMin)}m ago`;
+      st = 'live'; text = t('cd.live');
+      sub = sinceMin < 1 ? t('cd.just') : t('cd.ago', { n: Math.floor(sinceMin) });
     } else {
       text = fmtCountdown(next - now);
       st = next - now < SOON_MIN * 60000 ? 'soon' : 'normal';
-      sub = `at ${fmtClock(next)}${r.m.spawnTimes.length > 1 ? `, ${r.m.spawnTimes.length} times daily` : ''}`;
+      sub = t('cd.at', { time: fmtClock(next) }) + (r.m.spawnTimes.length > 1 ? ` · ${t('cd.times', { n: r.m.spawnTimes.length })}` : '');
     }
     if (r.cd.textContent !== text) r.cd.textContent = text;
     if (r.cd.dataset.state !== st) r.cd.dataset.state = st;
@@ -272,7 +277,7 @@ function updateSummary() {
   const total = currentBase.length;
   const done = currentBase.filter(isComplete).length;
   const pct = total ? Math.round((done / total) * 100) : 0;
-  els.progressText.textContent = total ? `${done} of ${total} complete` : 'No missions';
+  els.progressText.textContent = total ? t('p.done', { done, total }) : t('p.none');
   els.pct.textContent = total ? `${pct}%` : '';
   els.meterFill.style.width = `${pct}%`;
   els.meter.setAttribute('aria-valuenow', String(pct));
@@ -292,10 +297,10 @@ function renderFilters() {
   const areas = [...new Set(missions.filter((m) => !filters.map || m.map === filters.map).map((m) => m.area))].sort();
   if (!areas.includes(filters.area)) filters.area = '';
   const n = (key, v) => missions.filter((m) => m[key] === v).length;
-  fillSelect(els.typeSel, ['Spawn', 'Summon'], filters.type, 'All types', (v) => `${v} (${n('type', v)})`);
-  fillSelect(els.cycleSel, ['Daily', 'Weekly', 'Monthly'], filters.cycle, 'All cycles', (v) => `${v} (${n('cycle', v)})`);
-  fillSelect(els.mapSel, maps, filters.map, 'All maps');
-  fillSelect(els.areaSel, areas, filters.area, 'All areas');
+  fillSelect(els.typeSel, ['Spawn', 'Summon'], filters.type, t('f.allTypes'), (v) => `${vlabel(v)} (${n('type', v)})`);
+  fillSelect(els.cycleSel, ['Daily', 'Weekly', 'Monthly'], filters.cycle, t('f.allCycles'), (v) => `${vlabel(v)} (${n('cycle', v)})`);
+  fillSelect(els.mapSel, maps, filters.map, t('f.allMaps'));
+  fillSelect(els.areaSel, areas, filters.area, t('f.allAreas'));
 }
 
 function syncControls() {
@@ -315,8 +320,8 @@ function clearFilters() {
 /* ---------- Characters ---------- */
 function renderCharSelect() {
   const opts = state.characters.map((c) => h('option', { value: c.id }, `${c.ign} (${c.cls})`));
-  if (!opts.length) opts.push(h('option', { value: '' }, 'No character'));
-  opts.push(h('option', { value: '__add' }, '+ Add character…'));
+  if (!opts.length) opts.push(h('option', { value: '' }, t('c.noChar')));
+  opts.push(h('option', { value: '__add' }, t('c.addOpt')));
   els.charSel.replaceChildren(...opts);
   els.charSel.value = state.characters.some((c) => c.id === state.activeId) ? state.activeId : '';
 }
@@ -332,24 +337,24 @@ function setActive(id) {
 function renderCharacters() {
   const rows = $('#char-rows');
   $('#char-empty').hidden = state.characters.length > 0;
-  $('#char-rows').closest('.scroll').hidden = state.characters.length === 0;
+  rows.closest('.scroll').hidden = state.characters.length === 0;
   const btn = (label, fn, danger) => h('button', { type: 'button', class: `btn act ${danger ? 'danger' : ''}`, onclick: fn }, label);
   rows.replaceChildren(...state.characters.map((c) => {
     const active = c.id === state.activeId;
     return h('tr', {},
-      h('td', {}, h('span', { class: 'name' }, c.ign), active ? h('span', { class: 'badge active' }, 'Active') : null),
+      h('td', {}, h('span', { class: 'name' }, c.ign), active ? h('span', { class: 'badge active' }, t('c.active')) : null),
       h('td', {}, c.cls), h('td', {}, c.server), h('td', {}, c.alliance),
-      h('td', { class: 'muted' }, c.clan || 'None'),
+      h('td', { class: 'muted' }, c.clan || t('c.none')),
       h('td', { class: 'muted' }, String(Object.keys(c.favorites).length)),
       h('td', { class: 'acts' },
-        active ? null : btn('Use', () => setActive(c.id)),
-        btn('Edit', () => openCharDialog(c)),
-        btn('Delete', () => deleteChar(c), true)));
+        active ? null : btn(t('c.use'), () => setActive(c.id)),
+        btn(t('c.editBtn'), () => openCharDialog(c)),
+        btn(t('c.delete'), () => deleteChar(c), true)));
   }));
 }
 
 function deleteChar(c) {
-  if (!confirm(`Delete ${c.ign}? Their favorites and progress will be removed.`)) return;
+  if (!confirm(t('c.del', { ign: c.ign }))) return;
   state.characters = state.characters.filter((x) => x.id !== c.id);
   if (state.activeId === c.id) state.activeId = state.characters[0]?.id || '';
   saveState();
@@ -360,15 +365,19 @@ function deleteChar(c) {
 
 const dlg = $('#char-dialog');
 function fillOptions(sel, list, placeholder) {
+  const keep = sel.value;
   sel.replaceChildren(h('option', { value: '' }, placeholder), ...list.map((v) => h('option', { value: v }, v)));
+  sel.value = keep;
 }
-fillOptions($('#c-class'), CLASSES, 'Select class');
-fillOptions($('#c-server'), SERVERS, 'Select server');
-fillOptions($('#c-alliance'), ALLIANCES, 'Select alliance');
+function fillDialogOptions() {
+  fillOptions($('#c-class'), CLASSES, t('c.selClass'));
+  fillOptions($('#c-server'), SERVERS, t('c.selServer'));
+  fillOptions($('#c-alliance'), ALLIANCES, t('c.selAlliance'));
+}
 
 function openCharDialog(c) {
   editingCharId = c ? c.id : null;
-  $('#char-title').textContent = c ? 'Edit character' : 'Add character';
+  $('#char-title').textContent = c ? t('c.edit') : t('c.add');
   $('#c-ign').value = c ? c.ign : '';
   $('#c-class').value = c ? c.cls : '';
   $('#c-server').value = c ? c.server : '';
@@ -387,7 +396,7 @@ $('#char-form').addEventListener('submit', (e) => {
   };
   const dup = state.characters.some((c) => c.id !== editingCharId && c.server === rec.server && c.ign.toLowerCase() === rec.ign.toLowerCase());
   if (dup) {
-    $('#char-error').textContent = 'You already have a character with this IGN on that server.';
+    $('#char-error').textContent = t('c.dup');
     $('#char-error').hidden = false;
     return;
   }
@@ -419,10 +428,10 @@ els.charSel.addEventListener('change', () => {
 /* ---------- Data ---------- */
 function dataSummary() {
   const when = lastLoad.updatedAt ? fmtDate(lastLoad.updatedAt) : '';
-  if (loadError && !missions.length) return `Couldn’t load missions (${loadError}).`;
-  if (lastLoad.source === 'cache') return `Offline. Showing saved data${when ? ` from ${when}` : ''}.`;
-  if (lastLoad.source === 'empty') return 'Nothing has been published yet.';
-  return when ? `Data updated ${when}.` : '';
+  if (loadError && !missions.length) return t('e.failed', { err: loadError });
+  if (lastLoad.source === 'cache') return when ? t('d.offlineDate', { date: when }) : t('d.offline');
+  if (lastLoad.source === 'empty') return t('d.empty');
+  return when ? t('d.updated', { date: when }) : '';
 }
 
 async function loadData() {
@@ -448,20 +457,21 @@ async function loadData() {
   }
   render();
   els.status.textContent = dataSummary();
-  if (settingsRefs.data) settingsRefs.data.textContent = dataSummary() || 'No data loaded yet.';
+  if (settingsRefs.data) settingsRefs.data.textContent = dataSummary() || t('s.noData');
 }
 
 /* ---------- Theme, navigation, sidebar ---------- */
 function syncThemeBtn() {
   const dark = document.documentElement.dataset.theme === 'dark';
-  $('#theme-btn .label').textContent = dark ? 'Light mode' : 'Dark mode';
+  $('#theme-btn .label').textContent = dark ? t('nav.toLight') : t('nav.toDark');
   $('#theme-btn i').replaceChildren(icon(dark ? 'sun' : 'moon'));
+  $('#theme-btn').title = $('#theme-btn .label').textContent;
 }
-function setTheme(t) {
-  prefs.theme = t;
+function setTheme(v) {
+  prefs.theme = v;
   savePrefs();
   window.themeApply();
-  if (settingsRefs.themeSeg) setSeg(settingsRefs.themeSeg, t);
+  if (settingsRefs.themeSeg) setSeg(settingsRefs.themeSeg, v);
 }
 window.addEventListener('themechange', syncThemeBtn);
 $('#theme-btn').addEventListener('click', () =>
@@ -475,7 +485,7 @@ $$('.nav-item[data-view]').forEach((b) => b.addEventListener('click', () => show
 
 function applyCollapsed() {
   els.app.classList.toggle('collapsed', prefs.collapsed);
-  $('#collapse-btn').title = prefs.collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+  $('#collapse-btn').title = t('nav.collapse');
 }
 $('#collapse-btn').addEventListener('click', () => { prefs.collapsed = !prefs.collapsed; savePrefs(); applyCollapsed(); });
 
@@ -504,10 +514,7 @@ function playChime() {
 function fireReminder(kind, items) {
   const n = items.length;
   const first = items[0].m;
-  const phrase = { before: `in ${REMIND_MIN} minutes`, at: 'now', after: `${REMIND_MIN} minutes ago` }[kind];
-  const title = n === 1
-    ? (kind === 'at' ? `${first.name} has spawned` : kind === 'before' ? `${first.name} spawns ${phrase}` : `${first.name} spawned ${phrase}`)
-    : (kind === 'at' ? `${n} bosses have spawned` : kind === 'before' ? `${n} bosses spawn ${phrase}` : `${n} bosses spawned ${phrase}`);
+  const title = t(`n.${kind}${n === 1 ? '1' : 'N'}`, { name: first.name, count: n, n: REMIND_MIN });
   const body = n === 1 ? [first.map, first.area, first.location].join(', ') : items.map((i) => i.m.name).join(', ');
   if (prefs.notify) window.desktop.notify({ title, body });
   if (prefs.sound) playChime();
@@ -543,8 +550,6 @@ function checkReminders() {
 }
 
 /* ---------- Settings view ---------- */
-const settingsRefs = {};
-
 function row(title, hint, control) {
   return h('div', { class: 'setting' },
     h('div', {}, h('div', { class: 'setting-title' }, title), hint ? h('div', { class: 'sub' }, hint) : null),
@@ -553,7 +558,14 @@ function row(title, hint, control) {
 
 function switchEl(label, key) {
   const input = h('input', { type: 'checkbox', class: 'switch', role: 'switch', 'aria-label': label, checked: !!prefs[key] });
-  input.addEventListener('change', () => { prefs[key] = input.checked; savePrefs(); });
+  input.addEventListener('change', async () => {
+    prefs[key] = input.checked;
+    if (key === 'notify' && input.checked && window.desktop.requestNotify) {
+      const ok = await window.desktop.requestNotify();   // browsers ask for permission here
+      if (!ok) { prefs.notify = false; input.checked = false; settingsRefs.notifyMsg.textContent = t('s.testNA'); }
+    }
+    savePrefs();
+  });
   return input;
 }
 
@@ -570,67 +582,122 @@ function fillResetOptions() {
 }
 
 async function testNotification() {
-  const res = await window.desktop.notify({ title: 'Mir4Local test', body: 'Desktop notifications are working.' });
-  settingsRefs.notifyMsg.textContent = res && res.ok ? 'Sent.' : 'Not available on this computer.';
+  const res = await window.desktop.notify({ title: t('n.testTitle'), body: t('n.testBody') });
+  settingsRefs.notifyMsg.textContent = res && res.ok ? t('s.testSent') : t('s.testNA');
+}
+
+async function copyEmail(btn) {
+  try { await navigator.clipboard.writeText(DEV.email); }
+  catch {
+    const ta = h('textarea', { 'aria-hidden': 'true' }, DEV.email);
+    document.body.append(ta); ta.select(); try { document.execCommand('copy'); } catch {} ta.remove();
+  }
+  btn.textContent = t('s.copied');
+  setTimeout(() => { btn.textContent = t('s.copy'); }, 1500);
+}
+
+function updateText(s) {
+  switch (s.state) {
+    case 'checking': return t('u.checking');
+    case 'available': return t('u.available', { v: s.version });
+    case 'downloading': return t('u.downloading');
+    case 'ready': return t('u.ready', { v: s.version });
+    case 'current': return t('u.current');
+    case 'error': return t('u.error', { err: s.error || '' });
+    default: return t('s.notChecked');
+  }
 }
 
 function buildSettings() {
-  const themeSeg = segEl([['system', 'System'], ['light', 'Light'], ['dark', 'Dark']], prefs.theme);
+  const themeSeg = segEl([['system', t('s.system')], ['light', t('s.light')], ['dark', t('s.dark')]], prefs.theme);
   bindSeg(themeSeg, setTheme);
   settingsRefs.themeSeg = themeSeg;
 
-  const fmtSeg = segEl([['system', 'System'], ['12', '12-hour'], ['24', '24-hour']], prefs.timeFormat);
+  const langSel = h('select', { class: 'field', 'aria-label': t('s.language') },
+    i18n.LANGS.map((l) => h('option', { value: l.code, selected: l.code === i18n.lang }, l.name)));
+  langSel.addEventListener('change', () => { prefs.lang = langSel.value; savePrefs(); i18n.setLang(langSel.value); });
+
+  const fmtSeg = segEl([['system', t('s.system')], ['12', t('s.h12')], ['24', t('s.h24')]], prefs.timeFormat);
   bindSeg(fmtSeg, (v) => { prefs.timeFormat = v; savePrefs(); fillResetOptions(); render(); });
 
-  const reset = h('select', { class: 'field', 'aria-label': 'Daily reset time' });
+  const reset = h('select', { class: 'field', 'aria-label': t('s.dailyReset') });
   reset.addEventListener('change', () => { prefs.resetHour = Number(reset.value); savePrefs(); render(); });
   settingsRefs.reset = reset;
 
-  const weekSeg = segEl([['1', 'Monday'], ['0', 'Sunday']], String(prefs.weekStart));
+  const weekSeg = segEl([['1', t('s.mon')], ['0', t('s.sun')]], String(prefs.weekStart));
   bindSeg(weekSeg, (v) => { prefs.weekStart = Number(v); savePrefs(); render(); });
 
-  const scopeSeg = segEl([['favorites', 'Favorites'], ['all', 'All spawn bosses']], prefs.remindScope);
+  const scopeSeg = segEl([['favorites', t('s.favs')], ['all', t('s.allSpawn')]], prefs.remindScope);
   bindSeg(scopeSeg, (v) => { prefs.remindScope = v; savePrefs(); });
 
   settingsRefs.notifyMsg = h('span', { class: 'sub', role: 'status' });
-  const testNote = h('button', { type: 'button', class: 'btn small', onclick: testNotification }, 'Send test');
-  const testSound = h('button', { type: 'button', class: 'btn small', onclick: playChime }, 'Play sound');
+  const testNote = h('button', { type: 'button', class: 'btn small', onclick: testNotification }, t('s.sendTest'));
+  const testSound = h('button', { type: 'button', class: 'btn small', onclick: playChime }, t('s.playSound'));
 
-  settingsRefs.data = h('span', { class: 'sub' }, 'No data loaded yet.');
-  const refreshBtn = h('button', { type: 'button', class: 'btn', onclick: loadData }, icon('refresh'), 'Refresh');
-  settingsRefs.update = h('span', { class: 'sub' }, 'Not checked yet.');
-  const updateBtn = h('button', { type: 'button', class: 'btn', onclick: () => window.desktop.checkForUpdates() }, 'Check for updates');
-  settingsRefs.version = h('span', { class: 'sub' });
+  settingsRefs.data = h('span', { class: 'sub' }, dataSummary() || t('s.noData'));
+  const refreshBtn = h('button', { type: 'button', class: 'btn', onclick: loadData }, icon('refresh'), t('s.refresh'));
 
-  $('#settings-body').append(
-    h('h3', {}, 'Appearance'),
-    h('div', { class: 'panel' }, row('Theme', 'System follows your Windows setting.', themeSeg)),
-    h('h3', {}, 'Reminders'),
+  settingsRefs.update = h('span', { class: 'sub' }, IS_WEB ? t('s.webUpdates') : lastUpdate ? updateText(lastUpdate) : t('s.notChecked'));
+  const updateBtn = IS_WEB ? null : h('button', { type: 'button', class: 'btn', onclick: () => window.desktop.checkForUpdates() }, t('s.check'));
+  settingsRefs.version = h('span', { class: 'sub' }, settingsRefs.versionText || '');
+
+  const copyBtn = h('button', { type: 'button', class: 'btn small' }, t('s.copy'));
+  copyBtn.addEventListener('click', () => copyEmail(copyBtn));
+  const mail = h('a', { class: 'link', href: `mailto:${DEV.email}` }, DEV.email);
+
+  $('#settings-body').replaceChildren(
+    h('h3', {}, t('s.appearance')),
     h('div', { class: 'panel' },
-      row('Desktop notifications', 'A Windows pop-up. If you don’t see it, check Focus assist.',
-        h('div', { class: 'setting-end' }, settingsRefs.notifyMsg, testNote, switchEl('Desktop notifications', 'notify'))),
-      row('Sound reminder', 'A short chime at the same moments.',
-        h('div', { class: 'setting-end' }, testSound, switchEl('Sound reminder', 'sound'))),
-      row('Remind me', 'Spawn bosses only. Summon missions have no spawn time.',
+      row(t('s.language'), t('s.languageHint'), langSel),
+      row(t('s.theme'), t('s.themeHint'), themeSeg)),
+    h('h3', {}, t('s.reminders')),
+    h('div', { class: 'panel' },
+      row(t('s.notif'), t('s.notifHint'),
+        h('div', { class: 'setting-end' }, settingsRefs.notifyMsg, testNote, switchEl(t('s.notif'), 'notify'))),
+      row(t('s.sound'), t('s.soundHint'),
+        h('div', { class: 'setting-end' }, testSound, switchEl(t('s.sound'), 'sound'))),
+      row(t('s.remindMe'), t('s.remindHint'),
         h('div', { class: 'checks' },
-          checkRow(`${REMIND_MIN} minutes before spawn`, 'remindBefore'),
-          checkRow('At spawn', 'remindAt'),
-          checkRow(`${REMIND_MIN} minutes after spawn`, 'remindAfter'))),
-      row('Which bosses', 'Favorites means the active character’s favorites. Missions marked complete are skipped.', scopeSeg)),
-    h('p', { class: 'sub' }, 'Keep Mir4Local open (it can stay minimized) for reminders to work.'),
-    h('h3', {}, 'Time and resets'),
+          checkRow(t('s.before', { n: REMIND_MIN }), 'remindBefore'),
+          checkRow(t('s.at'), 'remindAt'),
+          checkRow(t('s.after', { n: REMIND_MIN }), 'remindAfter'))),
+      row(t('s.which'), t('s.whichHint'), scopeSeg)),
+    h('p', { class: 'sub' }, t('s.keepOpen')),
+    h('h3', {}, t('s.timeResets')),
     h('div', { class: 'panel' },
-      row('Time format', null, fmtSeg),
-      row('Daily reset', 'When Daily missions go back to Pending. Weekly and Monthly reset at this time too.', reset),
-      row('Week starts on', 'Weekly missions reset on this day.', weekSeg)),
-    h('h3', {}, 'Mission data'),
-    h('div', { class: 'panel' }, row('Published data', null, h('div', { class: 'setting-end' }, settingsRefs.data, refreshBtn))),
-    h('h3', {}, 'App'),
+      row(t('s.timeFormat'), null, fmtSeg),
+      row(t('s.dailyReset'), t('s.dailyResetHint'), reset),
+      row(t('s.weekStarts'), t('s.weekStartsHint'), weekSeg)),
+    h('h3', {}, t('s.data')),
+    h('div', { class: 'panel' }, row(t('s.published'), null, h('div', { class: 'setting-end' }, settingsRefs.data, refreshBtn))),
+    h('h3', {}, t('s.appSec')),
     h('div', { class: 'panel' },
-      row('Updates', null, h('div', { class: 'setting-end' }, settingsRefs.update, updateBtn)),
-      row('Version', null, settingsRefs.version)));
+      row(t('s.updates'), null, h('div', { class: 'setting-end' }, settingsRefs.update, updateBtn)),
+      row(t('s.version'), null, settingsRefs.version)),
+    h('h3', {}, t('s.about')),
+    h('div', { class: 'panel' },
+      row(t('s.developer'), null, h('span', {}, DEV.name)),
+      row(t('s.email'), null, h('div', { class: 'setting-end' }, mail, copyBtn))),
+    h('p', { class: 'sub' }, t('s.disclaimer')));
   fillResetOptions();
 }
+
+/* ---------- Language ---------- */
+function applyLanguage() {
+  i18n.apply();
+  syncThemeBtn();
+  applyCollapsed();
+  fillDialogOptions();
+  if (dlg.open) $('#char-title').textContent = editingCharId ? t('c.edit') : t('c.add');
+  renderFilters();
+  renderCharSelect();
+  renderCharacters();
+  buildSettings();
+  render();
+  els.status.textContent = dataSummary();
+  if (lastUpdate) showUpdate(lastUpdate);
+}
+i18n.onChange(applyLanguage);
 
 /* ---------- Events ---------- */
 [['typeSel', 'type'], ['cycleSel', 'cycle'], ['mapSel', 'map'], ['areaSel', 'area']].forEach(([id, key]) =>
@@ -661,29 +728,36 @@ const message = $('#update-message');
 const progress = $('#update-progress');
 const installBtn = $('#install-btn');
 
-window.desktop.getVersion().then((v) => {
-  $('#version').textContent = `v${v}`;
-  settingsRefs.version.textContent = `v${v}`;
-});
-window.desktop.onUpdateStatus((s) => {
-  settingsRefs.update.textContent = s.message;
+function showUpdate(s) {
+  const text = updateText(s);
+  if (settingsRefs.update) settingsRefs.update.textContent = text;
   const show = ['available', 'downloading', 'ready', 'error'].includes(s.state);
   banner.hidden = !show;
   banner.dataset.state = s.state;
-  message.textContent = s.message;
+  message.textContent = text;
   progress.hidden = s.state !== 'downloading';
   if (s.state === 'downloading') progress.value = s.percent || 0;
   installBtn.hidden = s.state !== 'ready';
+}
+window.desktop.getVersion().then((v) => {
+  const label = IS_WEB ? 'Web' : `v${v}`;
+  $('#version').textContent = label;
+  settingsRefs.versionText = label;
+  if (settingsRefs.version) settingsRefs.version.textContent = label;
 });
+window.desktop.onUpdateStatus((s) => { lastUpdate = s; showUpdate(s); });
 installBtn.addEventListener('click', () => window.desktop.installUpdate());
+if (IS_WEB) $('#web-link').hidden = false;
 
 /* ---------- Start ---------- */
-buildSettings();
+i18n.apply();
+fillDialogOptions();
 applyCollapsed();
 syncThemeBtn();
 syncControls();
 renderCharSelect();
 renderCharacters();
+buildSettings();
 render();
 loadData();
 setInterval(() => { tick(); checkReminders(); }, 1000);

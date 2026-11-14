@@ -3,35 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self'; connect-src 'self' https://raw.githubusercontent.com" />
   <title>Mir4Local</title>
+  <link rel="icon" href="assets/icon.png" />
   <link rel="stylesheet" href="style.css" />
   <script src="theme.js" data-key="mir4local.prefs.v1"></script>
 </head>
 <body>
   <div class="app" id="app">
     <aside class="side">
-      <div class="brand"><span class="mark">M4</span><span class="label"><span class="brand-name">Mir4Local</span></span></div>
+      <div class="brand"><img class="logo" src="assets/icon.png" alt="" /><span class="label"><span class="brand-name">Mir4Local</span></span></div>
       <nav aria-label="Main">
-        <div class="nav-label">Content</div>
-        <button type="button" class="nav-item" data-view="missions" aria-current="page" title="Mission Tracker">
-          <i data-icon="check"></i><span class="label">Mission Tracker</span>
+        <div class="nav-label" data-i18n="nav.content"></div>
+        <button type="button" class="nav-item" data-view="missions" aria-current="page" data-i18n-attr="title:nav.tracker">
+          <i data-icon="check"></i><span class="label" data-i18n="nav.tracker"></span>
         </button>
-        <div class="nav-label">Account</div>
-        <button type="button" class="nav-item" data-view="characters" aria-current="false" title="Characters">
-          <i data-icon="user"></i><span class="label">Characters</span>
+        <div class="nav-label" data-i18n="nav.account"></div>
+        <button type="button" class="nav-item" data-view="characters" aria-current="false" data-i18n-attr="title:nav.characters">
+          <i data-icon="user"></i><span class="label" data-i18n="nav.characters"></span>
         </button>
-        <div class="nav-label">App</div>
-        <button type="button" class="nav-item" data-view="settings" aria-current="false" title="Settings">
-          <i data-icon="sliders"></i><span class="label">Settings</span>
+        <div class="nav-label" data-i18n="nav.app"></div>
+        <button type="button" class="nav-item" data-view="settings" aria-current="false" data-i18n-attr="title:nav.settings">
+          <i data-icon="sliders"></i><span class="label" data-i18n="nav.settings"></span>
         </button>
       </nav>
       <div class="side-foot">
-        <button type="button" class="nav-item" id="theme-btn" title="Switch theme">
-          <i data-icon="moon"></i><span class="label">Dark mode</span>
+        <a class="nav-item" id="web-link" href="../" hidden>
+          <i data-icon="download"></i><span class="label" data-i18n="nav.getDesktop"></span>
+        </a>
+        <button type="button" class="nav-item" id="theme-btn">
+          <i data-icon="moon"></i><span class="label"></span>
         </button>
-        <button type="button" class="nav-item" id="collapse-btn" title="Collapse sidebar">
-          <i data-icon="collapse"></i><span class="label">Collapse</span>
+        <button type="button" class="nav-item" id="collapse-btn">
+          <i data-icon="collapse"></i><span class="label" data-i18n="nav.collapse"></span>
         </button>
         <span class="ver" id="version"></span>
       </div>
@@ -41,44 +45,44 @@
       <section id="update-banner" class="banner" hidden>
         <p id="update-message"></p>
         <progress id="update-progress" max="100" value="0" hidden></progress>
-        <button type="button" class="btn small primary" id="install-btn" hidden>Restart and install</button>
+        <button type="button" class="btn small primary" id="install-btn" data-i18n="u.install" hidden></button>
       </section>
 
       <main class="view" id="view-missions">
         <div class="view-head">
           <div>
-            <h2>Mission Tracker</h2>
-            <div class="sub">Countdowns use your local time.</div>
+            <h2 data-i18n="nav.tracker"></h2>
+            <div class="sub" data-i18n="tr.sub"></div>
           </div>
           <div class="head-tools">
-            <label class="fsel"><span class="flabel">Character</span>
-              <select id="char-select" class="field" aria-label="Active character"></select>
+            <label class="fsel"><span class="flabel" data-i18n="tr.character"></span>
+              <select id="char-select" class="field" data-i18n-attr="aria-label:tr.character"></select>
             </label>
             <div class="search">
               <i data-icon="search"></i>
-              <input id="search" class="field" type="search" placeholder="Search bosses (press /)" aria-label="Search missions" />
+              <input id="search" class="field" type="search" data-i18n-attr="placeholder:tr.search;aria-label:tr.search" />
             </div>
-            <select id="sort" class="field" aria-label="Sort order">
-              <option value="soonest">Soonest first</option>
-              <option value="list">List order</option>
+            <select id="sort" class="field" data-i18n-attr="aria-label:tr.soonest">
+              <option value="soonest" data-i18n="tr.soonest"></option>
+              <option value="list" data-i18n="tr.listOrder"></option>
             </select>
-            <button type="button" class="btn icon" id="refresh-btn" title="Refresh data" aria-label="Refresh data"><i data-icon="refresh"></i></button>
+            <button type="button" class="btn icon" id="refresh-btn" data-i18n-attr="title:tr.refresh;aria-label:tr.refresh"><i data-icon="refresh"></i></button>
           </div>
         </div>
 
         <div class="filters">
           <div class="filters-left">
-            <label class="fsel"><span class="flabel">Type</span><select id="f-type" class="field"></select></label>
-            <label class="fsel"><span class="flabel">Cycle</span><select id="f-cycle" class="field"></select></label>
-            <label class="fsel"><span class="flabel">Map</span><select id="f-map" class="field"></select></label>
-            <label class="fsel"><span class="flabel">Area</span><select id="f-area" class="field"></select></label>
-            <button type="button" class="fchip" id="fav-only" aria-pressed="false"><i data-icon="star"></i>Favorites</button>
-            <button type="button" class="fchip" id="hide-done" aria-pressed="false">Hide done</button>
-            <button type="button" class="clear" id="clear-btn" hidden><i data-icon="x"></i>Clear</button>
+            <label class="fsel"><span class="flabel" data-i18n="f.type"></span><select id="f-type" class="field"></select></label>
+            <label class="fsel"><span class="flabel" data-i18n="f.cycle"></span><select id="f-cycle" class="field"></select></label>
+            <label class="fsel"><span class="flabel" data-i18n="f.map"></span><select id="f-map" class="field"></select></label>
+            <label class="fsel"><span class="flabel" data-i18n="f.area"></span><select id="f-area" class="field"></select></label>
+            <button type="button" class="fchip" id="fav-only" aria-pressed="false"><i data-icon="star"></i><span data-i18n="f.favorites"></span></button>
+            <button type="button" class="fchip" id="hide-done" aria-pressed="false"><span data-i18n="f.hideDone"></span></button>
+            <button type="button" class="clear" id="clear-btn" hidden><i data-icon="x"></i><span data-i18n="f.clear"></span></button>
           </div>
           <div class="progress" aria-live="polite">
             <div class="progress-text"><span id="progress-text"></span><span id="progress-pct"></span></div>
-            <div class="meter" id="meter" role="progressbar" aria-label="Completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="meter-fill"></span></div>
+            <div class="meter" id="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="meter-fill"></span></div>
           </div>
         </div>
 
@@ -87,11 +91,11 @@
             <table>
               <thead>
                 <tr>
-                  <th>Boss / Mission</th>
-                  <th>Area and location</th>
-                  <th>Countdown</th>
-                  <th>Status</th>
-                  <th><span class="sr-only">Favorite</span></th>
+                  <th data-i18n="th.boss"></th>
+                  <th data-i18n="th.location"></th>
+                  <th data-i18n="th.countdown"></th>
+                  <th data-i18n="th.status"></th>
+                  <th><span class="sr-only" data-i18n="f.favorites"></span></th>
                 </tr>
               </thead>
               <tbody id="rows"></tbody>
@@ -108,31 +112,35 @@
       <main class="view" id="view-characters" hidden>
         <div class="view-head">
           <div>
-            <h2>Characters</h2>
-            <div class="sub">Each character keeps its own favorites and completed missions.</div>
+            <h2 data-i18n="nav.characters"></h2>
+            <div class="sub" data-i18n="c.sub"></div>
           </div>
           <div class="head-tools">
-            <button type="button" class="btn primary" id="add-char-btn"><i data-icon="plus"></i>Add character</button>
+            <button type="button" class="btn primary" id="add-char-btn"><i data-icon="plus"></i><span data-i18n="c.add"></span></button>
           </div>
         </div>
         <div class="panel">
           <div class="scroll">
             <table>
               <thead>
-                <tr><th>IGN</th><th>Class</th><th>Server</th><th>Alliance</th><th>Clan</th><th>Favorites</th><th><span class="sr-only">Actions</span></th></tr>
+                <tr>
+                  <th data-i18n="c.ign"></th><th data-i18n="c.class"></th><th data-i18n="c.server"></th>
+                  <th data-i18n="c.alliance"></th><th data-i18n="c.clan"></th><th data-i18n="f.favorites"></th>
+                  <th></th>
+                </tr>
               </thead>
               <tbody id="char-rows"></tbody>
             </table>
           </div>
           <div class="empty" id="char-empty" hidden>
-            <p>No characters yet. Add one to keep your own favorites and progress.</p>
-            <button type="button" class="btn primary" id="char-empty-btn"><i data-icon="plus"></i>Add character</button>
+            <p data-i18n="c.empty"></p>
+            <button type="button" class="btn primary" id="char-empty-btn"><i data-icon="plus"></i><span data-i18n="c.add"></span></button>
           </div>
         </div>
       </main>
 
       <main class="view" id="view-settings" hidden>
-        <div class="view-head"><h2>Settings</h2></div>
+        <div class="view-head"><h2 data-i18n="nav.settings"></h2></div>
         <div id="settings-body"></div>
       </main>
     </div>
@@ -140,25 +148,27 @@
 
   <dialog id="char-dialog" aria-labelledby="char-title">
     <form id="char-form" autocomplete="off">
-      <h2 id="char-title">Add character</h2>
-      <label class="fld"><span>IGN</span><input id="c-ign" class="field" required maxlength="30" /></label>
+      <h2 id="char-title"></h2>
+      <label class="fld"><span data-i18n="c.ign"></span><input id="c-ign" class="field" required maxlength="30" /></label>
       <div class="two">
-        <label class="fld"><span>Class</span><select id="c-class" class="field" required></select></label>
-        <label class="fld"><span>Server</span><select id="c-server" class="field" required></select></label>
+        <label class="fld"><span data-i18n="c.class"></span><select id="c-class" class="field" required></select></label>
+        <label class="fld"><span data-i18n="c.server"></span><select id="c-server" class="field" required></select></label>
       </div>
       <div class="two">
-        <label class="fld"><span>Alliance</span><select id="c-alliance" class="field" required></select></label>
-        <label class="fld"><span>Clan (optional)</span><input id="c-clan" class="field" maxlength="30" /></label>
+        <label class="fld"><span data-i18n="c.alliance"></span><select id="c-alliance" class="field" required></select></label>
+        <label class="fld"><span data-i18n="c.clanOpt"></span><input id="c-clan" class="field" maxlength="30" /></label>
       </div>
       <p class="error" id="char-error" role="alert" hidden></p>
       <div class="dialog-foot">
-        <button type="submit" class="btn primary">Save character</button>
-        <button type="button" class="btn" id="c-cancel">Cancel</button>
+        <button type="submit" class="btn primary" data-i18n="c.save"></button>
+        <button type="button" class="btn" id="c-cancel" data-i18n="c.cancel"></button>
       </div>
     </form>
   </dialog>
 
   <script src="icons.js"></script>
+  <script src="i18n.js"></script>
+  <script src="platform.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
