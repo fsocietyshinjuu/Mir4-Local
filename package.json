@@ -1,7 +1,7 @@
 {
   "name": "Mir4-Local",
   "productName": "Mir4Local",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Plain HTML/JS app packaged with Electron, auto-updating from GitHub Releases",
   "main": "main.js",
   "author": "fsocietyshinjuu",
