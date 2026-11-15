@@ -7,4 +7,7 @@ contextBridge.exposeInMainWorld('desktop', {
   onUpdateStatus: (cb) => ipcRenderer.on('update:status', (_e, data) => cb(data)),
   loadMissions: () => ipcRenderer.invoke('missions:load'),
   notify: (n) => ipcRenderer.invoke('notify:show', n),
+  setLabels: (l) => ipcRenderer.invoke('labels:set', l),
+  getCloseBehavior: () => ipcRenderer.invoke('close:get'),
+  setCloseBehavior: (v) => ipcRenderer.invoke('close:set', v),
 });

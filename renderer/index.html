@@ -14,8 +14,12 @@
     <aside class="side">
       <div class="brand"><img class="logo" src="assets/icon.png" alt="" /><span class="label"><span class="brand-name">Mir4Local</span></span></div>
       <nav aria-label="Main">
+        <div class="nav-label" data-i18n="nav.overview"></div>
+        <button type="button" class="nav-item" data-view="home" aria-current="page" data-i18n-attr="title:nav.home">
+          <i data-icon="home"></i><span class="label" data-i18n="nav.home"></span>
+        </button>
         <div class="nav-label" data-i18n="nav.content"></div>
-        <button type="button" class="nav-item" data-view="missions" aria-current="page" data-i18n-attr="title:nav.tracker">
+        <button type="button" class="nav-item" data-view="missions" aria-current="false" data-i18n-attr="title:nav.tracker">
           <i data-icon="check"></i><span class="label" data-i18n="nav.tracker"></span>
         </button>
         <div class="nav-label" data-i18n="nav.account"></div>
@@ -49,7 +53,34 @@
         <button type="button" class="btn icon" id="dismiss-btn" data-i18n-attr="aria-label:u.dismiss;title:u.dismiss" hidden><i data-icon="x"></i></button>
       </section>
 
-      <main class="view" id="view-missions">
+      <main class="view" id="view-home">
+        <div class="view-head">
+          <div>
+            <h2 id="home-title"></h2>
+            <div class="sub" id="home-sub"></div>
+          </div>
+        </div>
+
+        <div class="ribbon">
+          <div class="cell" id="cell-soon"><div class="num" id="h-soon">0</div><div class="lab" data-i18n="h.soon"></div></div>
+          <div class="cell" id="cell-live"><div class="num" id="h-live">0</div><div class="lab" data-i18n="cd.live"></div></div>
+          <div class="cell prog" data-cycle="Daily"><div class="num"></div><div class="lab" data-i18n="v.Daily"></div><div class="meter"><span></span></div></div>
+          <div class="cell prog" data-cycle="Weekly"><div class="num"></div><div class="lab" data-i18n="v.Weekly"></div><div class="meter"><span></span></div></div>
+          <div class="cell prog" data-cycle="Monthly"><div class="num"></div><div class="lab" data-i18n="v.Monthly"></div><div class="meter"><span></span></div></div>
+        </div>
+
+        <div class="home-grid">
+          <section class="panel">
+            <div class="panel-head"><h3 data-i18n="h.next"></h3><span class="sub" id="next-scope"></span></div>
+            <div id="next-list"></div>
+            <div class="empty" id="next-empty" hidden><p data-i18n="h.empty"></p></div>
+            <div class="panel-foot"><button type="button" class="btn" id="home-open" data-i18n="h.viewAll"></button></div>
+          </section>
+          <aside class="panel" id="char-card"></aside>
+        </div>
+      </main>
+
+      <main class="view" id="view-missions" hidden>
         <div class="view-head">
           <div>
             <h2 data-i18n="nav.tracker"></h2>
@@ -72,19 +103,23 @@
         </div>
 
         <div class="filters">
-          <div class="filters-left">
-            <label class="fsel"><span class="flabel" data-i18n="f.type"></span><select id="f-type" class="field"></select></label>
-            <label class="fsel"><span class="flabel" data-i18n="f.cycle"></span><select id="f-cycle" class="field"></select></label>
-            <label class="fsel"><span class="flabel" data-i18n="f.map"></span><select id="f-map" class="field"></select></label>
-            <label class="fsel"><span class="flabel" data-i18n="f.area"></span><select id="f-area" class="field"></select></label>
-            <button type="button" class="fchip" id="fav-only" aria-pressed="false"><i data-icon="star"></i><span data-i18n="f.favorites"></span></button>
-            <button type="button" class="fchip" id="hide-done" aria-pressed="false"><span data-i18n="f.hideDone"></span></button>
-            <button type="button" class="clear" id="clear-btn" hidden><i data-icon="x"></i><span data-i18n="f.clear"></span></button>
-          </div>
+          <label class="fsel"><span class="flabel" data-i18n="f.type"></span><select id="f-type" class="field"></select></label>
+          <label class="fsel"><span class="flabel" data-i18n="f.cycle"></span><select id="f-cycle" class="field"></select></label>
+          <label class="fsel"><span class="flabel" data-i18n="f.map"></span><select id="f-map" class="field"></select></label>
+          <label class="fsel"><span class="flabel" data-i18n="f.area"></span><select id="f-area" class="field"></select></label>
+          <span class="fsep" aria-hidden="true"></span>
+          <button type="button" class="fchip" id="fav-only" aria-pressed="false"><i data-icon="star"></i><span data-i18n="f.favorites"></span></button>
+          <button type="button" class="fchip" id="hide-done" aria-pressed="false"><i data-icon="eyeoff"></i><span data-i18n="f.hideDone"></span></button>
+          <button type="button" class="clear" id="clear-btn" hidden><i data-icon="x"></i><span data-i18n="f.clear"></span></button>
+        </div>
+
+        <div class="strip">
           <div class="progress" aria-live="polite">
-            <div class="progress-text"><span id="progress-text"></span><span id="progress-pct"></span></div>
+            <span class="progress-text" id="progress-text"></span>
             <div class="meter" id="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="meter-fill"></span></div>
+            <span class="progress-pct" id="progress-pct"></span>
           </div>
+          <p class="sub" id="data-status" role="status"></p>
         </div>
 
         <div class="panel">
@@ -107,7 +142,6 @@
             <button type="button" class="btn" id="empty-btn"></button>
           </div>
         </div>
-        <p class="sub" id="data-status" role="status"></p>
       </main>
 
       <main class="view" id="view-characters" hidden>

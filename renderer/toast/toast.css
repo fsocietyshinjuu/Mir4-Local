@@ -1,0 +1,27 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; user-select: none; }
+body { font: 13px/1.4 "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; padding: 4px; }
+.toast {
+  position: relative; display: flex; gap: 12px; align-items: flex-start; height: 100%;
+  padding: 14px 40px 16px 16px; overflow: hidden; cursor: pointer;
+  background: #14181d; color: #ece9e2; border: 1px solid #2c333b; border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .55);
+  animation: in .22s ease-out;
+}
+.toast::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--k, #c9a46b); }
+body[data-kind="before"] { --k: #f08a55; }
+body[data-kind="at"] { --k: #5fc48a; }
+body[data-kind="after"], body[data-kind="test"], body[data-kind="info"] { --k: #c9a46b; }
+.ico { width: 38px; height: 38px; flex: none; border-radius: 9px; }
+.txt { min-width: 0; }
+.title { font-weight: 700; font-size: 14px; color: var(--k); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.body { margin-top: 3px; color: #a7adb5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.x { position: absolute; top: 6px; right: 8px; width: 26px; height: 26px; border: 0; border-radius: 6px; background: none; color: #8a8f97; font-size: 20px; line-height: 1; cursor: pointer; }
+.x:hover { background: #232a31; color: #fff; }
+.bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #232a31; }
+.bar span { display: block; height: 100%; background: var(--k); transform-origin: left; animation: shrink linear forwards; }
+.toast.out { animation: out .22s ease-in forwards; }
+@keyframes in { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes out { to { opacity: 0; transform: translateX(28px); } }
+@keyframes shrink { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@media (prefers-reduced-motion: reduce) { .toast, .toast.out { animation: none; } }

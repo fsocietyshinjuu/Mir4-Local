@@ -35,7 +35,7 @@ const vlabel = (v) => t(`v.${v}`);   // Spawn / Summon / Daily / Weekly / Monthl
 /* ---------- Preferences ---------- */
 const prefs = {
   theme: 'system', timeFormat: 'system', resetHour: 0, weekStart: 1, collapsed: false, sort: 'soonest',
-  notify: false, sound: false, remindBefore: true, remindAt: false, remindAfter: true, remindScope: 'favorites',
+  notify: false, sound: false, remindBefore: true, remindAt: true, remindAfter: true, remindScope: 'favorites',
   ...readJson(PREFS_KEY, {}),
 };
 prefs.lang = i18n.lang;
@@ -102,7 +102,14 @@ function periodStart(cycle, now = new Date()) {
   return d.getTime();
 }
 const isComplete = (m) => (profile().completed[m.id] || 0) >= periodStart(m.cycle);
-const isSpawn = (m) => m.type === 'Spawn' && Array.isArray(m.spawnTimes) && m.spawnTimes.length > 0;
+// Spawn type: 'scheduled' (fixed daily times), 'random' (no fixed time) or 'respawn' (spawns again after a kill).
+const modeOf = (m) => (m.type === 'Spawn' ? m.spawnMode || 'scheduled' : '');
+const isSpawn = (m) => modeOf(m) === 'scheduled' && Array.isArray(m.spawnTimes) && m.spawnTimes.length > 0;
+function fmtDuration(min) {
+  const nf = (n, unit) => new Intl.NumberFormat(i18n.lang, { style: 'unit', unit, unitDisplay: 'narrow' }).format(n);
+  const hh = Math.floor(min / 60), mm = min % 60;
+  return [hh ? nf(hh, 'hour') : '', mm ? nf(mm, 'minute') : ''].filter(Boolean).join(' ') || nf(0, 'minute');
+}
 
 /* ---------- Segmented control helpers ---------- */
 function setSeg(el, v) { $$('button[data-v]', el).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v))); }
@@ -128,13 +135,15 @@ let loadError = '';
 let lastLoad = { source: '', updatedAt: '' };
 let currentBase = [];
 let cdRefs = [];
+let homeRefs = [];
+let homeList = [];
 let editingCharId = null;
 let lastUpdate = null;
 const filters = { type: '', cycle: '', map: '', area: '', q: '', favOnly: false, hideDone: false };
 const settingsRefs = {};
 
 const els = {
-  app: $('#app'), rows: $('#rows'), scroll: $('.scroll'), empty: $('#empty'), emptyText: $('#empty-text'),
+  app: $('#app'), rows: $('#rows'), scroll: $('#view-missions .scroll'), empty: $('#empty'), emptyText: $('#empty-text'),
   emptyBtn: $('#empty-btn'), status: $('#data-status'), search: $('#search'), sort: $('#sort'),
   favOnly: $('#fav-only'), hideDone: $('#hide-done'), refresh: $('#refresh-btn'), clear: $('#clear-btn'),
   typeSel: $('#f-type'), cycleSel: $('#f-cycle'), mapSel: $('#f-map'), areaSel: $('#f-area'), charSel: $('#char-select'),
@@ -205,18 +214,24 @@ function renderRow(m) {
   }, icon('star'));
 
   let countdown;
+  let ref = null;
   if (isSpawn(m)) {
     const cd = h('span', { class: 'cd' }, '--:--:--');
     const sub = h('div', { class: 'cd-sub' });
     const now = Date.now(), off = zoneOffset();
     const all = m.spawnTimes.map((tm) => nextSpawn([tm], off, now).next).sort((a, b) => a - b).map(fmtClock).join(', ');
-    cdRefs.push({ m, cd, sub });
+    ref = { m, cd, sub };
     countdown = h('td', { title: t('cd.tip', { times: all }) }, cd, sub);
+  } else if (modeOf(m) === 'random') {
+    countdown = h('td', {}, h('span', { class: 'pill' }, t('cd.random')));
+  } else if (modeOf(m) === 'respawn') {
+    countdown = h('td', {}, h('span', { class: 'pill' }, t('cd.respawn')),
+      m.respawnMinutes ? h('div', { class: 'cd-sub' }, t('cd.respawnAbout', { time: fmtDuration(m.respawnMinutes) })) : null);
   } else {
     countdown = h('td', {}, h('span', { class: 'pill' }, vlabel('Summon')));
   }
 
-  return h('tr', { class: done ? 'done' : '' },
+  const tr = h('tr', { class: done ? 'done' : '' },
     h('td', {},
       h('div', { class: 'name' }, m.name),
       h('div', { class: 'meta' }, m.map, h('span', { class: 'pill' }, vlabel(m.cycle)))),
@@ -224,6 +239,8 @@ function renderRow(m) {
     countdown,
     h('td', {}, h('label', { class: 'status' }, check, statusText)),
     h('td', {}, fav));
+  if (ref) { ref.tr = tr; cdRefs.push(ref); }
+  return tr;
 }
 
 function render() {
@@ -231,7 +248,9 @@ function render() {
   els.clear.hidden = !anyFilter();
   const list = sortList(filters.hideDone ? currentBase.filter((m) => !isComplete(m)) : currentBase);
   cdRefs = [];
+  const keepTop = els.scroll.scrollTop;
   els.rows.replaceChildren(...list.map(renderRow));
+  els.scroll.scrollTop = keepTop;
   tick();
   updateSummary();
 
@@ -252,25 +271,40 @@ function render() {
   }
 }
 
+// Paints one countdown (table row or Home item) and returns its state: 'normal' | 'soon' | 'live'.
+function paintCd(r, now, off) {
+  const { next, prev } = nextSpawn(r.m.spawnTimes, off, now);
+  const sinceMin = (now - prev) / 60000;
+  let st = 'normal', text, sub;
+  if (sinceMin < LIVE_MIN) {
+    st = 'live'; text = t('cd.live');
+    sub = sinceMin < 1 ? t('cd.just') : t('cd.ago', { n: Math.floor(sinceMin) });
+  } else {
+    text = fmtCountdown(next - now);
+    st = next - now < SOON_MIN * 60000 ? 'soon' : 'normal';
+    sub = t('cd.at', { time: fmtClock(next) }) + (r.m.spawnTimes.length > 1 ? ` · ${t('cd.times', { n: r.m.spawnTimes.length })}` : '');
+  }
+  if (r.cd.textContent !== text) r.cd.textContent = text;
+  if (r.cd.dataset.state !== st) r.cd.dataset.state = st;
+  if (r.sub.textContent !== sub) r.sub.textContent = sub;
+  return st;
+}
+
 // Updates countdowns in place every second (no re-render, so focus is never lost).
 function tick() {
   const now = Date.now(), off = zoneOffset();
   for (const r of cdRefs) {
-    const { next, prev } = nextSpawn(r.m.spawnTimes, off, now);
-    const sinceMin = (now - prev) / 60000;
-    let st = 'normal', text, sub;
-    if (sinceMin < LIVE_MIN) {
-      st = 'live'; text = t('cd.live');
-      sub = sinceMin < 1 ? t('cd.just') : t('cd.ago', { n: Math.floor(sinceMin) });
-    } else {
-      text = fmtCountdown(next - now);
-      st = next - now < SOON_MIN * 60000 ? 'soon' : 'normal';
-      sub = t('cd.at', { time: fmtClock(next) }) + (r.m.spawnTimes.length > 1 ? ` · ${t('cd.times', { n: r.m.spawnTimes.length })}` : '');
-    }
-    if (r.cd.textContent !== text) r.cd.textContent = text;
-    if (r.cd.dataset.state !== st) r.cd.dataset.state = st;
-    if (r.sub.textContent !== sub) r.sub.textContent = sub;
+    const st = paintCd(r, now, off);
+    const hot = !r.tr.classList.contains('done'); // finished missions are not highlighted
+    r.tr.classList.toggle('is-soon', hot && st === 'soon');
+    r.tr.classList.toggle('is-live', hot && st === 'live');
   }
+  for (const r of homeRefs) {
+    const st = paintCd(r, now, off);
+    r.row.classList.toggle('is-soon', st === 'soon');
+    r.row.classList.toggle('is-live', st === 'live');
+  }
+  tickHomeStats(now, off);
 }
 
 function updateSummary() {
@@ -281,6 +315,79 @@ function updateSummary() {
   els.pct.textContent = total ? `${pct}%` : '';
   els.meterFill.style.width = `${pct}%`;
   els.meter.setAttribute('aria-valuenow', String(pct));
+}
+
+/* ---------- Home ---------- */
+// Bosses shown on Home: your favorites if you have any (and they are not done yet), otherwise every scheduled boss.
+function homeScope() {
+  const favs = profile().favorites;
+  const all = missions.filter((m) => isSpawn(m) && !isComplete(m));
+  const f = all.filter((m) => favs[m.id]);
+  return { list: f.length ? f : all, favorites: f.length > 0 };
+}
+
+function tickHomeStats(now, off) {
+  if ($('#view-home').hidden) return;
+  let soon = 0, live = 0;
+  for (const m of homeList) {
+    const { next, prev } = nextSpawn(m.spawnTimes, off, now);
+    if ((now - prev) / 60000 < LIVE_MIN) live++;
+    else if (next - now < SOON_MIN * 60000) soon++;
+  }
+  $('#h-soon').textContent = String(soon);
+  $('#h-live').textContent = String(live);
+  $('#cell-soon').classList.toggle('zero', !soon);
+  $('#cell-live').classList.toggle('zero', !live);
+}
+
+function renderCharCard() {
+  const ch = state.characters.find((c) => c.id === state.activeId);
+  const kv = (k, v) => [h('dt', {}, k), h('dd', {}, v)];
+  $('#char-card').replaceChildren(ch
+    ? h('div', { class: 'charcard' },
+        h('h3', {}, t('tr.character')),
+        h('div', { class: 'ign' }, ch.ign),
+        h('dl', { class: 'kv' },
+          kv(t('c.class'), ch.cls), kv(t('c.server'), ch.server), kv(t('c.alliance'), ch.alliance),
+          kv(t('c.clan'), ch.clan || t('c.none')), kv(t('f.favorites'), String(Object.keys(ch.favorites).length))),
+        h('button', { type: 'button', class: 'btn', onclick: () => showView('characters') }, t('h.manage')))
+    : h('div', { class: 'charcard' },
+        h('h3', {}, t('tr.character')),
+        h('p', { class: 'sub' }, t('c.empty')),
+        h('button', { type: 'button', class: 'btn primary', onclick: () => openCharDialog(null) }, icon('plus'), t('c.add'))));
+}
+
+function renderHome() {
+  const ch = state.characters.find((c) => c.id === state.activeId);
+  $('#home-title').textContent = ch ? t('h.welcome', { name: ch.ign }) : t('h.welcomeNoChar');
+  $('#home-sub').textContent = new Date().toLocaleDateString([i18n.lang], { weekday: 'long', month: 'long', day: 'numeric' });
+
+  $$('.cell.prog').forEach((cell) => {
+    const c = cell.dataset.cycle;
+    const total = missions.filter((m) => m.cycle === c).length;
+    const done = missions.filter((m) => m.cycle === c && isComplete(m)).length;
+    $('.num', cell).textContent = total ? `${done}/${total}` : '0';
+    $('.meter span', cell).style.width = total ? `${Math.round((done / total) * 100)}%` : '0%';
+  });
+
+  const { list, favorites } = homeScope();
+  homeList = list;
+  const now = Date.now();
+  const top = list.map((m) => ({ m, key: sortKey(m, now) })).sort((a, b) => a.key - b.key).slice(0, 8);
+  homeRefs = [];
+  $('#next-list').replaceChildren(...top.map(({ m }) => {
+    const cd = h('span', { class: 'cd' }, '--:--:--');
+    const sub = h('div', { class: 'cd-sub' });
+    const row = h('div', { class: 'next-row' },
+      h('div', {}, h('div', { class: 'name' }, m.name), h('div', { class: 'meta' }, `${m.map}, ${m.area}, ${m.location}`)),
+      h('div', { class: 'cd-wrap' }, cd, sub));
+    homeRefs.push({ m, cd, sub, row });
+    return row;
+  }));
+  $('#next-empty').hidden = top.length > 0;
+  $('#next-scope').textContent = missions.length ? (favorites ? t('h.nextFavs') : t('h.nextAll')) : '';
+  renderCharCard();
+  tick();
 }
 
 /* ---------- Filters (dropdowns) ---------- */
@@ -332,6 +439,7 @@ function setActive(id) {
   renderCharSelect();
   renderCharacters();
   render();
+  renderHome();
 }
 
 function renderCharacters() {
@@ -456,6 +564,7 @@ async function loadData() {
     }
   }
   render();
+  renderHome();
   els.status.textContent = dataSummary();
   if (settingsRefs.data) settingsRefs.data.textContent = dataSummary() || t('s.noData');
 }
@@ -480,6 +589,7 @@ $('#theme-btn').addEventListener('click', () =>
 function showView(name) {
   $$('.view').forEach((v) => { v.hidden = v.id !== `view-${name}`; });
   $$('.nav-item[data-view]').forEach((b) => b.setAttribute('aria-current', b.dataset.view === name ? 'page' : 'false'));
+  if (name === 'home') renderHome();
 }
 $$('.nav-item[data-view]').forEach((b) => b.addEventListener('click', () => showView(b.dataset.view)));
 
@@ -516,7 +626,7 @@ function fireReminder(kind, items) {
   const first = items[0].m;
   const title = t(`n.${kind}${n === 1 ? '1' : 'N'}`, { name: first.name, count: n, n: REMIND_MIN });
   const body = n === 1 ? [first.map, first.area, first.location].join(', ') : items.map((i) => i.m.name).join(', ');
-  if (prefs.notify) window.desktop.notify({ title, body });
+  if (prefs.notify) window.desktop.notify({ title, body, kind });
   if (prefs.sound) playChime();
 }
 
@@ -582,7 +692,7 @@ function fillResetOptions() {
 }
 
 async function testNotification() {
-  const res = await window.desktop.notify({ title: t('n.testTitle'), body: t('n.testBody') });
+  const res = await window.desktop.notify({ title: t('n.testTitle'), body: t('n.testBody'), kind: 'test' });
   settingsRefs.notifyMsg.textContent = res && res.ok ? t('s.testSent') : t('s.testNA');
 }
 
@@ -641,6 +751,10 @@ function buildSettings() {
   const updateBtn = IS_WEB ? null : h('button', { type: 'button', class: 'btn', onclick: () => window.desktop.checkForUpdates() }, t('s.check'));
   settingsRefs.version = h('span', { class: 'sub' }, settingsRefs.versionText || '');
 
+  const closeSeg = segEl([['ask', t('w.closeAsk')], ['tray', t('w.toTray')], ['quit', t('w.quit')]], 'ask');
+  bindSeg(closeSeg, (v) => window.desktop.setCloseBehavior(v));
+  if (!IS_WEB) window.desktop.getCloseBehavior().then((v) => setSeg(closeSeg, v));
+
   const copyBtn = h('button', { type: 'button', class: 'btn small' }, t('s.copy'));
   copyBtn.addEventListener('click', () => copyEmail(copyBtn));
   const mail = h('a', { class: 'link', href: `mailto:${DEV.email}` }, DEV.email);
@@ -673,13 +787,23 @@ function buildSettings() {
     h('h3', {}, t('s.appSec')),
     h('div', { class: 'panel' },
       row(t('s.updates'), null, h('div', { class: 'setting-end' }, settingsRefs.update, updateBtn)),
-      row(t('s.version'), null, settingsRefs.version)),
+      row(t('s.version'), null, settingsRefs.version),
+      IS_WEB ? null : row(t('w.closeBehavior'), t('w.closeHint'), closeSeg)),
     h('h3', {}, t('s.about')),
     h('div', { class: 'panel' },
       row(t('s.developer'), null, h('span', {}, DEV.name)),
       row(t('s.email'), null, h('div', { class: 'setting-end' }, mail, copyBtn))),
     h('p', { class: 'sub' }, t('s.disclaimer')));
   fillResetOptions();
+}
+
+/* ---------- Texts the main process needs (close prompt, tray menu) ---------- */
+function pushLabels() {
+  if (IS_WEB || !window.desktop.setLabels) return;
+  window.desktop.setLabels({
+    closeTitle: t('w.closeTitle'), closeMsg: t('w.closeMsg'), toTray: t('w.toTray'), quit: t('w.quit'),
+    cancel: t('c.cancel'), remember: t('w.remember'), trayOpen: t('w.trayOpen'),
+  });
 }
 
 /* ---------- Language ---------- */
@@ -694,6 +818,8 @@ function applyLanguage() {
   renderCharacters();
   buildSettings();
   render();
+  renderHome();
+  pushLabels();
   els.status.textContent = dataSummary();
   if (lastUpdate) showUpdate(lastUpdate);
 }
@@ -713,6 +839,7 @@ els.favOnly.addEventListener('click', () => { filters.favOnly = !filters.favOnly
 els.hideDone.addEventListener('click', () => { filters.hideDone = !filters.hideDone; syncControls(); render(); });
 els.clear.addEventListener('click', clearFilters);
 els.refresh.addEventListener('click', loadData);
+$('#home-open').addEventListener('click', () => showView('missions'));
 
 document.addEventListener('keydown', (e) => {
   const typing = /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName);
@@ -761,6 +888,8 @@ renderCharSelect();
 renderCharacters();
 buildSettings();
 render();
+renderHome();
+pushLabels();
 loadData();
 setInterval(() => { tick(); checkReminders(); }, 1000);
 setInterval(loadData, REFRESH_MS);
@@ -773,4 +902,5 @@ setInterval(() => {
   lastPeriod = p;
   const idle = !els.rows.contains(document.activeElement);
   if (changed || (prefs.sort === 'soonest' && idle)) render();
+  if (!$('#view-home').hidden) renderHome();
 }, 60 * 1000);

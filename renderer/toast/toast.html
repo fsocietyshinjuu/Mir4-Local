@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self'" />
+  <title>Mir4Local</title>
+  <link rel="stylesheet" href="toast.css" />
+</head>
+<body>
+  <div class="toast" id="card" role="alert">
+    <img class="ico" src="../assets/icon.png" alt="" />
+    <div class="txt">
+      <div class="title" id="title"></div>
+      <div class="body" id="body"></div>
+    </div>
+    <button type="button" class="x" id="x" aria-label="Close">×</button>
+    <div class="bar"><span id="bar"></span></div>
+  </div>
+  <script src="toast.js"></script>
+</body>
+</html>

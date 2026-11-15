@@ -1,23 +1,47 @@
-const { app, BrowserWindow, ipcMain, Notification, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Tray, Menu, nativeImage, screen, shell } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const fs = require('fs');
 
-// Where the public app reads its content. Keep in sync with package.json "publish".
+// Where the app reads its content. Keep in sync with package.json "publish".
 const GITHUB_OWNER = 'fsocietyshinjuu';
 const GITHUB_REPO = 'Mir4-Local';
 const DATA_BRANCH = 'main';
 const MISSIONS_URL =
   `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${DATA_BRANCH}/data/missions.json`;
 
-let win;
-const liveNotes = new Set(); // keeps notifications alive until they close
+const ICON = path.join(__dirname, 'renderer', 'assets', 'icon.png');
+
+let win = null;
+let tray = null;
+let quitting = false;
+
+// Only one copy may run. Launching again brings the existing window back (it may be hidden in the tray).
+const gotLock = app.requestSingleInstanceLock();
+if (!gotLock) app.quit();
 
 // Lets Windows attribute notifications to this app (matches the installer's appId).
 try {
   const appId = require('./package.json').build?.appId;
   if (appId && process.platform === 'win32') app.setAppUserModelId(appId);
 } catch {}
+
+/* ---------- Small settings file (main-process only) ---------- */
+const settingsFile = () => path.join(app.getPath('userData'), 'app-settings.json');
+function readSettings() { try { return JSON.parse(fs.readFileSync(settingsFile(), 'utf8')); } catch { return {}; } }
+function writeSettings(patch) {
+  const next = { ...readSettings(), ...patch };
+  try { fs.writeFileSync(settingsFile(), JSON.stringify(next)); } catch {}
+  return next;
+}
+
+/* ---------- Texts for the close prompt and tray menu (translated by the app, sent here) ---------- */
+let labels = {
+  closeTitle: 'Close Mir4Local?',
+  closeMsg: 'Quit the app, or keep it running in the system tray so your reminders keep working?',
+  toTray: 'Minimize to tray', quit: 'Quit', cancel: 'Cancel',
+  remember: 'Remember my choice', trayOpen: 'Open Mir4Local',
+};
 
 function createWindow() {
   win = new BrowserWindow({
@@ -26,13 +50,13 @@ function createWindow() {
     minWidth: 760,
     minHeight: 480,
     title: 'Mir4Local',
-    icon: path.join(__dirname, 'renderer', 'assets', 'icon.png'),
+    icon: ICON,
     show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
-      backgroundThrottling: false,                // keep reminders on time while minimized
+      backgroundThrottling: false,                // keep reminders on time while hidden or minimized
       autoplayPolicy: 'no-user-gesture-required', // allow reminder sounds
     },
   });
@@ -43,24 +67,125 @@ function createWindow() {
   const openOutside = (url) => { if (/^(https:|mailto:)/i.test(url)) shell.openExternal(url); };
   win.webContents.setWindowOpenHandler(({ url }) => { openOutside(url); return { action: 'deny' }; });
   win.webContents.on('will-navigate', (e, url) => { if (!url.startsWith('file:')) { e.preventDefault(); openOutside(url); } });
-  win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+
+  // Closing the window asks whether to quit or keep running in the tray (unless a choice was remembered).
+  win.on('close', (e) => {
+    if (quitting) return;
+    const behavior = readSettings().closeBehavior || 'ask';
+    if (behavior === 'quit') { quitting = true; return; }
+    e.preventDefault();
+    if (behavior === 'tray') { hideToTray(); return; }
+    dialog.showMessageBox(win, {
+      type: 'question',
+      buttons: [labels.toTray, labels.quit, labels.cancel],
+      defaultId: 0,
+      cancelId: 2,
+      title: 'Mir4Local',
+      message: labels.closeTitle,
+      detail: labels.closeMsg,
+      checkboxLabel: labels.remember,
+      checkboxChecked: false,
+      icon: nativeImage.createFromPath(ICON).resize({ width: 64, height: 64 }),
+    }).then(({ response, checkboxChecked }) => {
+      if (response === 2) return;
+      if (checkboxChecked) writeSettings({ closeBehavior: response === 0 ? 'tray' : 'quit' });
+      if (response === 0) hideToTray(); else quitApp();
+    });
+  });
+  win.on('closed', () => { win = null; });
 }
 
-function send(channel, payload) {
-  if (win && !win.isDestroyed()) win.webContents.send(channel, payload);
+function showMain() {
+  if (!win || win.isDestroyed()) { createWindow(); return; }
+  if (win.isMinimized()) win.restore();
+  win.show();
+  win.focus();
 }
+
+function quitApp() { quitting = true; app.quit(); }
+
+function refreshTray() {
+  if (!tray) return;
+  tray.setToolTip('Mir4Local');
+  tray.setContextMenu(Menu.buildFromTemplate([
+    { label: labels.trayOpen, click: showMain },
+    { type: 'separator' },
+    { label: labels.quit, click: quitApp },
+  ]));
+}
+
+function hideToTray() {
+  if (!tray) {
+    tray = new Tray(nativeImage.createFromPath(ICON).resize({ width: 16, height: 16 }));
+    tray.on('click', showMain);
+  }
+  refreshTray();
+  if (win && !win.isDestroyed()) win.hide();
+}
+
+/* ---------- Toast pop-ups in the top-right corner of the screen ---------- */
+const TOAST_W = 380, TOAST_H = 104, TOAST_GAP = 10, TOAST_MARGIN = 16, TOAST_MAX = 4, TOAST_MS = 9000;
+const toasts = [];
+const toastQueue = [];
+
+function layoutToasts() {
+  const wa = screen.getPrimaryDisplay().workArea;
+  toasts.forEach((t, i) => {
+    if (t.win.isDestroyed()) return;
+    t.win.setBounds({
+      x: wa.x + wa.width - TOAST_W - TOAST_MARGIN,
+      y: wa.y + TOAST_MARGIN + i * (TOAST_H + TOAST_GAP),
+      width: TOAST_W, height: TOAST_H,
+    });
+  });
+}
+
+function closeToast(entry) {
+  clearTimeout(entry.timer);
+  if (!entry.win.isDestroyed()) entry.win.close();
+}
+
+function showToast({ title, body, kind }) {
+  if (toasts.length >= TOAST_MAX) { toastQueue.push({ title, body, kind }); return; }
+  const toastWin = new BrowserWindow({
+    width: TOAST_W, height: TOAST_H,
+    frame: false, transparent: true, hasShadow: false, resizable: false, movable: false,
+    minimizable: false, maximizable: false, fullscreenable: false,
+    skipTaskbar: true, focusable: false, alwaysOnTop: true, show: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'renderer', 'toast', 'preload.js'),
+      contextIsolation: true, nodeIntegration: false, backgroundThrottling: false,
+    },
+  });
+  toastWin.setAlwaysOnTop(true, 'screen-saver'); // stays above the game window without taking focus
+  const entry = { win: toastWin, timer: null };
+  toasts.push(entry);
+  layoutToasts();
+  toastWin.loadFile(path.join(__dirname, 'renderer', 'toast', 'toast.html'), {
+    query: { title: String(title || ''), body: String(body || ''), kind: String(kind || 'info'), ms: String(TOAST_MS) },
+  });
+  toastWin.once('ready-to-show', () => toastWin.showInactive());
+  entry.timer = setTimeout(() => closeToast(entry), TOAST_MS + 1500); // safety net; the page closes itself first
+  toastWin.on('closed', () => {
+    clearTimeout(entry.timer);
+    const i = toasts.indexOf(entry);
+    if (i >= 0) toasts.splice(i, 1);
+    layoutToasts();
+    if (toastQueue.length) showToast(toastQueue.shift());
+  });
+}
+
+const toastFor = (e) => toasts.find((t) => !t.win.isDestroyed() && t.win.webContents === e.sender);
+ipcMain.on('toast:click', (e) => { const t = toastFor(e); if (t) closeToast(t); showMain(); });
+ipcMain.on('toast:close', (e) => { const t = toastFor(e); if (t) closeToast(t); });
 
 /* ---------- Content data (fetched from GitHub, cached for offline use) ---------- */
-
 const cacheFile = () => path.join(app.getPath('userData'), 'missions-cache.json');
 
 ipcMain.handle('missions:load', async () => {
   try {
     // The timestamp keeps GitHub's CDN from handing back an old copy.
-    const res = await fetch(`${MISSIONS_URL}?t=${Date.now()}`, {
-      signal: AbortSignal.timeout(10000),
-      cache: 'no-store',
-    });
+    const res = await fetch(`${MISSIONS_URL}?t=${Date.now()}`, { signal: AbortSignal.timeout(10000), cache: 'no-store' });
     if (res.status === 404) return { ok: true, source: 'empty', data: { missions: [] } };
     if (!res.ok) throw new Error(`Server replied ${res.status}`);
     const data = await res.json();
@@ -77,6 +202,9 @@ ipcMain.handle('missions:load', async () => {
 });
 
 /* ---------- App auto-update ---------- */
+function send(channel, payload) {
+  if (win && !win.isDestroyed()) win.webContents.send(channel, payload);
+}
 
 function setupAutoUpdate() {
   if (!app.isPackaged) {
@@ -108,38 +236,31 @@ function setupAutoUpdate() {
   autoUpdater.checkForUpdates().catch(() => {});
 }
 
-ipcMain.handle('notify:show', (_e, n) => {
-  if (!Notification.isSupported()) return { ok: false };
-  const note = new Notification({
-    title: String((n && n.title) || 'Mir4Local').slice(0, 120),
-    body: String((n && n.body) || '').slice(0, 300),
-    silent: true, // sounds are handled by the app's own reminder setting
-  });
-  liveNotes.add(note);
-  note.on('close', () => liveNotes.delete(note));
-  note.on('click', () => {
-    if (!win || win.isDestroyed()) return;
-    if (win.isMinimized()) win.restore();
-    win.show();
-    win.focus();
-  });
-  note.show();
-  return { ok: true };
-});
-
+/* ---------- IPC for the app window ---------- */
 ipcMain.handle('app:version', () => app.getVersion());
 ipcMain.handle('update:check', () => {
   if (app.isPackaged) autoUpdater.checkForUpdates().catch(() => {});
 });
-ipcMain.handle('update:install', () => autoUpdater.quitAndInstall());
+ipcMain.handle('update:install', () => { quitting = true; autoUpdater.quitAndInstall(); });
+
+ipcMain.handle('notify:show', (_e, n) => {
+  showToast({ title: n && n.title, body: n && n.body, kind: n && n.kind });
+  return { ok: true };
+});
+
+ipcMain.handle('labels:set', (_e, l) => { labels = { ...labels, ...(l || {}) }; refreshTray(); return true; });
+ipcMain.handle('close:get', () => readSettings().closeBehavior || 'ask');
+ipcMain.handle('close:set', (_e, v) => { if (['ask', 'tray', 'quit'].includes(v)) writeSettings({ closeBehavior: v }); return true; });
+
+/* ---------- Lifecycle ---------- */
+app.on('second-instance', showMain);
+app.on('before-quit', () => { quitting = true; });
 
 app.whenReady().then(() => {
+  if (!gotLock) return;
   createWindow();
   win.webContents.once('did-finish-load', setupAutoUpdate);
-
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
+  app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 });
 
 app.on('window-all-closed', () => {

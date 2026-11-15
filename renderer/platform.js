@@ -33,6 +33,9 @@
     onUpdateStatus: () => {},
     loadMissions,
     requestNotify,
+    setLabels: async () => true,
+    getCloseBehavior: async () => 'ask',
+    setCloseBehavior: async () => true,
     notify: async (n) => {
       if (!(await requestNotify())) return { ok: false };
       new Notification(n.title, { body: n.body, icon: 'assets/icon.png', silent: true });
