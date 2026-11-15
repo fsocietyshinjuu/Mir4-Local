@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T08:42:39.271Z",
+  "updatedAt": "2026-11-15T18:58:46.701Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -68,6 +68,17 @@
         "18:00",
         "21:00"
       ]
+    },
+    {
+      "id": "mwi74gfzkh1to5",
+      "name": "Karark",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "World of Void",
+      "type": "Spawn",
+      "cycle": "Daily",
+      "spawnTimes": [],
+      "spawnMode": "random"
     },
     {
       "id": "mwd49acnd8r2uj",
