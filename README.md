@@ -180,7 +180,7 @@ npm start            # the private admin tool (needs a GitHub token to publish)
 └── .github/workflows/         release build and website deploy
 ```
 
-Releases are built by GitHub Actions when you push a tag such as `v1.5.0`. The tag must match the `version` in `package.json`.
+Releases are built by GitHub Actions when you push a tag such as `v1.0.0`. The tag must match the `version` in `package.json`.
 
 </details>
 
