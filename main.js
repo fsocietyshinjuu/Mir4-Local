@@ -61,6 +61,7 @@ function createWindow() {
     },
   });
   win.setMenuBarVisibility(false);
+  win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
   win.once('ready-to-show', () => { win.maximize(); win.show(); });
 
   // Links (for example the developer email) open in the user's browser or mail app, never inside the app.
