@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T08:42:39.271Z",
+  "updatedAt": "2026-11-15T19:30:49.003Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
     {
-      "id": "mwcle047hzdmo1",
+      "id": "mwi7r89b4cum4h",
       "name": "Mata",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -25,10 +25,11 @@
         "18:00",
         "20:00",
         "22:00"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd41jkwm9iz9c",
+      "id": "mwi7rmz3c0qq2o",
       "name": "Boltox",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -48,10 +49,11 @@
         "19:00",
         "21:00",
         "23:00"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd42ndjrdj0un",
+      "id": "mwi7snk7xtgnw0",
       "name": "Bullface Fiend King",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -67,10 +69,22 @@
         "15:00",
         "18:00",
         "21:00"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd49acnd8r2uj",
+      "id": "mwi7t7yiyytmjw",
+      "name": "Karark",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "World of Void",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [],
+      "spawnMode": "random"
+    },
+    {
+      "id": "mwi7u2y7jdwzsd",
       "name": "Yeo Wihuang",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -84,10 +98,11 @@
         "13:00",
         "17:00",
         "21:00"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5isf6syfnw5",
+      "id": "mwi7uhxj1gmdyw",
       "name": "Taehyul",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -107,10 +122,11 @@
         "19:00",
         "21:00",
         "23:00"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5nczummyu7f",
+      "id": "mwi7uvxzm35ulr",
       "name": "Yiun",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -126,10 +142,11 @@
         "17:00",
         "20:00",
         "23:00"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5nyltduda2c",
+      "id": "mwi7vftjtsz019",
       "name": "Nefariox Obdurate Zenith",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -149,10 +166,11 @@
         "18:00",
         "20:00",
         "22:00"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5onu2hemgwg",
+      "id": "mwi7wagfpwju3y",
       "name": "Kurilaica",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -168,10 +186,22 @@
         "15:00",
         "18:00",
         "21:00"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5r3pe563056",
+      "id": "mwi7wxnbmjxjox",
+      "name": "Ma Wonwi",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 2] Seocheon Trading Post",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [],
+      "spawnMode": "random"
+    },
+    {
+      "id": "mwi7xe9rabps60",
       "name": "Juhui",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -187,10 +217,22 @@
         "17:30",
         "20:30",
         "23:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5ro1udpdzmc",
+      "id": "mwi7xrof03t03h",
+      "name": "Illusory Dream",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 5] Nine Dragon Ice Field",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [],
+      "spawnMode": "random"
+    },
+    {
+      "id": "mwi7ykj3mm30md",
       "name": "Faluk",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -206,10 +248,11 @@
         "15:30",
         "18:30",
         "21:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5s2sqfu160e",
+      "id": "mwi7ziki7adtrb",
       "name": "Tale Warper Fiend",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -225,10 +268,11 @@
         "16:30",
         "19:30",
         "22:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5sdiiwu1b8v",
+      "id": "mwi81jlzueo0ka",
       "name": "Tombbeast Gyo",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -240,10 +284,11 @@
         "08:30",
         "14:30",
         "20:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5soxmjuh0qr",
+      "id": "mwi823njrnf0ci",
       "name": "Dusk Armado Emperor",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -263,10 +308,11 @@
         "19:30",
         "21:30",
         "23:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5t0waqbs1ja",
+      "id": "mwi82kenlo8g7t",
       "name": "Mara",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -282,10 +328,11 @@
         "17:30",
         "20:30",
         "23:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5tbbut7mt4j",
+      "id": "mwi82zzb6fsp15",
       "name": "Boodo",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -297,10 +344,11 @@
         "09:30",
         "15:30",
         "21:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5tnzmr3iot9",
+      "id": "mwi83iq7p4gsqy",
       "name": "Bicheon Sura",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -312,10 +360,11 @@
         "10:30",
         "16:30",
         "22:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5u5pmtsr730",
+      "id": "mwi84a9dy5koua",
       "name": "Cheol Mokgang",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -335,10 +384,11 @@
         "18:30",
         "20:30",
         "22:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5ug4ihafxlx",
+      "id": "mwi84p9btqkm7j",
       "name": "Wuihan",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -350,10 +400,11 @@
         "11:30",
         "17:30",
         "23:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5uvmqfva4qx",
+      "id": "mwi859bzfrhknn",
       "name": "Obscene Yeticlops",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -365,10 +416,11 @@
         "06:30",
         "12:30",
         "18:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5vehu4i8qo1",
+      "id": "mwi85xbrzs17jt",
       "name": "Jihwa",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -384,10 +436,11 @@
         "17:30",
         "20:30",
         "23:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5yupe8ih54l",
+      "id": "mwi86kdrrxhi33",
       "name": "Nighteyes Yaksha",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -399,10 +452,11 @@
         "09:30",
         "15:30",
         "21:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5zfveo9jixx",
+      "id": "mwi872vbtkybq3",
       "name": "Black Carapace Dusk Armado",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -418,10 +472,11 @@
         "15:30",
         "18:30",
         "21:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd5zqrerximqz",
+      "id": "mwi87gwpqm3y37",
       "name": "Bulhu",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -433,10 +488,11 @@
         "10:30",
         "16:30",
         "22:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd600qysqp2er",
+      "id": "mwi87vgv6rvais",
       "name": "Guemugwang",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -448,10 +504,11 @@
         "11:30",
         "17:30",
         "23:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd60i4y45pwum",
+      "id": "mwi88dlrhedzvj",
       "name": "Do Maeongryong",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -463,10 +520,11 @@
         "06:30",
         "12:30",
         "18:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd60yn67el6fl",
+      "id": "mwi88tef1umepd",
       "name": "Molgrash",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -482,10 +540,11 @@
         "16:30",
         "19:30",
         "22:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd6bz3v46uiv8",
+      "id": "mwi89ddr9tahk6",
       "name": "Wi Gwangryeong",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -501,10 +560,11 @@
         "17:30",
         "20:30",
         "23:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd6c9pvmk3en7",
+      "id": "mwi89ui0mwui6x",
       "name": "Krog",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -516,10 +576,11 @@
         "07:30",
         "13:30",
         "19:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd6ckoreqxhmf",
+      "id": "mwi8a79r5dqff5",
       "name": "Kelis",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -531,10 +592,11 @@
         "08:30",
         "14:30",
         "20:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd6cwe3so3sui",
+      "id": "mwi8apewtuijwy",
       "name": "Talasa",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -550,10 +612,11 @@
         "17:30",
         "20:30",
         "23:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd6d60r6g7r0d",
+      "id": "mwi8b1q7cn9lg0",
       "name": "Barkas",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -565,10 +628,11 @@
         "09:30",
         "15:30",
         "21:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd6dgxnbps48n",
+      "id": "mwi8bdgotivviv",
       "name": "Bargan",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -580,10 +644,11 @@
         "10:30",
         "16:30",
         "22:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd6dxsz8uw5by",
+      "id": "mwi8bvmfdjkq1t",
       "name": "Morg",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -599,10 +664,11 @@
         "15:30",
         "18:30",
         "21:30"
-      ]
+      ],
+      "spawnMode": "scheduled"
     },
     {
-      "id": "mwd6e9e3vhbs4k",
+      "id": "mwi8c8trxjvpw7",
       "name": "Bordo",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -614,377 +680,8 @@
         "11:30",
         "17:30",
         "23:30"
-      ]
-    },
-    {
-      "id": "mwdabgyye4f3lw",
-      "name": "Celestial Water Dragon Larva",
-      "map": "Field",
-      "area": "Phantasia Area",
-      "location": "Phantasia Desert",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaci1ebaydyj",
-      "name": "Viper Queen",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 8] Pakua Stonehall",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdad9h6lxohas",
-      "name": "Arahan",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 8] Pakua Stonehall",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdadwv6sb2mr0",
-      "name": "Etherbolt",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 8] Abandoned Mine 3F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdae2dm6rbcnn",
-      "name": "Terragod",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 8] Abandoned Mine 3F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaebjmkcvuxz",
-      "name": "First Elder Crimsonmaur",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 8] Abandoned Mine 3F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaemnmim57jx",
-      "name": "Redmoon Ghost Wolf",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 7] Redmoon Gorge 2F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaewyqrzv672",
-      "name": "Empowered Gorefiend",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 7] Redmoon Gorge 3F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdamfh7wia6nx",
-      "name": "Rotten Judok",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 7] Underground Jail",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdamnu3gmwzx6",
-      "name": "Nefariox Adamant Zenith",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 4] Sabuk Town",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdamypug585y0",
-      "name": "Nefariox Thunderclap Zenith",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 4] Bladehaven 1F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdan6jurkv5qp",
-      "name": "Nefariox Divine Draconic Zenith",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 4] Bladehaven 2F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdane9m2o4ljx",
-      "name": "Dark Blood Monk",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 4] Dark Blood Monk",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdanm633gebd2",
-      "name": "Jangryang",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 2] Seocheon Trading Post",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdanrz6rag12o",
-      "name": "Jangbo",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 2] Redmoon Mountain",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdanz8q1ikcbs",
-      "name": "Baegsan",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 2] Twinway Maze",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdao60sb6hpdg",
-      "name": "Bullface Fiend King",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 2] Bullface Fiend King",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaoda220e0k9",
-      "name": "Whitemaur Illusion Beast",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 5] Nine Dragon Ice Field",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaomnux2q4si",
-      "name": "Overlord Celestial Fiend",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 5] Illusion Temple",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaoymj3z802j",
-      "name": "Arisen Nefariox Khan",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 5] Demon's Ruin",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdap7m2kjo3km",
-      "name": "Skyscale Ethershade Spider Fiend",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 5] Ethershade Spider Fiend",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdapgqiv8ecku",
-      "name": "Urunka",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 3] Nefariox Necropolis",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdapo6qfbs9jj",
-      "name": "Kaya",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 3] Viperbeast Plain",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdapwaaqxd7cc",
-      "name": "Dusk Armado King",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 3] Dusk Armado Lair",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaq46yetm0jn",
-      "name": "Steelbone Specter",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 3] Steelbone Specter",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaqazemu08ej",
-      "name": "Hangga",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 6] Bicheon Labyrinth",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaqi2yydd6zp",
-      "name": "Jo Gyu",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 6] Bicheon Labyrinth",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaqp8i444x6r",
-      "name": "Phantom Ghoul",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 6] Demoniac Mine",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdar4w3nu10js",
-      "name": "Transformed Hong Yeom",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 6] Demoniac Mine Depths",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdarakiae1cbg",
-      "name": "Grand Centipedeus",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 6] Grand Centipedeus",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdarmmacp3qyq",
-      "name": "Song Gwang",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 1] Seven Valleys Mountain",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdatmzvfxwd8z",
-      "name": "Porung",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 1] Roaring Flame Island",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaty8j3of9bl",
-      "name": "Rebel Army Commander in Chief",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 2] Nine Dragon Ice Field",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaug0rh3qznv",
-      "name": "Lord of Order",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 2] Celestial Blood Valley",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdaur9ulshd94",
-      "name": "Gordo",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 3] Cloud Sea Village",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdauyp65btpof",
-      "name": "Kairark",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 3] Hydra's Depths",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
-    },
-    {
-      "id": "mwdav6zva02tbx",
-      "name": "Arkanos",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 3] Akamtul's Altar",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": []
+      ],
+      "spawnMode": "scheduled"
     }
   ]
 }
