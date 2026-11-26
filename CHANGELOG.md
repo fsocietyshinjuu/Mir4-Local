@@ -2,18 +2,29 @@
 
 All notable changes to Mir4Local. The newest version is first.
 
-## Unreleased
+## 1.4.0
 
-- Added World Boss, Events, Crafting and Mystery tabs with translated content.
-- Home now shows upcoming world bosses/events and a weekly completion message instead of falling back to unfavorite bosses.
-- Published boss, mission, map, area and location names now support translations in all 12 languages.
-- Admin gained full CRUD for the new sections, schedule editors, auto-translation and an updated dashboard.
-- Crafting badge images are now uploaded by the admin and published as small WebP assets instead of pasted URLs.
-- Added publish previews, data validation, automatic backups and one-click rollback in the admin app.
-- Public app now validates published data, retries with ETag checks, falls back to cached/bundled data and shows its load status.
-- Reminders are deduplicated across restarts, resync when a tab becomes active and fall back to an in-app toast when notifications are blocked.
-- Fixed `24:00` spawn countdowns landing on the previous day.
-- Fixed GitHub Pages deployment by granting artifact-read permission and naming the Pages artifact explicitly.
+### Added
+
+- **World Boss, Events, Crafting and Mystery tabs** with translated boss, map, area and location names, schedules, countdowns, summon badges, scroll lists and tutorial links.
+- **Home dashboard** now shows upcoming world bosses and events and a weekly completion message instead of falling back to unfavorite bosses.
+- **Per-field translations** for published boss, mission, map, area and location names in all 12 languages.
+- **Admin CRUD** for every new section, with schedule editors, multiple event areas, multiple Mystery scrolls, per-field translation editors and auto-translate.
+- **Badge image uploads** in Admin → Crafting: images are resized to at most 256×256 WebP, published to `data/assets/badges/` and deleted when replaced or removed.
+- **Publish previews**, validation, automatic backups of the last 10 published versions and one-click rollback.
+- **Data load status** in the public app: validated data, ETag rechecks, retries, a Retry button, cached/bundled fallback and a visible status message.
+- **Reminder reliability**: deduplication across restarts, resync when the tab becomes active and an in-app toast fallback when notifications are blocked.
+- **Landing page** now highlights the new World Boss, Events, Crafting, Mystery and reliability features in all 12 languages.
+
+### Changed
+
+- Updated the README, CHANGELOG and RELEASE_NOTES for the new feature set.
+- GitHub Pages deployment now builds the site in a separate job from the deploy step.
+
+### Fixed
+
+- `24:00` spawn countdowns landing on the previous day.
+- GitHub Pages deployment failing with "Fetching artifact metadata failed" and "No artifacts named github-pages were found": added the `actions: read` permission, an explicit `github-pages` artifact name and disabled in-progress cancellation.
 
 ## 1.0.0
 
