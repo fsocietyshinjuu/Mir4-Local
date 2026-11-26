@@ -1,4 +1,4 @@
-# Mir4Local v1.4.0
+# Mir4Local v1.1.0
 
 A bigger update: four new sections to track, translated names everywhere, and a much more reliable data and reminder system.
 
