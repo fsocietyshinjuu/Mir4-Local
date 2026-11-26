@@ -228,7 +228,7 @@ npm start            # the private admin tool (needs a GitHub token to publish)
 └── .github/workflows/         release build and website deploy
 ```
 
-Releases are built by GitHub Actions when you push a tag such as `v1.4.0`. The tag must match the `version` in `package.json`. Landing page changes deploy on a push to `main` that touches `docs/**`, `renderer/**` or the Pages workflow.
+Releases are built by GitHub Actions when you push a tag such as `v1.1.0`. The tag must match the `version` in `package.json`. Landing page changes deploy on a push to `main` that touches `docs/**`, `renderer/**` or the Pages workflow.
 
 </details>
 
