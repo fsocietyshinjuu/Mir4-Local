@@ -1,7 +1,7 @@
 {
   "name": "Mir4-Local",
   "productName": "Mir4Local",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Plain HTML/JS app packaged with Electron, auto-updating from GitHub Releases",
   "main": "main.js",
   "author": "fsocietyshinjuu",
@@ -13,24 +13,39 @@
   },
   "build": {
     "appId": "com.fsocietyshinjuu.Mir4-Local",
-    "files": ["main.js", "preload.js", "renderer/**/*"],
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*"
+    ],
     "publish": [
-  {
-    "provider": "github",
-    "owner": "fsocietyshinjuu",
-    "repo": "Mir4-Local",
-    "releaseType": "release"
-  }
-],
-    "win": { "target": "nsis" },
-    "mac": { "target": ["dmg", "zip"], "category": "public.app-category.productivity" },
-    "linux": { "target": "AppImage", "category": "Utility" }
+      {
+        "provider": "github",
+        "owner": "fsocietyshinjuu",
+        "repo": "Mir4-Local",
+        "releaseType": "release"
+      }
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.productivity"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Utility"
+    }
   },
   "dependencies": {
     "electron-updater": "^6.3.9"
   },
   "devDependencies": {
-    "electron": "^33.2.0",
-    "electron-builder": "^25.1.8"
+    "electron": "^45.3.3",
+    "electron-builder": "^26.18.0"
   }
 }

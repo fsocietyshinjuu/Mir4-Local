@@ -32,6 +32,128 @@ function writeJson(key, v) { try { localStorage.setItem(key, JSON.stringify(v));
 const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 const vlabel = (v) => t(`v.${v}`);   // Spawn / Summon / Daily / Weekly / Monthly
 
+/* Reminder dedupe and load bookkeeping. Stored locally so a restart cannot replay old toasts. */
+const FIRED_KEY = 'mir4local.fired.v1';
+const fired = readJson(FIRED_KEY, {});
+let loadingData = false;
+let dataWarning = '';
+
+/* Text published by the admin can carry per-language versions. i18n maps are keyed by field, then language. */
+function trText(rec, field, fallback, index) {
+  const map = rec && rec.i18n && rec.i18n[field];
+  const v = Array.isArray(map) && index != null ? map[index] && map[index][i18n.lang] : map && map[i18n.lang];
+  return v || fallback || '';
+}
+function trValues(rec, field, fallback, count) {
+  const out = [];
+  const map = rec && rec.i18n && rec.i18n[field];
+  if (Array.isArray(map)) for (let i = 0; i < Math.max(count || 0, map.length); i++) out.push(trText(rec, field, (rec[field] || [])[i], i));
+  else out.push(trText(rec, field, fallback));
+  return out.filter(Boolean);
+}
+function searchWords(rec, fields) {
+  return fields.flatMap((f) => [String(rec[f] || ''), ...trValues(rec, f, rec[f])]).join(' ').toLowerCase();
+}
+
+/* ---------- Published-data validation ---------- */
+function safeImageUrl(v) {
+  const s = String(v || '').trim();
+  if (/^https:\/\//i.test(s)) return s;
+  if (/^data:image\/(png|jpeg|webp|gif);base64,[a-z0-9+/=]+$/i.test(s)) return s;
+  return '';
+}
+function safeLink(v) {
+  const s = String(v || '').trim();
+  return /^https?:\/\//i.test(s) ? s : '';
+}
+function cleanDay(d) {
+  if (d === '*' || d === 'Daily') return '*';
+  const n = DAY_CODES.includes(d) ? DAY_CODES.indexOf(d) : Number(d);
+  return Number.isInteger(n) && n >= 0 && n <= 6 ? n : null;
+}
+function cleanSchedule(schedule, warn) {
+  if (!Array.isArray(schedule)) { if (schedule != null) warn(); return []; }
+  return schedule.map((e) => {
+    if (!e || typeof e !== 'object') { warn(); return null; }
+    const days = [...new Set((Array.isArray(e.days) ? e.days : []).map(cleanDay).filter((d) => d !== null))];
+    const times = [...new Set((Array.isArray(e.times) ? e.times : []).map(String).filter((tm) => {
+      if (!parseClock(tm)) { warn(); return false; }
+      return true;
+    }))];
+    if (!days.length || !times.length) { warn(); return null; }
+    return { days, times };
+  }).filter(Boolean);
+}
+
+// Never let one bad published record break a whole tab. Fix what can be fixed, drop what cannot, count warnings.
+function validateData(raw) {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+    return { ok: false, errors: ['Published data is not an object'], data: null, warnings: 0 };
+  }
+  let warnings = 0;
+  const warn = () => { warnings++; };
+  const str = (v) => (typeof v === 'string' ? v.trim() : '');
+  const arr = (v) => (Array.isArray(v) ? v : []);
+  const cleanList = (key, clean) => arr(raw[key]).map(clean).filter(Boolean);
+  const out = { ...raw, missions: [], worldBosses: [], events: [], crafting: [], mystery: [] };
+
+  if (Number.isFinite(raw.utcOffset)) out.utcOffset = Math.max(-840, Math.min(840, raw.utcOffset));
+  else delete out.utcOffset;
+
+  out.missions = cleanList('missions', (m) => {
+    if (!m || typeof m !== 'object') { warn(); return null; }
+    const name = str(m.name);
+    if (!name) { warn(); return null; }
+    const cycle = ['Daily', 'Weekly', 'Monthly'].includes(m.cycle) ? m.cycle : (warn(), 'Daily');
+    const type = ['Spawn', 'Summon'].includes(m.type) ? m.type : (warn(), 'Spawn');
+    const mode = ['scheduled', 'random', 'respawn'].includes(m.spawnMode || 'scheduled')
+      ? (m.spawnMode || 'scheduled') : (warn(), 'scheduled');
+    const times = arr(m.spawnTimes).map(String).filter((tm) => {
+      if (!parseClock(tm)) { warn(); return false; }
+      return true;
+    });
+    const rec = { ...m, id: str(m.id) || newId(), name, cycle, type, spawnMode: mode, spawnTimes: times };
+    if (Number.isFinite(m.respawnMinutes) && m.respawnMinutes >= 0) rec.respawnMinutes = m.respawnMinutes;
+    else delete rec.respawnMinutes;
+    return rec;
+  });
+
+  const named = (r) => {
+    if (!r || typeof r !== 'object') { warn(); return null; }
+    const name = str(r.name);
+    if (!name) { warn(); return null; }
+    return { ...r, id: str(r.id) || newId(), name, schedule: cleanSchedule(r.schedule, warn) };
+  };
+  out.worldBosses = cleanList('worldBosses', named);
+  out.events = cleanList('events', (e) => {
+    const rec = named(e);
+    if (!rec) return null;
+    const areas = arr(e.areas).map((a) => {
+      if (!a || typeof a !== 'object') { warn(); return null; }
+      return { ...a, map: str(a.map), area: str(a.area), location: str(a.location), schedule: cleanSchedule(a.schedule, warn) };
+    }).filter(Boolean);
+    return { ...rec, map: str(e.map), area: str(e.area), location: str(e.location), areas };
+  });
+  out.crafting = cleanList('crafting', (c) => {
+    if (!c || typeof c !== 'object') { warn(); return null; }
+    const boss = str(c.boss);
+    if (!boss) { warn(); return null; }
+    const badgeImage = safeImageUrl(c.badgeImage);
+    if (c.badgeImage && !badgeImage) warn();
+    return { ...c, id: str(c.id) || newId(), boss, badge: str(c.badge), badgeImage,
+      npc: str(c.npc), npcLocation: str(c.npcLocation), summonLocation: str(c.summonLocation) };
+  });
+  out.mystery = cleanList('mystery', (m) => {
+    const rec = named(m);
+    if (!rec) return null;
+    const tutorial = safeLink(m.tutorial);
+    if (m.tutorial && !tutorial) warn();
+    return { ...rec, scrolls: arr(m.scrolls).map(String).filter(Boolean), tutorial };
+  });
+
+  return { ok: true, data: out, warnings };
+}
+
 /* ---------- Preferences ---------- */
 const prefs = {
   theme: 'system', timeFormat: 'system', resetHour: 0, weekStart: 1, collapsed: false, sort: 'soonest',
@@ -70,8 +192,10 @@ function occurrences(times, offsetMin, now = Date.now()) {
   const y = shifted.getUTCFullYear(), mo = shifted.getUTCMonth(), d = shifted.getUTCDate();
   const out = [];
   for (const tm of times) {
-    const [hh, mm] = tm.split(':').map(Number);
-    const base = Date.UTC(y, mo, d, hh, mm) - offsetMin * 60000;
+    const p = parseClock(tm);
+    if (!p) continue;
+    // "24:00" belongs to the end of this day, so it shifts into tomorrow.
+    const base = Date.UTC(y, mo, d + p.nextDay, p.h, p.m) - offsetMin * 60000;
     out.push(base - DAY, base, base + DAY);
   }
   return out;
@@ -111,6 +235,54 @@ function fmtDuration(min) {
   return [hh ? nf(hh, 'hour') : '', mm ? nf(mm, 'minute') : ''].filter(Boolean).join(' ') || nf(0, 'minute');
 }
 
+/* ---------- Shared schedules for World Boss and Events ---------- */
+const DAY_CODES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const dayIndex = (d) => (DAY_CODES.includes(d) ? DAY_CODES.indexOf(d) : Number(d));
+const dayName = (d) => (d === '*' || d === 'Daily'
+  ? t('sc.daily')
+  : new Intl.DateTimeFormat(i18n.lang, { weekday: 'short' }).format(new Date(Date.UTC(2024, 0, 7 + dayIndex(d)))));
+function parseClock(s) {
+  const m = /^(\d{1,2}):(\d{2})$/.exec(String(s || '').trim());
+  if (!m) return null;
+  const hh = Number(m[1]), mm = Number(m[2]);
+  if (mm > 59 || hh > 24 || (hh === 24 && mm !== 0)) return null;
+  return { h: hh === 24 ? 0 : hh, m: mm, nextDay: hh === 24 ? 1 : 0 };
+}
+function scheduleParts(schedule) {
+  return (Array.isArray(schedule) ? schedule : []).map((e) => ({
+    days: Array.isArray(e.days) ? e.days : (e.day != null ? [e.day] : []),
+    times: Array.isArray(e.times) ? e.times : (e.time != null ? [e.time] : []),
+  })).filter((e) => e.days.length && e.times.length);
+}
+function scheduleLines(schedule) {
+  return scheduleParts(schedule).map((e) => ({
+    day: e.days.some((d) => d === '*' || d === 'Daily') ? t('sc.daily') : e.days.map(dayName).join(', '),
+    times: e.times.join(', '),
+  }));
+}
+function fmtSchedule(schedule) {
+  const lines = scheduleLines(schedule);
+  return lines.length ? lines.map((l) => `${l.day}: ${l.times}`).join(' · ') : t('sc.none');
+}
+function nextSchedule(schedule, offsetMin, now = Date.now()) {
+  let best = Infinity;
+  for (const e of scheduleParts(schedule)) {
+    for (let d = -1; d < 8; d++) {
+      const local = new Date(now + d * DAY + offsetMin * 60000);
+      const idx = local.getUTCDay();
+      if (!e.days.some((x) => x === '*' || x === 'Daily' || dayIndex(x) === idx)) continue;
+      for (const tm of e.times) {
+        const p = parseClock(tm);
+        if (!p) continue;
+        const at = Date.UTC(local.getUTCFullYear(), local.getUTCMonth(), local.getUTCDate() + p.nextDay, p.h, p.m) - offsetMin * 60000;
+        if (at > now && at < best) best = at;
+      }
+    }
+  }
+  return best;
+}
+function collectSchedule(...lists) { return lists.flat(Infinity).filter((x) => x && typeof x === 'object' && !Array.isArray(x)); }
+
 /* ---------- Segmented control helpers ---------- */
 function setSeg(el, v) { $$('button[data-v]', el).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v))); }
 function bindSeg(el, onPick) {
@@ -128,6 +300,10 @@ function segEl(options, current) {
 
 /* ---------- App state ---------- */
 let missions = [];
+let worldBosses = [];
+let events = [];
+let crafting = [];
+let mystery = [];
 let meta = {};
 let lastSig = '';
 let loaded = false;
@@ -136,6 +312,8 @@ let lastLoad = { source: '', updatedAt: '' };
 let currentBase = [];
 let cdRefs = [];
 let homeRefs = [];
+let contentRefs = [];
+let upcomingRefs = [];
 let homeList = [];
 let editingCharId = null;
 let lastUpdate = null;
@@ -144,7 +322,7 @@ const settingsRefs = {};
 
 const els = {
   app: $('#app'), rows: $('#rows'), scroll: $('#view-missions .scroll'), empty: $('#empty'), emptyText: $('#empty-text'),
-  emptyBtn: $('#empty-btn'), status: $('#data-status'), search: $('#search'), sort: $('#sort'),
+  emptyBtn: $('#empty-btn'), status: $('#data-status'), retry: $('#data-retry'), search: $('#search'), sort: $('#sort'),
   favOnly: $('#fav-only'), hideDone: $('#hide-done'), refresh: $('#refresh-btn'), clear: $('#clear-btn'),
   typeSel: $('#f-type'), cycleSel: $('#f-cycle'), mapSel: $('#f-map'), areaSel: $('#f-area'), charSel: $('#char-select'),
   progressText: $('#progress-text'), pct: $('#progress-pct'), meter: $('#meter'), meterFill: $('#meter-fill'),
@@ -164,7 +342,7 @@ function filtered() {
     (!filters.map || m.map === filters.map) &&
     (!filters.area || m.area === filters.area) &&
     (!filters.favOnly || favs[m.id]) &&
-    (!q || [m.name, m.map, m.area, m.location].join(' ').toLowerCase().includes(q)));
+    (!q || searchWords(m, ['name', 'map', 'area', 'location']).includes(q)));
 }
 
 function sortKey(m, now) {
@@ -233,9 +411,9 @@ function renderRow(m) {
 
   const tr = h('tr', { class: done ? 'done' : '' },
     h('td', {},
-      h('div', { class: 'name' }, m.name),
-      h('div', { class: 'meta' }, m.map, h('span', { class: 'pill' }, vlabel(m.cycle)))),
-    h('td', {}, h('div', {}, m.area), h('div', { class: 'meta' }, m.location)),
+      h('div', { class: 'name' }, trText(m, 'name', m.name)),
+      h('div', { class: 'meta' }, trText(m, 'map', m.map), h('span', { class: 'pill' }, vlabel(m.cycle)))),
+    h('td', {}, h('div', {}, trText(m, 'area', m.area)), h('div', { class: 'meta' }, trText(m, 'location', m.location))),
     countdown,
     h('td', {}, h('label', { class: 'status' }, check, statusText)),
     h('td', {}, fav));
@@ -261,7 +439,7 @@ function render() {
     if (!missions.length) {
       els.emptyText.textContent = !loaded ? t('e.loading') : loadError ? t('e.failed', { err: loadError }) : t('e.none');
       els.emptyBtn.textContent = t('tr.refresh');
-      els.emptyBtn.onclick = loadData;
+      els.emptyBtn.onclick = () => loadData({ force: true });
     } else {
       els.emptyText.textContent = t('e.nomatch');
       els.emptyBtn.textContent = t('f.clearAll');
@@ -291,6 +469,24 @@ function paintCd(r, now, off) {
 }
 
 // Updates countdowns in place every second (no re-render, so focus is never lost).
+function paintSchedule(r, now, off) {
+  const at = nextSchedule(r.schedule, off, now);
+  if (!isFinite(at)) {
+    if (r.cd.textContent !== '—') r.cd.textContent = '—';
+    if (r.cd.dataset.state !== 'normal') r.cd.dataset.state = 'normal';
+    if (r.sub.textContent !== t('sc.noNext')) r.sub.textContent = t('sc.noNext');
+    return;
+  }
+  const left = at - now;
+  const text = fmtCountdown(left);
+  const sub = t('cd.at', { time: fmtClock(at) });
+  const state = left < SOON_MIN * 60000 ? 'soon' : 'normal';
+  if (r.cd.textContent !== text) r.cd.textContent = text;
+  if (r.cd.dataset.state !== state) r.cd.dataset.state = state;
+  if (r.sub.textContent !== sub) r.sub.textContent = sub;
+  if (r.row) r.row.classList.toggle('is-soon', state === 'soon');
+}
+
 function tick() {
   const now = Date.now(), off = zoneOffset();
   for (const r of cdRefs) {
@@ -304,6 +500,7 @@ function tick() {
     r.row.classList.toggle('is-soon', st === 'soon');
     r.row.classList.toggle('is-live', st === 'live');
   }
+  for (const r of [...contentRefs, ...upcomingRefs]) paintSchedule(r, now, off);
   tickHomeStats(now, off);
 }
 
@@ -319,11 +516,15 @@ function updateSummary() {
 
 /* ---------- Home ---------- */
 // Bosses shown on Home: your favorites if you have any (and they are not done yet), otherwise every scheduled boss.
+// If every favorite spawn boss is complete, do not fall back to the unfavorite list.
 function homeScope() {
   const favs = profile().favorites;
+  const favSpawn = missions.filter((m) => isSpawn(m) && favs[m.id]);
+  const allDone = favSpawn.length > 0 && favSpawn.every(isComplete);
+  if (allDone) return { list: [], favorites: true, allDone: true };
+  const f = favSpawn.filter((m) => !isComplete(m));
   const all = missions.filter((m) => isSpawn(m) && !isComplete(m));
-  const f = all.filter((m) => favs[m.id]);
-  return { list: f.length ? f : all, favorites: f.length > 0 };
+  return { list: f.length ? f : all, favorites: f.length > 0, allDone: false };
 }
 
 function tickHomeStats(now, off) {
@@ -357,6 +558,52 @@ function renderCharCard() {
         h('button', { type: 'button', class: 'btn primary', onclick: () => openCharDialog(null) }, icon('plus'), t('c.add'))));
 }
 
+function celebration() {
+  // Rotate weekly so the message stays stable while the app is open, but changes each week.
+  const now = new Date();
+  const week = Math.floor((now - new Date(now.getFullYear(), 0, 1)) / (7 * DAY));
+  const useB = (week + String(state.activeId || '').length) % 2 === 1;
+  return {
+    title: `${t(useB ? 'h.doneTitleB' : 'h.doneTitleA')} ${useB ? '⚔️' : '🎉'}`,
+    sub: t(useB ? 'h.doneSubB' : 'h.doneSubA'),
+  };
+}
+
+function renderUpcoming() {
+  const now = Date.now(), off = zoneOffset();
+  const items = [];
+  for (const b of worldBosses) {
+    const at = nextSchedule(b.schedule, off, now);
+    if (!isFinite(at)) continue;
+    items.push({ kind: t('nav.worldBoss'), name: trText(b, 'name', b.name),
+      where: [trText(b, 'map', b.map), trText(b, 'area', b.area)].filter(Boolean).join(', '),
+      schedule: b.schedule, at });
+  }
+  for (const e of events) {
+    const schedule = collectSchedule(e.schedule, ...(e.areas || []).map((a) => a.schedule));
+    const at = nextSchedule(schedule, off, now);
+    if (!isFinite(at)) continue;
+    const first = (e.areas || [])[0] || {};
+    items.push({ kind: t('nav.events'), name: trText(e, 'name', e.name),
+      where: [...new Set([trText(e, 'map', e.map), trText(first, 'map', first.map), trText(first, 'area', first.area)].filter(Boolean))].join(', '),
+      schedule, at });
+  }
+  items.sort((a, b) => a.at - b.at);
+  const top = items.slice(0, 6);
+  upcomingRefs = [];
+  $('#upcoming-list').replaceChildren(...top.map((item) => {
+    const cd = h('span', { class: 'cd' }, '--:--:--');
+    const sub = h('div', { class: 'cd-sub' });
+    const row = h('div', { class: 'upcoming-row' },
+      h('span', { class: 'kind' }, item.kind),
+      h('div', {}, h('div', { class: 'name' }, item.name), h('div', { class: 'where' }, item.where)),
+      h('div', { class: 'cd-wrap' }, cd, sub));
+    upcomingRefs.push({ cd, sub, schedule: item.schedule, row });
+    return row;
+  }));
+  $('#upcoming-empty').hidden = top.length > 0;
+}
+
 function renderHome() {
   const ch = state.characters.find((c) => c.id === state.activeId);
   $('#home-title').textContent = ch ? t('h.welcome', { name: ch.ign }) : t('h.welcomeNoChar');
@@ -370,7 +617,7 @@ function renderHome() {
     $('.meter span', cell).style.width = total ? `${Math.round((done / total) * 100)}%` : '0%';
   });
 
-  const { list, favorites } = homeScope();
+  const { list, favorites, allDone } = homeScope();
   homeList = list;
   const now = Date.now();
   const top = list.map((m) => ({ m, key: sortKey(m, now) })).sort((a, b) => a.key - b.key).slice(0, 8);
@@ -379,15 +626,110 @@ function renderHome() {
     const cd = h('span', { class: 'cd' }, '--:--:--');
     const sub = h('div', { class: 'cd-sub' });
     const row = h('div', { class: 'next-row' },
-      h('div', {}, h('div', { class: 'name' }, m.name), h('div', { class: 'meta' }, `${m.map}, ${m.area}, ${m.location}`)),
+      h('div', {}, h('div', { class: 'name' }, trText(m, 'name', m.name)),
+        h('div', { class: 'meta' }, [trText(m, 'map', m.map), trText(m, 'area', m.area), trText(m, 'location', m.location)].join(', '))),
       h('div', { class: 'cd-wrap' }, cd, sub));
     homeRefs.push({ m, cd, sub, row });
     return row;
   }));
-  $('#next-empty').hidden = top.length > 0;
-  $('#next-scope').textContent = missions.length ? (favorites ? t('h.nextFavs') : t('h.nextAll')) : '';
+  $('#next-done').hidden = !allDone;
+  $('#next-empty').hidden = allDone || top.length > 0;
+  if (allDone) {
+    const msg = celebration();
+    $('#done-title').textContent = msg.title;
+    $('#done-sub').textContent = msg.sub;
+  }
+  $('#next-scope').textContent = missions.length
+    ? (allDone ? t('h.nextAllDone') : favorites ? t('h.nextFavs') : t('h.nextAll')) : '';
+  renderUpcoming();
   renderCharCard();
   tick();
+}
+
+/* ---------- World Boss, Events, Crafting and Mystery ---------- */
+function scheduleCell(schedule) {
+  const cd = h('span', { class: 'cd' }, '--:--:--');
+  const sub = h('div', { class: 'cd-sub' });
+  contentRefs.push({ cd, sub, schedule });
+  return h('td', { class: 'next-cell' }, cd, sub);
+}
+
+function scheduleBlock(schedule) {
+  const lines = scheduleLines(schedule);
+  return h('div', { class: 'sched-lines' }, lines.length
+    ? lines.map((l) => h('div', { class: 'sched-line' }, h('span', { class: 'day' }, l.day), ': ', h('span', { class: 'times' }, l.times)))
+    : h('div', { class: 'sched-line muted' }, t('sc.none')));
+}
+
+function renderWorldBoss() {
+  const rows = $('#wb-rows');
+  rows.replaceChildren(...worldBosses.map((b) => h('tr', {},
+    h('td', {}, h('div', { class: 'name' }, trText(b, 'name', b.name))),
+    h('td', { class: 'muted' }, trText(b, 'map', b.map)),
+    h('td', {}, h('div', {}, trText(b, 'area', b.area)), h('div', { class: 'meta' }, trText(b, 'location', b.location))),
+    h('td', {}, scheduleBlock(b.schedule)),
+    scheduleCell(b.schedule))));
+  $('#wb-empty').hidden = worldBosses.length > 0;
+  rows.closest('.scroll').hidden = !worldBosses.length;
+}
+
+function renderEvents() {
+  const rows = $('#ev-rows');
+  rows.replaceChildren(...events.map((e) => {
+    const schedule = collectSchedule(e.schedule, ...(e.areas || []).map((a) => a.schedule));
+    const areas = (e.areas || []).length ? e.areas : [{ map: e.map, area: e.area, location: e.location, schedule: e.schedule }];
+    return h('tr', {},
+      h('td', {}, h('div', { class: 'name' }, trText(e, 'name', e.name))),
+      h('td', { class: 'muted' }, trText(e, 'map', e.map)),
+      h('td', {}, h('div', { class: 'area-lines' }, areas.map((a) => h('div', { class: 'area-line' },
+        h('div', { class: 'where' }, [trText(a, 'map', a.map), trText(a, 'area', a.area)].filter(Boolean).join(' · ')),
+        a.location ? h('div', { class: 'meta' }, trText(a, 'location', a.location)) : null,
+        scheduleBlock(a.schedule))))),
+      h('td', {}, scheduleBlock(schedule)),
+      scheduleCell(schedule));
+  }));
+  $('#ev-empty').hidden = events.length > 0;
+  rows.closest('.scroll').hidden = !events.length;
+}
+
+function renderCrafting() {
+  const rows = $('#cr-rows');
+  rows.replaceChildren(...crafting.map((c) => {
+    const src = safeImageUrl(c.badgeImage);
+    const image = src
+      ? h('img', { class: 'badge-img', src, alt: trText(c, 'badge', c.badge), loading: 'lazy', referrerpolicy: 'no-referrer',
+          onerror: (e) => e.currentTarget.replaceWith(h('span', { class: 'badge-img missing' }, t('cr.noImage'))) })
+      : h('span', { class: 'badge-img missing' }, t('cr.noImage'));
+    return h('tr', {},
+      h('td', {}, h('div', { class: 'name' }, trText(c, 'boss', c.boss))),
+      h('td', {}, trText(c, 'badge', c.badge)),
+      h('td', {}, image),
+      h('td', {}, h('div', {}, trText(c, 'npc', c.npc)), h('div', { class: 'meta' }, trText(c, 'npcLocation', c.npcLocation))),
+      h('td', {}, trText(c, 'summonLocation', c.summonLocation)));
+  }));
+  $('#cr-empty').hidden = crafting.length > 0;
+  rows.closest('.scroll').hidden = !crafting.length;
+}
+
+function renderMystery() {
+  const rows = $('#my-rows');
+  rows.replaceChildren(...mystery.map((m) => h('tr', {},
+    h('td', {}, h('div', { class: 'name' }, trText(m, 'name', m.name))),
+    h('td', {}, h('div', { class: 'scroll-list' }, (m.scrolls || []).map((s, i) =>
+      h('span', { class: 'pill' }, trText(m, 'scrolls', s, i))))),
+    h('td', {}, m.tutorial
+      ? h('a', { class: 'tutorial-link', href: m.tutorial, target: '_blank', rel: 'noopener noreferrer' }, t('my.open'), icon('download'))
+      : h('span', { class: 'muted' }, '—')))));
+  $('#my-empty').hidden = mystery.length > 0;
+  rows.closest('.scroll').hidden = !mystery.length;
+}
+
+function renderContent() {
+  contentRefs = [];
+  renderWorldBoss();
+  renderEvents();
+  renderCrafting();
+  renderMystery();
 }
 
 /* ---------- Filters (dropdowns) ---------- */
@@ -406,8 +748,8 @@ function renderFilters() {
   const n = (key, v) => missions.filter((m) => m[key] === v).length;
   fillSelect(els.typeSel, ['Spawn', 'Summon'], filters.type, t('f.allTypes'), (v) => `${vlabel(v)} (${n('type', v)})`);
   fillSelect(els.cycleSel, ['Daily', 'Weekly', 'Monthly'], filters.cycle, t('f.allCycles'), (v) => `${vlabel(v)} (${n('cycle', v)})`);
-  fillSelect(els.mapSel, maps, filters.map, t('f.allMaps'));
-  fillSelect(els.areaSel, areas, filters.area, t('f.allAreas'));
+  fillSelect(els.mapSel, maps, filters.map, t('f.allMaps'), (v) => trText(missions.find((m) => m.map === v), 'map', v));
+  fillSelect(els.areaSel, areas, filters.area, t('f.allAreas'), (v) => trText(missions.find((m) => m.area === v), 'area', v));
 }
 
 function syncControls() {
@@ -537,36 +879,83 @@ els.charSel.addEventListener('change', () => {
 function dataSummary() {
   const when = lastLoad.updatedAt ? fmtDate(lastLoad.updatedAt) : '';
   if (loadError && !missions.length) return t('e.failed', { err: loadError });
+  if (dataWarning) return `${t('d.invalid')}${when ? ` (${when})` : ''}`;
+  if (lastLoad.source === 'fallback') return t('d.fallback');
   if (lastLoad.source === 'cache') return when ? t('d.offlineDate', { date: when }) : t('d.offline');
   if (lastLoad.source === 'empty') return t('d.empty');
+  if (lastLoad.source === 'online') return when ? `${t('d.online')} · ${t('d.updated', { date: when })}` : t('d.online');
   return when ? t('d.updated', { date: when }) : '';
 }
 
-async function loadData() {
+function updateDataStatus() {
+  const text = dataSummary();
+  els.status.textContent = text;
+  if (els.retry) {
+    els.retry.hidden = !(loadError || dataWarning || lastLoad.source === 'cache' || lastLoad.source === 'fallback');
+    els.retry.textContent = t('d.retry');
+  }
+  if (settingsRefs.data) settingsRefs.data.textContent = text || t('s.noData');
+}
+
+function applyValidatedData(d) {
+  lastSig = JSON.stringify(d);
+  meta = d;
+  missions = d.missions;
+  worldBosses = d.worldBosses;
+  events = d.events;
+  crafting = d.crafting;
+  mystery = d.mystery;
+  renderFilters();
+}
+
+async function loadData(opts = {}) {
+  if (loadingData) return;
+  loadingData = true;
   els.refresh.disabled = true;
   els.refresh.classList.add('busy');
-  const res = await window.desktop.loadMissions();
-  els.refresh.disabled = false;
-  els.refresh.classList.remove('busy');
-  loaded = true;
-
-  if (!res.ok) {
-    loadError = res.error;
-  } else {
-    loadError = '';
-    lastLoad = { source: res.source, updatedAt: res.data.updatedAt || '' };
-    const sig = JSON.stringify(res.data);
-    if (sig !== lastSig) {
-      lastSig = sig;
-      meta = res.data;
-      missions = Array.isArray(res.data.missions) ? res.data.missions : [];
-      renderFilters();
+  if (els.retry) els.retry.textContent = t('d.retrying');
+  dataWarning = '';
+  const useFallback = (err) => {
+    const checked = window.MIR4_FALLBACK_DATA ? validateData(window.MIR4_FALLBACK_DATA) : null;
+    if (checked && checked.ok) {
+      applyValidatedData(checked.data);
+      loadError = '';
+      dataWarning = '';
+      lastLoad = { source: 'fallback', updatedAt: checked.data.updatedAt || '' };
+    } else loadError = err || 'Could not load mission data';
+  };
+  try {
+    const res = await window.desktop.loadMissions({ force: !!opts.force });
+    loaded = true;
+    if (!res || !res.ok) {
+      if (!missions.length) useFallback(res && res.error);
+      else {
+        loadError = (res && res.error) || 'Could not load mission data';
+        lastLoad = { source: 'cache', updatedAt: lastLoad.updatedAt };
+      }
+    } else {
+      const checked = validateData(res.data);
+      if (!checked.ok) {
+        if (!missions.length) useFallback(checked.errors.join('; '));
+        else { loadError = checked.errors.join('; '); dataWarning = t('d.invalid'); }
+      } else {
+        loadError = '';
+        dataWarning = checked.warnings ? t('d.invalid') : '';
+        lastLoad = { source: res.source, updatedAt: checked.data.updatedAt || '' };
+        if (!res.unchanged && lastSig !== JSON.stringify(checked.data)) applyValidatedData(checked.data);
+      }
     }
+  } catch (err) {
+    loadError = err && err.message ? err.message : 'Could not load mission data';
+  } finally {
+    loadingData = false;
+    els.refresh.disabled = false;
+    els.refresh.classList.remove('busy');
   }
   render();
+  renderContent();
   renderHome();
-  els.status.textContent = dataSummary();
-  if (settingsRefs.data) settingsRefs.data.textContent = dataSummary() || t('s.noData');
+  updateDataStatus();
 }
 
 /* ---------- Theme, navigation, sidebar ---------- */
@@ -621,12 +1010,33 @@ function playChime() {
   } catch {}
 }
 
+/* In-app fallback used when desktop/browser notifications are unavailable or blocked. */
+let appToastTimer = null;
+function appToast(title, body) {
+  const el = $('#app-toast');
+  if (!el) return;
+  el.replaceChildren(h('strong', {}, title), body ? h('span', {}, body) : null);
+  el.hidden = false;
+  clearTimeout(appToastTimer);
+  appToastTimer = setTimeout(() => { el.hidden = true; }, 7000);
+}
+
 function fireReminder(kind, items) {
   const n = items.length;
   const first = items[0].m;
-  const title = t(`n.${kind}${n === 1 ? '1' : 'N'}`, { name: first.name, count: n, n: REMIND_MIN });
-  const body = n === 1 ? [first.map, first.area, first.location].join(', ') : items.map((i) => i.m.name).join(', ');
-  if (prefs.notify) window.desktop.notify({ title, body, kind });
+  const name = trText(first, 'name', first.name);
+  const title = t(`n.${kind}${n === 1 ? '1' : 'N'}`, { name, count: n, n: REMIND_MIN });
+  const body = n === 1
+    ? [trText(first, 'map', first.map), trText(first, 'area', first.area), trText(first, 'location', first.location)].join(', ')
+    : items.map((i) => trText(i.m, 'name', i.m.name)).join(', ');
+  if (prefs.notify) {
+    const status = window.desktop.notifyStatus ? window.desktop.notifyStatus() : 'granted';
+    if (status === 'granted') {
+      Promise.resolve(window.desktop.notify({ title, body, kind }))
+        .then((res) => { if (!res || !res.ok) appToast(title, body); })
+        .catch(() => appToast(title, body));
+    } else appToast(title, body); // permission denied / not requested: never prompt from a background timer
+  }
   if (prefs.sound) playChime();
 }
 
@@ -645,6 +1055,7 @@ function checkReminders() {
 
   const off = zoneOffset();
   const favs = profile().favorites;
+  const profileKey = state.activeId || 'default';
   const groups = { before: [], at: [], after: [] };
   for (const m of missions) {
     if (!isSpawn(m) || isComplete(m)) continue;
@@ -656,8 +1067,36 @@ function checkReminders() {
       }
     }
   }
-  for (const kind of ['before', 'at', 'after']) if (groups[kind].length) fireReminder(kind, groups[kind]);
+  let changed = false;
+  for (const kind of ['before', 'at', 'after']) {
+    const fresh = groups[kind].filter((item) => {
+      const key = `${profileKey}|${item.m.id}|${item.spawnAt}|${kind}`;
+      if (fired[key]) return false;
+      fired[key] = now;
+      changed = true;
+      return true;
+    });
+    if (fresh.length) fireReminder(kind, fresh);
+  }
+  if (changed) {
+    // Keep at most a week of history so the key does not grow forever.
+    const cutoff = now - 7 * DAY;
+    for (const key of Object.keys(fired)) if (fired[key] < cutoff) delete fired[key];
+    const keys = Object.keys(fired);
+    if (keys.length > 1000) for (const key of keys.slice(0, keys.length - 1000)) delete fired[key];
+    writeJson(FIRED_KEY, fired);
+  }
 }
+
+// Background tabs throttle timers; recalculate when the window becomes active again.
+function resyncBackground() {
+  if (document.hidden) return;
+  lastReminderTick = Date.now() - 90000;
+  checkReminders();
+  tick();
+}
+document.addEventListener('visibilitychange', resyncBackground);
+window.addEventListener('focus', resyncBackground);
 
 /* ---------- Settings view ---------- */
 function row(title, hint, control) {
@@ -672,7 +1111,7 @@ function switchEl(label, key) {
     prefs[key] = input.checked;
     if (key === 'notify' && input.checked && window.desktop.requestNotify) {
       const ok = await window.desktop.requestNotify();   // browsers ask for permission here
-      if (!ok) { prefs.notify = false; input.checked = false; settingsRefs.notifyMsg.textContent = t('s.testNA'); }
+      if (!ok) { prefs.notify = false; input.checked = false; settingsRefs.notifyMsg.textContent = t('s.notifyDenied'); }
     }
     savePrefs();
   });
@@ -692,6 +1131,11 @@ function fillResetOptions() {
 }
 
 async function testNotification() {
+  const status = window.desktop.notifyStatus ? window.desktop.notifyStatus() : 'granted';
+  if (status === 'denied') {
+    settingsRefs.notifyMsg.textContent = t('s.notifyDenied');
+    return;
+  }
   const res = await window.desktop.notify({ title: t('n.testTitle'), body: t('n.testBody'), kind: 'test' });
   settingsRefs.notifyMsg.textContent = res && res.ok ? t('s.testSent') : t('s.testNA');
 }
@@ -741,6 +1185,10 @@ function buildSettings() {
   bindSeg(scopeSeg, (v) => { prefs.remindScope = v; savePrefs(); });
 
   settingsRefs.notifyMsg = h('span', { class: 'sub', role: 'status' });
+  const notifyStatus = window.desktop.notifyStatus ? window.desktop.notifyStatus() : 'granted';
+  if (notifyStatus !== 'granted' && notifyStatus !== 'unsupported') {
+    settingsRefs.notifyMsg.textContent = t('s.notifyDenied');
+  }
   const testNote = h('button', { type: 'button', class: 'btn small', onclick: testNotification }, t('s.sendTest'));
   const testSound = h('button', { type: 'button', class: 'btn small', onclick: playChime }, t('s.playSound'));
 
@@ -818,9 +1266,10 @@ function applyLanguage() {
   renderCharacters();
   buildSettings();
   render();
+  renderContent();
   renderHome();
   pushLabels();
-  els.status.textContent = dataSummary();
+  updateDataStatus();
   if (lastUpdate) showUpdate(lastUpdate);
 }
 i18n.onChange(applyLanguage);
@@ -838,8 +1287,11 @@ els.search.addEventListener('input', () => { filters.q = els.search.value; rende
 els.favOnly.addEventListener('click', () => { filters.favOnly = !filters.favOnly; syncControls(); render(); });
 els.hideDone.addEventListener('click', () => { filters.hideDone = !filters.hideDone; syncControls(); render(); });
 els.clear.addEventListener('click', clearFilters);
-els.refresh.addEventListener('click', loadData);
+els.refresh.addEventListener('click', () => loadData({ force: true }));
+if (els.retry) els.retry.addEventListener('click', () => loadData({ force: true }));
 $('#home-open').addEventListener('click', () => showView('missions'));
+if ($('#app-toast')) $('#app-toast').addEventListener('click', () => { $('#app-toast').hidden = true; });
+$$('[data-goto]').forEach((b) => b.addEventListener('click', () => showView(b.dataset.goto)));
 
 document.addEventListener('keydown', (e) => {
   const typing = /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName);
@@ -888,6 +1340,7 @@ renderCharSelect();
 renderCharacters();
 buildSettings();
 render();
+renderContent();
 renderHome();
 pushLabels();
 loadData();

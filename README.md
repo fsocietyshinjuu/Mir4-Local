@@ -34,13 +34,16 @@
 | 🟠🟢 **Spawning and spawned highlights** | Bosses about to spawn glow orange, bosses that just spawned glow green. |
 | 🔔 **Top-right toast pop-ups** | A small card in the corner of your screen, never stealing focus from the game. |
 | 🔊 **Sound reminders** | A short chime 5 minutes before, at, and 5 minutes after a spawn. |
-| 🏠 **Home dashboard** | What is spawning soon, what is live, and your daily, weekly and monthly progress at a glance. |
+| 🏠 **Home dashboard** | What is spawning soon, what is live, upcoming world bosses and events, and your daily, weekly and monthly progress at a glance. |
+| 🐉 **World Boss, Events, Crafting and Mystery** | Dedicated tabs for boss schedules, event areas, summon badges and mystery scrolls with tutorial links. |
 | 🧑‍🤝‍🧑 **A list per character** | Separate favorites and progress for every character, with IGN, class, server, alliance and clan. |
 | 🎲 **Random and respawn bosses** | Bosses without fixed times are labelled "Random spawn" or "Respawns after kill". |
-| 🌍 **12 languages** | The languages MIR4 supports. |
+| 🌍 **12 languages** | The languages MIR4 supports, including published boss, mission, map, area and location names. |
 | 🌗 **Light and dark** | Follows your system or your choice. |
 | 🪟 **Tray mode** | Close the window and keep reminders running from the system tray. |
-| 🔄 **Always current** | Mission data updates online and the desktop app updates itself. |
+| 🔄 **Always current** | Mission data refreshes online with ETag checks and retries, then falls back to cached or bundled data when offline. |
+| 🛟 **Safer reminders** | Reminders are deduplicated across restarts and recalculate when you return to the tab. |
+| 🧪 **Validated data** | Bad published records are skipped or repaired instead of breaking a whole tab. |
 
 <details>
 <summary><b>🖼️ More screenshots</b></summary>
@@ -109,13 +112,46 @@ The admin app is a private tool that edits `data/missions.json` in this reposito
       "cycle": "Weekly",             // "Daily", "Weekly" or "Monthly" (when your checkbox resets)
       "spawnMode": "scheduled",      // "scheduled" (default), "random" or "respawn"
       "spawnTimes": ["00:00", "02:00", "04:00"],   // scheduled only, repeats every day
-      "respawnMinutes": 150          // respawn only, optional
+      "respawnMinutes": 150,         // respawn only, optional
+      "i18n": {                      // optional per-language text, keyed by field
+        "name": { "ko": "마타" },
+        "map": { "ko": "미라지 쉽" },
+        "area": { "ko": "3층" },
+        "location": { "ko": "불얼굴 숲" }
+      }
     }
+  ],
+  "worldBosses": [
+    {
+      "id": "wb1", "name": "Bullface Fiend King", "map": "Mirage Ship",
+      "area": "Layer 3", "location": "Sanctuary",
+      "schedule": [{ "days": ["*"], "times": ["11:00", "17:00", "23:00"] }],
+      "i18n": { "name": { "ko": "불얼굴 마왕" } }
+    }
+  ],
+  "events": [
+    {
+      "id": "ev1", "name": "Magic Square", "map": "Mirage Ship",
+      "areas": [
+        { "map": "Mirage Ship", "area": "Fissure", "location": "Magic Square",
+          "schedule": [{ "days": ["*"], "times": ["00:00", "03:00"] }] }
+      ]
+    }
+  ],
+  "crafting": [
+    { "id": "cr1", "boss": "Mata", "badge": "Mata Badge",
+      "badgeImage": "https://raw.githubusercontent.com/fsocietyshinjuu/Mir4-Local/main/data/assets/badges/cr1.webp",
+      "npc": "Blacksmith", "npcLocation": "Layer 1", "summonLocation": "Bullface Forest" }
+  ],
+  "mystery": [
+    { "id": "my1", "name": "Ancient Mystery", "scrolls": ["Scroll of Fire"], "tutorial": "https://…" }
   ]
 }
 ```
 
-Missions saved before `spawnMode` existed keep working: they are treated as `scheduled`.
+`days` are `0`–`6` (Sunday–Saturday) or `"*"` for every day; `24:00` means midnight at the end of that day. Events can have several areas and schedules. Missions saved before `spawnMode` existed keep working: they are treated as `scheduled`.
+
+Badge images are uploaded in the **Admin app → Crafting** drawer, never pasted as URLs. The admin resizes each image to at most 256×256 WebP, publishes it to `data/assets/badges/`, and stores the returned URL in `badgeImage`. Replacing or removing an image deletes the old asset. The Publish tab previews changes, validates the data and keeps the last 10 published versions available for one-click rollback.
 
 </details>
 
@@ -127,7 +163,7 @@ Missions saved before `spawnMode` existed keep working: they are treated as `sch
 
 English · 한국어 · 日本語 · 简体中文 · 繁體中文 · ไทย · Bahasa Indonesia · Tiếng Việt · Deutsch · Español · Português · Русский
 
-Pick yours in **Settings → Language**. The first launch follows your system language. Boss and area names come from the published data and are not translated.
+Pick yours in **Settings → Language**. The first launch follows your system language. Boss, mission, map, area and location names come from the published data and are translated into all 12 languages when translations are available.
 
 </details>
 

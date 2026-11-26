@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self'; connect-src 'self' https://raw.githubusercontent.com" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data: https:; connect-src 'self' https://raw.githubusercontent.com" />
   <title>Mir4Local</title>
   <link rel="icon" href="assets/icon.png" />
   <link rel="stylesheet" href="style.css" />
@@ -12,7 +12,7 @@
 <body>
   <div class="app" id="app">
     <aside class="side">
-      <div class="brand"><img class="logo" src="assets/icon.png" alt="" /><span class="label"><span class="brand-name">Mir4Local</span></span></div>
+      <div class="brand"><img class="logo" src="assets/icon.png" alt="" /><span class="label"><span class="brand-name">Mir4Local</span><span class="ver" id="version"></span></span></div>
       <nav aria-label="Main">
         <div class="nav-label" data-i18n="nav.overview"></div>
         <button type="button" class="nav-item" data-view="home" aria-current="page" data-i18n-attr="title:nav.home">
@@ -21,6 +21,18 @@
         <div class="nav-label" data-i18n="nav.content"></div>
         <button type="button" class="nav-item" data-view="missions" aria-current="false" data-i18n-attr="title:nav.tracker">
           <i data-icon="check"></i><span class="label" data-i18n="nav.tracker"></span>
+        </button>
+        <button type="button" class="nav-item" data-view="worldboss" aria-current="false" data-i18n-attr="title:nav.worldBoss">
+          <i data-icon="target"></i><span class="label" data-i18n="nav.worldBoss"></span>
+        </button>
+        <button type="button" class="nav-item" data-view="events" aria-current="false" data-i18n-attr="title:nav.events">
+          <i data-icon="calendar"></i><span class="label" data-i18n="nav.events"></span>
+        </button>
+        <button type="button" class="nav-item" data-view="crafting" aria-current="false" data-i18n-attr="title:nav.crafting">
+          <i data-icon="wrench"></i><span class="label" data-i18n="nav.crafting"></span>
+        </button>
+        <button type="button" class="nav-item" data-view="mystery" aria-current="false" data-i18n-attr="title:nav.mystery">
+          <i data-icon="help"></i><span class="label" data-i18n="nav.mystery"></span>
         </button>
         <div class="nav-label" data-i18n="nav.account"></div>
         <button type="button" class="nav-item" data-view="characters" aria-current="false" data-i18n-attr="title:nav.characters">
@@ -41,7 +53,7 @@
         <button type="button" class="nav-item" id="collapse-btn">
           <i data-icon="collapse"></i><span class="label" data-i18n="nav.collapse"></span>
         </button>
-        <span class="ver" id="version"></span>
+        
       </div>
     </aside>
 
@@ -74,10 +86,26 @@
             <div class="panel-head"><h3 data-i18n="h.next"></h3><span class="sub" id="next-scope"></span></div>
             <div id="next-list"></div>
             <div class="empty" id="next-empty" hidden><p data-i18n="h.empty"></p></div>
+            <div class="celebrate" id="next-done" hidden>
+              <div class="celebrate-title" id="done-title"></div>
+              <div class="sub" id="done-sub"></div>
+            </div>
             <div class="panel-foot"><button type="button" class="btn" id="home-open" data-i18n="h.viewAll"></button></div>
           </section>
           <aside class="panel" id="char-card"></aside>
         </div>
+
+        <section class="panel home-extra">
+          <div class="panel-head"><h3 data-i18n="h.upcoming"></h3><span class="sub" data-i18n="h.upcomingSub"></span></div>
+          <div id="upcoming-list"></div>
+          <div class="empty" id="upcoming-empty" hidden><p data-i18n="h.emptyUpcoming"></p></div>
+          <div class="panel-foot quick-links">
+            <button type="button" class="btn small" data-goto="worldboss"><i data-icon="target"></i><span data-i18n="nav.worldBoss"></span></button>
+            <button type="button" class="btn small" data-goto="events"><i data-icon="calendar"></i><span data-i18n="nav.events"></span></button>
+            <button type="button" class="btn small" data-goto="crafting"><i data-icon="wrench"></i><span data-i18n="nav.crafting"></span></button>
+            <button type="button" class="btn small" data-goto="mystery"><i data-icon="help"></i><span data-i18n="nav.mystery"></span></button>
+          </div>
+        </section>
       </main>
 
       <main class="view" id="view-missions" hidden>
@@ -120,6 +148,7 @@
             <span class="progress-pct" id="progress-pct"></span>
           </div>
           <p class="sub" id="data-status" role="status"></p>
+          <button type="button" class="btn small" id="data-retry" hidden></button>
         </div>
 
         <div class="panel">
@@ -141,6 +170,58 @@
             <p id="empty-text"></p>
             <button type="button" class="btn" id="empty-btn"></button>
           </div>
+        </div>
+      </main>
+
+      <main class="view content-view" id="view-worldboss" hidden>
+        <div class="view-head"><div><h2 data-i18n="wb.title"></h2><div class="sub" data-i18n="wb.sub"></div></div></div>
+        <div class="panel">
+          <div class="scroll">
+            <table>
+              <thead><tr><th data-i18n="th.boss"></th><th data-i18n="f.map"></th><th data-i18n="th.location"></th><th data-i18n="th.schedule"></th><th data-i18n="th.next"></th></tr></thead>
+              <tbody id="wb-rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="wb-empty" hidden><p data-i18n="wb.empty"></p></div>
+        </div>
+      </main>
+
+      <main class="view content-view" id="view-events" hidden>
+        <div class="view-head"><div><h2 data-i18n="ev.title"></h2><div class="sub" data-i18n="ev.sub"></div></div></div>
+        <div class="panel">
+          <div class="scroll">
+            <table>
+              <thead><tr><th data-i18n="th.event"></th><th data-i18n="f.map"></th><th data-i18n="th.location"></th><th data-i18n="th.schedule"></th><th data-i18n="th.next"></th></tr></thead>
+              <tbody id="ev-rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="ev-empty" hidden><p data-i18n="ev.empty"></p></div>
+        </div>
+      </main>
+
+      <main class="view content-view" id="view-crafting" hidden>
+        <div class="view-head"><div><h2 data-i18n="cr.title"></h2><div class="sub" data-i18n="cr.sub"></div></div></div>
+        <div class="panel">
+          <div class="scroll">
+            <table>
+              <thead><tr><th data-i18n="th.boss"></th><th data-i18n="th.badge"></th><th data-i18n="th.image"></th><th data-i18n="th.npc"></th><th data-i18n="th.summon"></th></tr></thead>
+              <tbody id="cr-rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="cr-empty" hidden><p data-i18n="cr.empty"></p></div>
+        </div>
+      </main>
+
+      <main class="view content-view" id="view-mystery" hidden>
+        <div class="view-head"><div><h2 data-i18n="my.title"></h2><div class="sub" data-i18n="my.sub"></div></div></div>
+        <div class="panel">
+          <div class="scroll">
+            <table>
+              <thead><tr><th data-i18n="th.event"></th><th data-i18n="th.scrolls"></th><th data-i18n="th.tutorial"></th></tr></thead>
+              <tbody id="my-rows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="my-empty" hidden><p data-i18n="my.empty"></p></div>
         </div>
       </main>
 
@@ -201,8 +282,11 @@
     </form>
   </dialog>
 
+  <div id="app-toast" class="app-toast" role="status" aria-live="polite" hidden></div>
+
   <script src="icons.js"></script>
   <script src="i18n.js"></script>
+  <script src="fallback-data.js"></script>
   <script src="platform.js"></script>
   <script src="app.js"></script>
 </body>

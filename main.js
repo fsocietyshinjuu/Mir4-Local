@@ -182,24 +182,40 @@ ipcMain.on('toast:close', (e) => { const t = toastFor(e); if (t) closeToast(t); 
 
 /* ---------- Content data (fetched from GitHub, cached for offline use) ---------- */
 const cacheFile = () => path.join(app.getPath('userData'), 'missions-cache.json');
+let cachedEtag = '';
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-ipcMain.handle('missions:load', async () => {
-  try {
-    // The timestamp keeps GitHub's CDN from handing back an old copy.
-    const res = await fetch(`${MISSIONS_URL}?t=${Date.now()}`, { signal: AbortSignal.timeout(10000), cache: 'no-store' });
-    if (res.status === 404) return { ok: true, source: 'empty', data: { missions: [] } };
-    if (!res.ok) throw new Error(`Server replied ${res.status}`);
-    const data = await res.json();
-    try { fs.writeFileSync(cacheFile(), JSON.stringify(data)); } catch {}
-    return { ok: true, source: 'online', data };
-  } catch (err) {
+ipcMain.handle('missions:load', async (_e, opts = {}) => {
+  const force = !!opts.force;
+  const headers = force || !cachedEtag || !fs.existsSync(cacheFile()) ? {} : { 'If-None-Match': cachedEtag };
+  let lastErr = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const data = JSON.parse(fs.readFileSync(cacheFile(), 'utf8'));
-      return { ok: true, source: 'cache', data, error: err.message };
-    } catch {
-      return { ok: false, error: err.message };
+      // The timestamp keeps GitHub's CDN from handing back an old copy; ETag avoids re-downloading unchanged data.
+      const res = await fetch(`${MISSIONS_URL}?t=${Date.now()}`, { headers, signal: AbortSignal.timeout(10000), cache: 'no-store' });
+      if (res.status === 304) {
+        const data = JSON.parse(fs.readFileSync(cacheFile(), 'utf8'));
+        return { ok: true, source: 'online', unchanged: true, data };
+      }
+      if (res.status === 404) return { ok: true, source: 'empty', data: { missions: [] } };
+      if (!res.ok) throw new Error(`Server replied ${res.status}`);
+      const data = await res.json();
+      try {
+        fs.writeFileSync(cacheFile(), JSON.stringify(data));
+        const etag = res.headers.get('etag');
+        if (etag) cachedEtag = etag;
+      } catch {}
+      return { ok: true, source: 'online', data };
+    } catch (err) {
+      lastErr = err;
+      if (attempt < 2) await wait(300 * (attempt + 1));
     }
   }
+  try {
+    const data = JSON.parse(fs.readFileSync(cacheFile(), 'utf8'));
+    return { ok: true, source: 'cache', data, error: lastErr && lastErr.message };
+  } catch {}
+  return { ok: false, error: (lastErr && lastErr.message) || 'Could not load mission data' };
 });
 
 /* ---------- App auto-update ---------- */
