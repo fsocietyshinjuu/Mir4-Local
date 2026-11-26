@@ -13,6 +13,7 @@ All notable changes to Mir4Local. The newest version is first.
 - Public app now validates published data, retries with ETag checks, falls back to cached/bundled data and shows its load status.
 - Reminders are deduplicated across restarts, resync when a tab becomes active and fall back to an in-app toast when notifications are blocked.
 - Fixed `24:00` spawn countdowns landing on the previous day.
+- Fixed GitHub Pages deployment by granting artifact-read permission and naming the Pages artifact explicitly.
 
 ## 1.0.0
 
