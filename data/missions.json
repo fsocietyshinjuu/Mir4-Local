@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-26T18:20:47.232Z",
+  "updatedAt": "2026-11-26T18:28:24.701Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -2781,6 +2781,47 @@
           ],
           "times": [
             "00:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxvt43t0wbcw2",
+      "name": "Juja Neoul",
+      "map": "Domination Server",
+      "area": "Domination",
+      "location": "Tower of Black Dragon",
+      "schedule": [
+        {
+          "days": [
+            "*"
+          ],
+          "times": [
+            "11:00",
+            "17:00",
+            "23:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxvv949ice1rc",
+      "name": "Attack of the Living Wraiths",
+      "map": "Domination Server",
+      "area": "Domination",
+      "location": "Tower of Black Dragon",
+      "schedule": [
+        {
+          "days": [
+            "*"
+          ],
+          "times": [
+            "00:00",
+            "10:00",
+            "12:00",
+            "16:00",
+            "18:00",
+            "22:00"
           ]
         }
       ]
