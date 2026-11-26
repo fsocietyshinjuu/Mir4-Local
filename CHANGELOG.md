@@ -2,7 +2,7 @@
 
 All notable changes to Mir4Local. The newest version is first.
 
-## 1.4.0
+## 1.1.0
 
 ### Added
 
