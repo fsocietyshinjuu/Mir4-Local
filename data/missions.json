@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-26T13:38:46.250Z",
+  "updatedAt": "2026-11-26T13:48:18.378Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -2686,13 +2686,81 @@
     {
       "id": "mwxlllww912vt9",
       "name": "Krukan",
-      "map": "Continent",
-      "area": "Bicheon Area",
+      "map": "Bicheon ",
+      "area": "Bicheon Valley",
       "location": "Shackling Abaddon",
       "schedule": [
         {
           "days": [
             1
+          ],
+          "times": [
+            "23:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxluhlpwk62y6",
+      "name": "Nerkan",
+      "map": "Spiritual Center",
+      "area": "Redmoon Valley",
+      "location": "Black Flame Abaddon",
+      "schedule": [
+        {
+          "days": [
+            2
+          ],
+          "times": [
+            "23:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxlwsv1lt7dcy",
+      "name": "Helbar",
+      "map": "Spiritual Center",
+      "area": "Redmoon Purgatory",
+      "location": "Redmoon Purgatory 7F",
+      "schedule": [
+        {
+          "days": [
+            3
+          ],
+          "times": [
+            "23:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxlxk79ugshj6",
+      "name": "Turkan",
+      "map": "Phantasia",
+      "area": "Phantasia Valley",
+      "location": "Violet Abaddon",
+      "schedule": [
+        {
+          "days": [
+            4
+          ],
+          "times": [
+            "23:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxly6259ai3am",
+      "name": "Utukan",
+      "map": "Snake Pit",
+      "area": "Snake Valley",
+      "location": "Crimson Abaddon",
+      "schedule": [
+        {
+          "days": [
+            5
           ],
           "times": [
             "23:00"
