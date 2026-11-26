@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-26T13:48:18.378Z",
+  "updatedAt": "2026-11-26T13:51:30.839Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -2764,6 +2764,23 @@
           ],
           "times": [
             "23:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxm1hx9c24o25",
+      "name": "Ragnos",
+      "map": "Snake Pit",
+      "area": "Sanctuary of Hydra",
+      "location": "Hydra's Depths 5F",
+      "schedule": [
+        {
+          "days": [
+            "*"
+          ],
+          "times": [
+            "00:00"
           ]
         }
       ]
