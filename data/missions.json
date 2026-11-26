@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T08:42:39.271Z",
+  "updatedAt": "2026-11-26T16:17:42.338Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
     {
-      "id": "mwcle047hzdmo1",
+      "id": "mwi7r89b4cum4h",
       "name": "Mata",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -26,6 +26,7 @@
         "20:00",
         "22:00"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "마타",
@@ -82,7 +83,7 @@
       }
     },
     {
-      "id": "mwd41jkwm9iz9c",
+      "id": "mwi7rmz3c0qq2o",
       "name": "Boltox",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -103,6 +104,7 @@
         "21:00",
         "23:00"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "볼톡스",
@@ -159,7 +161,7 @@
       }
     },
     {
-      "id": "mwd42ndjrdj0un",
+      "id": "mwi7snk7xtgnw0",
       "name": "Bullface Fiend King",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -176,6 +178,7 @@
         "18:00",
         "21:00"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "불페이스 핀드 킹",
@@ -232,7 +235,72 @@
       }
     },
     {
-      "id": "mwd49acnd8r2uj",
+      "id": "mwi7t7yiyytmjw",
+      "name": "Karark",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "World of Void",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [],
+      "spawnMode": "random",
+      "i18n": {
+        "name": {
+          "ko": "카라크",
+          "ja": "カラク",
+          "zh-CN": "卡拉克",
+          "zh-TW": "卡拉克",
+          "th": "คาราค",
+          "id": "Karark",
+          "vi": "Karark",
+          "de": "Karark",
+          "es": "Karark",
+          "pt": "Karark",
+          "ru": "Карарк"
+        },
+        "map": {
+          "ko": "신기루의 배",
+          "ja": "ミラージュシップ",
+          "zh-CN": "幻影船",
+          "zh-TW": "幻影船",
+          "th": "เรือมิราจ",
+          "id": "Kapal Fatamorgana",
+          "vi": "Tàu ảo ảnh",
+          "de": "Mirage-Schiff",
+          "es": "Barco espejismo",
+          "pt": "Navio Miragem",
+          "ru": "Корабль-Мираж"
+        },
+        "area": {
+          "ko": "레이어 3",
+          "ja": "レイヤー3",
+          "zh-CN": "第3层",
+          "zh-TW": "第3層",
+          "th": "ชั้นที่ 3",
+          "id": "Lapisan 3",
+          "vi": "Lớp 3",
+          "de": "Schicht 3",
+          "es": "Capa 3",
+          "pt": "Camada 3",
+          "ru": "Слой 3"
+        },
+        "location": {
+          "ko": "공허의 세계",
+          "ja": "虚無の世界",
+          "zh-CN": "虚空世界",
+          "zh-TW": "虛空世界",
+          "th": "โลกแห่งความว่างเปล่า",
+          "id": "Dunia Kekosongan",
+          "vi": "Thế giới hư không",
+          "de": "Welt der Leere",
+          "es": "Mundo del vacío",
+          "pt": "Mundo do Vazio",
+          "ru": "Мир Пустоты"
+        }
+      }
+    },
+    {
+      "id": "mwi7u2y7jdwzsd",
       "name": "Yeo Wihuang",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -247,6 +315,7 @@
         "17:00",
         "21:00"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "여위황",
@@ -303,7 +372,7 @@
       }
     },
     {
-      "id": "mwd5isf6syfnw5",
+      "id": "mwi7uhxj1gmdyw",
       "name": "Taehyul",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -324,6 +393,7 @@
         "21:00",
         "23:00"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "태율",
@@ -380,7 +450,7 @@
       }
     },
     {
-      "id": "mwd5nczummyu7f",
+      "id": "mwi7uvxzm35ulr",
       "name": "Yiun",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -397,6 +467,7 @@
         "20:00",
         "23:00"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "이운",
@@ -453,7 +524,7 @@
       }
     },
     {
-      "id": "mwd5nyltduda2c",
+      "id": "mwi7vftjtsz019",
       "name": "Nefariox Obdurate Zenith",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -474,6 +545,7 @@
         "20:00",
         "22:00"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "네파리옥스 완고한 제니스",
@@ -530,7 +602,7 @@
       }
     },
     {
-      "id": "mwd5onu2hemgwg",
+      "id": "mwi7wagfpwju3y",
       "name": "Kurilaica",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -547,6 +619,7 @@
         "18:00",
         "21:00"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "쿠릴라이차",
@@ -603,7 +676,72 @@
       }
     },
     {
-      "id": "mwd5r3pe563056",
+      "id": "mwi7wxnbmjxjox",
+      "name": "Ma Wonwi",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 2] Seocheon Trading Post",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [],
+      "spawnMode": "random",
+      "i18n": {
+        "name": {
+          "ko": "마원위",
+          "ja": "マ・ウォンウィ",
+          "zh-CN": "马元威",
+          "zh-TW": "馬元威",
+          "th": "มา วอนวี",
+          "id": "Ma Wonwi",
+          "vi": "Ma Wonwi",
+          "de": "Ma Wonwi",
+          "es": "Ma Won Wi",
+          "pt": "Ma Wonwi",
+          "ru": "Ма Вонви"
+        },
+        "map": {
+          "ko": "신기루의 배",
+          "ja": "ミラージュシップ",
+          "zh-CN": "幻影船",
+          "zh-TW": "幻影船",
+          "th": "เรือมิราจ",
+          "id": "Kapal Fatamorgana",
+          "vi": "Tàu ảo ảnh",
+          "de": "Mirage-Schiff",
+          "es": "Barco espejismo",
+          "pt": "Navio Miragem",
+          "ru": "Корабль-Мираж"
+        },
+        "area": {
+          "ko": "레이어 3",
+          "ja": "レイヤー3",
+          "zh-CN": "第3层",
+          "zh-TW": "第3層",
+          "th": "ชั้นที่ 3",
+          "id": "Lapisan 3",
+          "vi": "Lớp 3",
+          "de": "Schicht 3",
+          "es": "Capa 3",
+          "pt": "Camada 3",
+          "ru": "Слой 3"
+        },
+        "location": {
+          "ko": "[월드2] 서천 교역소",
+          "ja": "[ワールド2]舒川貿易所",
+          "zh-CN": "[世界2]舒川贸易站",
+          "zh-TW": "[世界2]舒川貿易站",
+          "th": "[โลก 2] ซอชอนเทรดดิ้งโพสต์",
+          "id": "[Dunia 2] Pos Perdagangan Seocheon",
+          "vi": "[Thế giới 2] Trạm buôn bán Seocheon",
+          "de": "[Welt 2] Seocheon-Handelsposten",
+          "es": "[Mundo 2] Puesto comercial de Seocheon",
+          "pt": "[Mundo 2] Posto Comercial de Seocheon",
+          "ru": "[Мир 2] Торговый пост Сочхон"
+        }
+      }
+    },
+    {
+      "id": "mwi7xe9rabps60",
       "name": "Juhui",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -620,6 +758,7 @@
         "20:30",
         "23:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "주희",
@@ -676,7 +815,72 @@
       }
     },
     {
-      "id": "mwd5ro1udpdzmc",
+      "id": "mwi7xrof03t03h",
+      "name": "Illusory Dream",
+      "map": "Mirage Ship",
+      "area": "Layer 3",
+      "location": "[World 5] Nine Dragon Ice Field",
+      "type": "Spawn",
+      "cycle": "Weekly",
+      "spawnTimes": [],
+      "spawnMode": "random",
+      "i18n": {
+        "name": {
+          "ko": "환상의 꿈",
+          "ja": "幻の夢",
+          "zh-CN": "虚幻的梦",
+          "zh-TW": "虛幻的夢",
+          "th": "ความฝันลวงตา",
+          "id": "Mimpi Ilusi",
+          "vi": "Giấc mơ hư ảo",
+          "de": "Illusionärer Traum",
+          "es": "Sueño ilusorio",
+          "pt": "Sonho Ilusório",
+          "ru": "Иллюзорный сон"
+        },
+        "map": {
+          "ko": "신기루의 배",
+          "ja": "ミラージュシップ",
+          "zh-CN": "幻影船",
+          "zh-TW": "幻影船",
+          "th": "เรือมิราจ",
+          "id": "Kapal Fatamorgana",
+          "vi": "Tàu ảo ảnh",
+          "de": "Mirage-Schiff",
+          "es": "Barco espejismo",
+          "pt": "Navio Miragem",
+          "ru": "Корабль-Мираж"
+        },
+        "area": {
+          "ko": "레이어 3",
+          "ja": "レイヤー3",
+          "zh-CN": "第3层",
+          "zh-TW": "第3層",
+          "th": "ชั้นที่ 3",
+          "id": "Lapisan 3",
+          "vi": "Lớp 3",
+          "de": "Schicht 3",
+          "es": "Capa 3",
+          "pt": "Camada 3",
+          "ru": "Слой 3"
+        },
+        "location": {
+          "ko": "[월드5] 구룡빙원",
+          "ja": "【ワールド5】九竜氷原",
+          "zh-CN": "【世界5】九龙冰原",
+          "zh-TW": "【世界5】九龍冰原",
+          "th": "[โลกที่ 5] ทุ่งน้ำแข็งเก้ามังกร",
+          "id": "[Dunia 5] Ladang Es Sembilan Naga",
+          "vi": "[Thế giới 5] Cánh đồng băng Cửu Long",
+          "de": "[Welt 5] Neun-Drachen-Eisfeld",
+          "es": "[Mundo 5] Campo de hielo de los nueve dragones",
+          "pt": "[Mundo 5] Campo de Gelo dos Nove Dragões",
+          "ru": "[Мир 5] Ледяное поле девяти драконов"
+        }
+      }
+    },
+    {
+      "id": "mwi7ykj3mm30md",
       "name": "Faluk",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -693,6 +897,7 @@
         "18:30",
         "21:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "팔루크",
@@ -749,7 +954,7 @@
       }
     },
     {
-      "id": "mwd5s2sqfu160e",
+      "id": "mwi7ziki7adtrb",
       "name": "Tale Warper Fiend",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -766,6 +971,7 @@
         "19:30",
         "22:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "테일워퍼 마귀",
@@ -822,7 +1028,7 @@
       }
     },
     {
-      "id": "mwd5sdiiwu1b8v",
+      "id": "mwi81jlzueo0ka",
       "name": "Tombbeast Gyo",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -835,6 +1041,7 @@
         "14:30",
         "20:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "툼비스트 교",
@@ -891,7 +1098,7 @@
       }
     },
     {
-      "id": "mwd5soxmjuh0qr",
+      "id": "mwi823njrnf0ci",
       "name": "Dusk Armado Emperor",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -912,6 +1119,7 @@
         "21:30",
         "23:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "황혼 아르마도 황제",
@@ -968,7 +1176,7 @@
       }
     },
     {
-      "id": "mwd5t0waqbs1ja",
+      "id": "mwi82kenlo8g7t",
       "name": "Mara",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -985,6 +1193,7 @@
         "20:30",
         "23:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "마라",
@@ -1041,7 +1250,7 @@
       }
     },
     {
-      "id": "mwd5tbbut7mt4j",
+      "id": "mwi82zzb6fsp15",
       "name": "Boodo",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -1054,6 +1263,7 @@
         "15:30",
         "21:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "부두",
@@ -1110,7 +1320,7 @@
       }
     },
     {
-      "id": "mwd5tnzmr3iot9",
+      "id": "mwi83iq7p4gsqy",
       "name": "Bicheon Sura",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -1123,6 +1333,7 @@
         "16:30",
         "22:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "비천수라",
@@ -1179,7 +1390,7 @@
       }
     },
     {
-      "id": "mwd5u5pmtsr730",
+      "id": "mwi84a9dy5koua",
       "name": "Cheol Mokgang",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -1200,6 +1411,7 @@
         "20:30",
         "22:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "철목강",
@@ -1256,7 +1468,7 @@
       }
     },
     {
-      "id": "mwd5ug4ihafxlx",
+      "id": "mwi84p9btqkm7j",
       "name": "Wuihan",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -1269,6 +1481,7 @@
         "17:30",
         "23:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "우이한",
@@ -1325,7 +1538,7 @@
       }
     },
     {
-      "id": "mwd5uvmqfva4qx",
+      "id": "mwi859bzfrhknn",
       "name": "Obscene Yeticlops",
       "map": "Mirage Ship",
       "area": "Layer 3",
@@ -1338,6 +1551,7 @@
         "12:30",
         "18:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "음란한 예티클롭스",
@@ -1394,7 +1608,7 @@
       }
     },
     {
-      "id": "mwd5vehu4i8qo1",
+      "id": "mwi85xbrzs17jt",
       "name": "Jihwa",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -1411,6 +1625,7 @@
         "20:30",
         "23:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "지화",
@@ -1467,7 +1682,7 @@
       }
     },
     {
-      "id": "mwd5yupe8ih54l",
+      "id": "mwi86kdrrxhi33",
       "name": "Nighteyes Yaksha",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -1480,6 +1695,7 @@
         "15:30",
         "21:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "나이트아이즈 약샤",
@@ -1536,7 +1752,7 @@
       }
     },
     {
-      "id": "mwd5zfveo9jixx",
+      "id": "mwi872vbtkybq3",
       "name": "Black Carapace Dusk Armado",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -1553,6 +1769,7 @@
         "18:30",
         "21:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "검은 껍질 황혼 아르마도",
@@ -1609,7 +1826,7 @@
       }
     },
     {
-      "id": "mwd5zqrerximqz",
+      "id": "mwi87gwpqm3y37",
       "name": "Bulhu",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -1622,6 +1839,7 @@
         "16:30",
         "22:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "불루",
@@ -1678,7 +1896,7 @@
       }
     },
     {
-      "id": "mwd600qysqp2er",
+      "id": "mwi87vgv6rvais",
       "name": "Guemugwang",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -1691,6 +1909,7 @@
         "17:30",
         "23:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "금무광",
@@ -1747,7 +1966,7 @@
       }
     },
     {
-      "id": "mwd60i4y45pwum",
+      "id": "mwi88dlrhedzvj",
       "name": "Do Maeongryong",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -1760,6 +1979,7 @@
         "12:30",
         "18:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "도맹룡",
@@ -1816,7 +2036,7 @@
       }
     },
     {
-      "id": "mwd60yn67el6fl",
+      "id": "mwi88tef1umepd",
       "name": "Molgrash",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -1833,6 +2053,7 @@
         "19:30",
         "22:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "몰그라쉬",
@@ -1889,7 +2110,7 @@
       }
     },
     {
-      "id": "mwd6bz3v46uiv8",
+      "id": "mwi89ddr9tahk6",
       "name": "Wi Gwangryeong",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -1906,6 +2127,7 @@
         "20:30",
         "23:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "위광령",
@@ -1962,7 +2184,7 @@
       }
     },
     {
-      "id": "mwd6c9pvmk3en7",
+      "id": "mwi89ui0mwui6x",
       "name": "Krog",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -1975,6 +2197,7 @@
         "13:30",
         "19:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "크로그",
@@ -2031,7 +2254,7 @@
       }
     },
     {
-      "id": "mwd6ckoreqxhmf",
+      "id": "mwi8a79r5dqff5",
       "name": "Kelis",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -2044,6 +2267,7 @@
         "14:30",
         "20:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "켈리스",
@@ -2100,7 +2324,7 @@
       }
     },
     {
-      "id": "mwd6cwe3so3sui",
+      "id": "mwi8apewtuijwy",
       "name": "Talasa",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -2117,6 +2341,7 @@
         "20:30",
         "23:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "탈라사",
@@ -2173,7 +2398,7 @@
       }
     },
     {
-      "id": "mwd6d60r6g7r0d",
+      "id": "mwi8b1q7cn9lg0",
       "name": "Barkas",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -2186,6 +2411,7 @@
         "15:30",
         "21:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "바르카스",
@@ -2242,7 +2468,7 @@
       }
     },
     {
-      "id": "mwd6dgxnbps48n",
+      "id": "mwi8bdgotivviv",
       "name": "Bargan",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -2255,6 +2481,7 @@
         "16:30",
         "22:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "바르간",
@@ -2311,7 +2538,7 @@
       }
     },
     {
-      "id": "mwd6dxsz8uw5by",
+      "id": "mwi8bvmfdjkq1t",
       "name": "Morg",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -2328,6 +2555,7 @@
         "18:30",
         "21:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "모르그",
@@ -2384,7 +2612,7 @@
       }
     },
     {
-      "id": "mwd6e9e3vhbs4k",
+      "id": "mwi8c8trxjvpw7",
       "name": "Bordo",
       "map": "Mirage Ship",
       "area": "Layer 1",
@@ -2397,6 +2625,7 @@
         "17:30",
         "23:30"
       ],
+      "spawnMode": "scheduled",
       "i18n": {
         "name": {
           "ko": "보르도",
@@ -2451,2377 +2680,112 @@
           "ru": "[Мир 3] Глубины Гидры"
         }
       }
-    },
-    {
-      "id": "mwdabgyye4f3lw",
-      "name": "Celestial Water Dragon Larva",
-      "map": "Field",
-      "area": "Phantasia Area",
-      "location": "Phantasia Desert",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "천공수룡 유충",
-          "ja": "天水竜の幼虫",
-          "zh-CN": "天水龙幼体",
-          "zh-TW": "天水龍幼體",
-          "th": "ตัวอ่อนมังกรน้ำสวรรค์",
-          "id": "Larva Naga Air Surgawi",
-          "vi": "Ấu trùng rồng nước thiên đường",
-          "de": "Himmlische Wasserdrachenlarve",
-          "es": "Larva del Dragón de Agua Celestial",
-          "pt": "Larva do Dragão da Água Celestial",
-          "ru": "Личинка Небесного Водяного Дракона"
-        },
-        "map": {
-          "ko": "필드",
-          "ja": "フィールド",
-          "zh-CN": "领域",
-          "zh-TW": "領域",
-          "th": "สนาม",
-          "id": "Bidang",
-          "vi": "trường",
-          "de": "Feld",
-          "es": "campo",
-          "pt": "Campo",
-          "ru": "Поле"
-        },
-        "area": {
-          "ko": "판타지아 지역",
-          "ja": "ファンタジアエリア",
-          "zh-CN": "幻想区",
-          "zh-TW": "幻想區",
-          "th": "พื้นที่แฟนตาเซีย",
-          "id": "Daerah Fantasia",
-          "vi": "Khu vực Phantasia",
-          "de": "Phantasia-Bereich",
-          "es": "Área de fantasía",
-          "pt": "Área de Fantasia",
-          "ru": "Площадь Фантазии"
-        },
-        "location": {
-          "ko": "판타지아 사막",
-          "ja": "ファンタジア砂漠",
-          "zh-CN": "梦幻沙漠",
-          "zh-TW": "夢幻沙漠",
-          "th": "ทะเลทรายแฟนตาเซีย",
-          "id": "Gurun Fantasia",
-          "vi": "Sa mạc Phantasia",
-          "de": "Phantasia-Wüste",
-          "es": "Desierto de fantasía",
-          "pt": "Deserto Phantasia",
-          "ru": "Пустыня Фантазия"
-        }
-      }
-    },
-    {
-      "id": "mwdaci1ebaydyj",
-      "name": "Viper Queen",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 8] Pakua Stonehall",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "독사 여왕",
-          "ja": "バイパークイーン",
-          "zh-CN": "毒蛇女王",
-          "zh-TW": "毒蛇女王",
-          "th": "ไวเปอร์ควีน",
-          "id": "Ratu ular berbisa",
-          "vi": "Nữ hoàng rắn độc",
-          "de": "Vipernkönigin",
-          "es": "Reina Víbora",
-          "pt": "Rainha Víbora",
-          "ru": "Королева Змеи"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드8] 파쿠아 스톤홀",
-          "ja": "【ワールド8】パクア・ストーンホール",
-          "zh-CN": "【世界8】帕库亚石堂",
-          "zh-TW": "【世界8】帕庫亞石堂",
-          "th": "[โลกที่ 8] ปากัวสโตนฮอลล์",
-          "id": "[Dunia 8] Pakua Stonehall",
-          "vi": "[Thế giới 8] Pakua Stonehall",
-          "de": "[Welt 8] Pakua Stonehall",
-          "es": "[Mundo 8] Pakua Stonehall",
-          "pt": "[Mundo 8] Pakua Stonehall",
-          "ru": "[Мир 8] Пакуа Стоунхолл"
-        }
-      }
-    },
-    {
-      "id": "mwdad9h6lxohas",
-      "name": "Arahan",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 8] Pakua Stonehall",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "아라한",
-          "ja": "アラハン",
-          "zh-CN": "阿罗汉",
-          "zh-TW": "阿羅漢",
-          "th": "พระอรหันต์",
-          "id": "Arahan",
-          "vi": "A-la-hán",
-          "de": "Arahan",
-          "es": "Arahan",
-          "pt": "Arahan",
-          "ru": "Арахан"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드8] 파쿠아 스톤홀",
-          "ja": "【ワールド8】パクア・ストーンホール",
-          "zh-CN": "【世界8】帕库亚石堂",
-          "zh-TW": "【世界8】帕庫亞石堂",
-          "th": "[โลกที่ 8] ปากัวสโตนฮอลล์",
-          "id": "[Dunia 8] Pakua Stonehall",
-          "vi": "[Thế giới 8] Pakua Stonehall",
-          "de": "[Welt 8] Pakua Stonehall",
-          "es": "[Mundo 8] Pakua Stonehall",
-          "pt": "[Mundo 8] Pakua Stonehall",
-          "ru": "[Мир 8] Пакуа Стоунхолл"
-        }
-      }
-    },
-    {
-      "id": "mwdadwv6sb2mr0",
-      "name": "Etherbolt",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 8] Abandoned Mine 3F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "에테르볼트",
-          "ja": "イーサボルト",
-          "zh-CN": "以太螺栓",
-          "zh-TW": "以太螺栓",
-          "th": "อีเทอร์โบลต์",
-          "id": "baut eter",
-          "vi": "Etherbolt",
-          "de": "Etherbolt",
-          "es": "Etherbolt",
-          "pt": "Éterbolt",
-          "ru": "Этерболт"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드8] 폐광 3층",
-          "ja": "【ワールド8】廃坑3F",
-          "zh-CN": "【世界8】废弃矿山3F",
-          "zh-TW": "【世界8】廢棄礦山3F",
-          "th": "[โลกที่ 8] เหมืองร้าง 3F",
-          "id": "[Dunia 8] Tambang 3F yang Terbengkalai",
-          "vi": "[Thế giới 8] Mỏ bỏ hoang 3F",
-          "de": "[Welt 8] Verlassene Mine 3F",
-          "es": "[Mundo 8] Mina abandonada 3F",
-          "pt": "[Mundo 8] Mina Abandonada 3F",
-          "ru": "[Мир 8] Заброшенная шахта, 3 эт."
-        }
-      }
-    },
-    {
-      "id": "mwdae2dm6rbcnn",
-      "name": "Terragod",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 8] Abandoned Mine 3F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "테라고드",
-          "ja": "テラゴッド",
-          "zh-CN": "地神",
-          "zh-TW": "地神",
-          "th": "เทอร์ราก็อด",
-          "id": "Dewa Terra",
-          "vi": "Thổ thần",
-          "de": "Terragott",
-          "es": "Terradios",
-          "pt": "Terradeus",
-          "ru": "Террагод"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드8] 폐광 3층",
-          "ja": "【ワールド8】廃坑3F",
-          "zh-CN": "【世界8】废弃矿山3F",
-          "zh-TW": "【世界8】廢棄礦山3F",
-          "th": "[โลกที่ 8] เหมืองร้าง 3F",
-          "id": "[Dunia 8] Tambang 3F yang Terbengkalai",
-          "vi": "[Thế giới 8] Mỏ bỏ hoang 3F",
-          "de": "[Welt 8] Verlassene Mine 3F",
-          "es": "[Mundo 8] Mina abandonada 3F",
-          "pt": "[Mundo 8] Mina Abandonada 3F",
-          "ru": "[Мир 8] Заброшенная шахта, 3 эт."
-        }
-      }
-    },
-    {
-      "id": "mwdaebjmkcvuxz",
-      "name": "First Elder Crimsonmaur",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 8] Abandoned Mine 3F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "첫 번째 장로 크림슨마우어",
-          "ja": "初代長老クリムゾンマウル",
-          "zh-CN": "红毛长老",
-          "zh-TW": "紅毛長老",
-          "th": "ผู้อาวุโสคนแรก คริมสันมอร์",
-          "id": "Penatua Pertama Crimsonmaur",
-          "vi": "Trưởng lão Crimsonmaur đầu tiên",
-          "de": "Erster Ältester Crimsonmaur",
-          "es": "Primer anciano Crimsonmaur",
-          "pt": "Primeiro Ancião Crimsonmaur",
-          "ru": "Первый старейшина Багрового Маура"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드8] 폐광 3층",
-          "ja": "【ワールド8】廃坑3F",
-          "zh-CN": "【世界8】废弃矿山3F",
-          "zh-TW": "【世界8】廢棄礦山3F",
-          "th": "[โลกที่ 8] เหมืองร้าง 3F",
-          "id": "[Dunia 8] Tambang 3F yang Terbengkalai",
-          "vi": "[Thế giới 8] Mỏ bỏ hoang 3F",
-          "de": "[Welt 8] Verlassene Mine 3F",
-          "es": "[Mundo 8] Mina abandonada 3F",
-          "pt": "[Mundo 8] Mina Abandonada 3F",
-          "ru": "[Мир 8] Заброшенная шахта, 3 эт."
-        }
-      }
-    },
-    {
-      "id": "mwdaemnmim57jx",
-      "name": "Redmoon Ghost Wolf",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 7] Redmoon Gorge 2F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "레드문 유령늑대",
-          "ja": "レッドムーンゴーストウルフ",
-          "zh-CN": "红月幽灵狼",
-          "zh-TW": "紅月幽靈狼",
-          "th": "หมาป่าผีพระจันทร์แดง",
-          "id": "Serigala Hantu Bulan Merah",
-          "vi": "Sói ma Redmoon",
-          "de": "Rotmond-Geisterwolf",
-          "es": "Lobo fantasma de Luna Roja",
-          "pt": "Lobo Fantasma da Lua Vermelha",
-          "ru": "Призрачный волк Красной Луны"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드7] 레드문협곡 2F",
-          "ja": "【ワールド7】レッドムーン峡谷2F",
-          "zh-CN": "【世界7】红月峡谷2F",
-          "zh-TW": "【世界7】紅月峽谷2F",
-          "th": "[เวิลด์ 7] เรดมูนจอร์จ 2F",
-          "id": "[Dunia 7] Ngarai Redmoon 2F",
-          "vi": "[Thế giới 7] Hẻm núi Redmoon 2F",
-          "de": "[Welt 7] Rotmondschlucht 2F",
-          "es": "[Mundo 7] Garganta de la Luna Roja 2F",
-          "pt": "[Mundo 7] Desfiladeiro da Lua Vermelha 2F",
-          "ru": "[Мир 7] Ущелье Красной Луны, 2 эт."
-        }
-      }
-    },
-    {
-      "id": "mwdaewyqrzv672",
-      "name": "Empowered Gorefiend",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 7] Redmoon Gorge 3F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "강화된 고어핀드",
-          "ja": "強化されたゴアフィーンド",
-          "zh-CN": "强化血魔",
-          "zh-TW": "強化血魔",
-          "th": "กอร์ฟีนด์ผู้ทรงพลัง",
-          "id": "Gorefiend yang Diberdayakan",
-          "vi": "Gorefiend được tăng cường sức mạnh",
-          "de": "Mächtiger Blutschatten",
-          "es": "Sanguinario potenciado",
-          "pt": "Demônio Sanguinário Potencializado",
-          "ru": "Усиленный кровожад"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드7] 레드문협곡 3F",
-          "ja": "【ワールド7】レッドムーン峡谷3F",
-          "zh-CN": "【世界7】红月峡谷3F",
-          "zh-TW": "【世界7】紅月峽谷3F",
-          "th": "[เวิลด์ 7] เรดมูนจอร์จ 3F",
-          "id": "[Dunia 7] Ngarai Redmoon 3F",
-          "vi": "[Thế giới 7] Hẻm núi Redmoon 3F",
-          "de": "[Welt 7] Rotmondschlucht 3F",
-          "es": "[Mundo 7] Garganta de la Luna Roja 3F",
-          "pt": "[Mundo 7] Desfiladeiro da Lua Vermelha 3F",
-          "ru": "[Мир 7] Ущелье Красной Луны, 3 эт."
-        }
-      }
-    },
-    {
-      "id": "mwdamfh7wia6nx",
-      "name": "Rotten Judok",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 7] Underground Jail",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "썩은주독",
-          "ja": "腐ったジュドク",
-          "zh-CN": "烂柔道",
-          "zh-TW": "爛柔道",
-          "th": "ยูด็อกเน่า",
-          "id": "Judok busuk",
-          "vi": "Judok thối",
-          "de": "Verdorbener Judok",
-          "es": "Judok podrido",
-          "pt": "Judoque Podre",
-          "ru": "Гнилой дзюдок"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드7] 지하감옥",
-          "ja": "【ワールド7】地下牢獄",
-          "zh-CN": "【世界7】地下监狱",
-          "zh-TW": "【世界7】地下監獄",
-          "th": "[โลกที่ 7] คุกใต้ดิน",
-          "id": "[Dunia 7] Penjara Bawah Tanah",
-          "vi": "[Thế giới 7] Nhà tù ngầm",
-          "de": "[Welt 7] Unterirdisches Gefängnis",
-          "es": "[Mundo 7] Cárcel subterránea",
-          "pt": "[Mundo 7] Prisão Subterrânea",
-          "ru": "[Мир 7] Подземная тюрьма"
-        }
-      }
-    },
-    {
-      "id": "mwdamnu3gmwzx6",
-      "name": "Nefariox Adamant Zenith",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 4] Sabuk Town",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "네파리옥스 아다만트 제니스",
-          "ja": "ネファリオックス アダマント ゼニス",
-          "zh-CN": "Nefariox Adamant Zenith",
-          "zh-TW": "Nefariox Adamant Zenith",
-          "th": "เนฟาริโอกซ์ อดาแมนท์ ซีนิธ",
-          "id": "Nefariox Adamant Zenith",
-          "vi": "Nefariox Adamant Zenith",
-          "de": "Nefariox Adamant Zenith",
-          "es": "Nefariox Adamant Cenit",
-          "pt": "Nefariox Adamant Zênite",
-          "ru": "Нефариокс Адамант Зенит"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드4] 사북타운",
-          "ja": "【ワールド4】サブクタウン",
-          "zh-CN": "[世界4]萨布镇",
-          "zh-TW": "[世界4]薩布鎮",
-          "th": "[โลกที่ 4] เมืองสะบัก",
-          "id": "[Dunia 4] Kota Sabuk",
-          "vi": "[Thế giới 4] Thị trấn Sabuk",
-          "de": "[Welt 4] Stadt Sabuk",
-          "es": "[Mundo 4] Ciudad Sabuk",
-          "pt": "[Mundo 4] Cidade de Sabuk",
-          "ru": "[Мир 4] Город Сабук"
-        }
-      }
-    },
-    {
-      "id": "mwdamypug585y0",
-      "name": "Nefariox Thunderclap Zenith",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 4] Bladehaven 1F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "네파리옥스 썬더클랩 제니스",
-          "ja": "ネファリオックス・サンダークラップ・ゼニス",
-          "zh-CN": "奈法里奥克斯雷霆天顶",
-          "zh-TW": "奈法裡奧克斯雷霆天頂",
-          "th": "เนฟาริโอกซ์ ธันเดอร์แคลป ซีนิธ",
-          "id": "Nefariox Petir Zenith",
-          "vi": "Nefariox Sấm sét Thiên đỉnh",
-          "de": "Nefariox Thunderclap Zenith",
-          "es": "Nefariox Trueno Cenit",
-          "pt": "Nefariox Trovão Zênite",
-          "ru": "Нефариокс Громовой Удар Зенит"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드4] 블레이드헤이븐 1F",
-          "ja": "【ワールド4】ブレイドヘブン1F",
-          "zh-CN": "[世界4]刀锋天堂1F",
-          "zh-TW": "[世界4]刀鋒天堂1F",
-          "th": "[โลก 4] เบลดเฮเว่น 1F",
-          "id": "[Dunia 4] Bladehaven 1F",
-          "vi": "[Thế Giới 4] Bladehaven 1F",
-          "de": "[Welt 4] Bladehaven 1F",
-          "es": "[Mundo 4] Bladehaven 1F",
-          "pt": "[Mundo 4] Bladehaven 1F",
-          "ru": "[Мир 4] Блейдхейвен, 1 этаж"
-        }
-      }
-    },
-    {
-      "id": "mwdan6jurkv5qp",
-      "name": "Nefariox Divine Draconic Zenith",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 4] Bladehaven 2F",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "네파리옥스 디바인 드라코닉 제니스",
-          "ja": "ネファリオックス ディバイン ドラコニック ゼニス",
-          "zh-CN": "奈法里奥克斯神龙巅峰",
-          "zh-TW": "奈法裡奧克斯神龍巔峰",
-          "th": "เนฟาริโอกซ์ เทพมังกร ซีนิธ",
-          "id": "Zenith Drakonik Ilahi Nefariox",
-          "vi": "Thiên đỉnh thần thánh của Nefariox",
-          "de": "Nefariox Göttlicher drakonischer Zenit",
-          "es": "Nefariox Divino Cenit Dracónico",
-          "pt": "Nefariox Divino Zênite Dracônico",
-          "ru": "Нефариокс Божественный Драконий Зенит"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드4] 블레이드헤이븐 2F",
-          "ja": "【ワールド4】ブレイドヘブン2F",
-          "zh-CN": "[世界4]刀锋天堂2F",
-          "zh-TW": "[世界4]刀鋒天堂2F",
-          "th": "[เวิลด์ 4] เบลดเฮเว่น 2F",
-          "id": "[Dunia 4] Bladehaven 2F",
-          "vi": "[Thế Giới 4] Bladehaven 2F",
-          "de": "[Welt 4] Bladehaven 2F",
-          "es": "[Mundo 4] Bladehaven 2F",
-          "pt": "[Mundo 4] Bladehaven 2F",
-          "ru": "[Мир 4] Блейдхейвен, 2 эт."
-        }
-      }
-    },
-    {
-      "id": "mwdane9m2o4ljx",
-      "name": "Dark Blood Monk",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 4] Dark Blood Monk",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "다크 블러드 몽크",
-          "ja": "ダークブラッドモンク",
-          "zh-CN": "暗黑血僧",
-          "zh-TW": "暗黑血僧",
-          "th": "พระเลือดเข้ม",
-          "id": "Biksu Darah Hitam",
-          "vi": "Tu sĩ máu đen",
-          "de": "Dunkler Blutmönch",
-          "es": "Monje de sangre oscura",
-          "pt": "Monge do Sangue Negro",
-          "ru": "Монах Темной Крови"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드4] 암흑혈도사",
-          "ja": "【ワールド4】ダークブラッドモンク",
-          "zh-CN": "【世界4】暗血和尚",
-          "zh-TW": "【世界4】暗血和尚",
-          "th": "[โลกที่ 4] นักบวชเลือดมืด",
-          "id": "[Dunia 4] Biksu Darah Hitam",
-          "vi": "[Thế giới 4] Tu sĩ máu đen",
-          "de": "[Welt 4] Dunkelblutmönch",
-          "es": "[Mundo 4] Monje de sangre oscura",
-          "pt": "[Mundo 4] Monge do Sangue Negro",
-          "ru": "[Мир 4] Монах Темной Крови"
-        }
-      }
-    },
-    {
-      "id": "mwdanm633gebd2",
-      "name": "Jangryang",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 2] Seocheon Trading Post",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "장량",
-          "ja": "長梁",
-          "zh-CN": "长梁",
-          "zh-TW": "長樑",
-          "th": "จังยาง",
-          "id": "Jangryang",
-          "vi": "Jangryang",
-          "de": "Jangryang",
-          "es": "Jangryang",
-          "pt": "Jangryang",
-          "ru": "Джангрянг"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드2] 서천 교역소",
-          "ja": "[ワールド2]舒川貿易所",
-          "zh-CN": "[世界2]舒川贸易站",
-          "zh-TW": "[世界2]舒川貿易站",
-          "th": "[โลก 2] ซอชอนเทรดดิ้งโพสต์",
-          "id": "[Dunia 2] Pos Perdagangan Seocheon",
-          "vi": "[Thế giới 2] Trạm buôn bán Seocheon",
-          "de": "[Welt 2] Seocheon-Handelsposten",
-          "es": "[Mundo 2] Puesto comercial de Seocheon",
-          "pt": "[Mundo 2] Posto Comercial de Seocheon",
-          "ru": "[Мир 2] Торговый пост Сочхон"
-        }
-      }
-    },
-    {
-      "id": "mwdanrz6rag12o",
-      "name": "Jangbo",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 2] Redmoon Mountain",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "장보",
-          "ja": "ジャンボ",
-          "zh-CN": "江博",
-          "zh-TW": "江博",
-          "th": "จังโบ",
-          "id": "Jangbo",
-          "vi": "jangbo",
-          "de": "Jangbo",
-          "es": "Jangbo",
-          "pt": "Jangbo",
-          "ru": "Джангбо"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드2] 레드문 산",
-          "ja": "【ワールド2】レッドムーンマウンテン",
-          "zh-CN": "【世界2】红月山",
-          "zh-TW": "【世界2】紅月山",
-          "th": "[โลกที่ 2] ภูเขาเรดมูน",
-          "id": "[Dunia 2] Gunung Redmoon",
-          "vi": "[Thế giới 2] Núi Redmoon",
-          "de": "[Welt 2] Rotmondberg",
-          "es": "[Mundo 2] Montaña Luna Roja",
-          "pt": "[Mundo 2] Montanha da Lua Vermelha",
-          "ru": "[Мир 2] Гора Красной Луны"
-        }
-      }
-    },
-    {
-      "id": "mwdanz8q1ikcbs",
-      "name": "Baegsan",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 2] Twinway Maze",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "백산",
-          "ja": "白山",
-          "zh-CN": "白山",
-          "zh-TW": "白山",
-          "th": "แบ็กซาน",
-          "id": "Baegsan",
-          "vi": "Baegsan",
-          "de": "Baegsan",
-          "es": "Baegsan",
-          "pt": "Baegsan",
-          "ru": "Пэгсан"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드2] 트윈웨이 미로",
-          "ja": "【ワールド2】ツインウェイ迷路",
-          "zh-CN": "[世界2]双路迷宫",
-          "zh-TW": "[世界2]雙路迷宮",
-          "th": "[โลกที่ 2] Twinway Maze",
-          "id": "[Dunia 2] Labirin Twinway",
-          "vi": "[Thế giới 2] Mê cung đôi",
-          "de": "[Welt 2] Twinway Maze",
-          "es": "[Mundo 2] Laberinto Twinway",
-          "pt": "[Mundo 2] Labirinto Twinway",
-          "ru": "[Мир 2] Двойной лабиринт"
-        }
-      }
-    },
-    {
-      "id": "mwdao60sb6hpdg",
-      "name": "Bullface Fiend King",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 2] Bullface Fiend King",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "불페이스 핀드 킹",
-          "ja": "ブルフェイスフィーンドキング",
-          "zh-CN": "牛脸恶魔王",
-          "zh-TW": "牛臉惡魔王",
-          "th": "ราชาปีศาจหน้าบูลเฟซ",
-          "id": "Raja Iblis Muka Banteng",
-          "vi": "Vua quỷ Bullface",
-          "de": "Bullface Fiend King",
-          "es": "Rey Demonio Bullface",
-          "pt": "Rei Demônio Bullface",
-          "ru": "Король демонов Bullface"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드2] 불페이스 마왕",
-          "ja": "【ワールド2】ブルフェイスフィーンドキング",
-          "zh-CN": "【世界2】牛脸魔王",
-          "zh-TW": "【世界2】牛臉魔王",
-          "th": "[โลกที่ 2] ราชาปีศาจหน้าบูลเฟซ",
-          "id": "[Dunia 2] Raja Iblis Muka Banteng",
-          "vi": "[Thế giới 2] Vua quỷ Bullface",
-          "de": "[Welt 2] Bullface Fiend King",
-          "es": "[Mundo 2] Rey Demonio Bullface",
-          "pt": "[Mundo 2] Rei Demônio Bullface",
-          "ru": "[Мир 2] Король демонов Bullface"
-        }
-      }
-    },
-    {
-      "id": "mwdaoda220e0k9",
-      "name": "Whitemaur Illusion Beast",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 5] Nine Dragon Ice Field",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "Whitemaur 환영 야수",
-          "ja": "ホワイトモール幻獣",
-          "zh-CN": "怀特摩尔幻象兽",
-          "zh-TW": "懷特摩爾幻象獸",
-          "th": "ไวท์มอร์ สัตว์มายา",
-          "id": "Binatang Ilusi Whitemaur",
-          "vi": "Quái vật ảo ảnh Whitemaur",
-          "de": "Weißmauren-Illusionsbestie",
-          "es": "Bestia Ilusión Whitemaur",
-          "pt": "Besta da Ilusão de Whitemaur",
-          "ru": "Иллюзионный зверь Вайтмаура"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드5] 구룡빙원",
-          "ja": "【ワールド5】九竜氷原",
-          "zh-CN": "【世界5】九龙冰原",
-          "zh-TW": "【世界5】九龍冰原",
-          "th": "[โลกที่ 5] ทุ่งน้ำแข็งเก้ามังกร",
-          "id": "[Dunia 5] Ladang Es Sembilan Naga",
-          "vi": "[Thế giới 5] Cánh đồng băng Cửu Long",
-          "de": "[Welt 5] Neun-Drachen-Eisfeld",
-          "es": "[Mundo 5] Campo de hielo de los nueve dragones",
-          "pt": "[Mundo 5] Campo de Gelo dos Nove Dragões",
-          "ru": "[Мир 5] Ледяное поле девяти драконов"
-        }
-      }
-    },
-    {
-      "id": "mwdaomnux2q4si",
-      "name": "Overlord Celestial Fiend",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 5] Illusion Temple",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "대군주 천상의 악마",
-          "ja": "オーバーロード 天魔",
-          "zh-CN": "天魔霸主",
-          "zh-TW": "天魔霸主",
-          "th": "อสูรร้ายแห่งสวรรค์",
-          "id": "Tuan Iblis Surgawi",
-          "vi": "Chúa tể Thiên giới",
-          "de": "Overlord Himmlischer Unhold",
-          "es": "Señor Supremo Demonio Celestial",
-          "pt": "Senhor Supremo Demônio Celestial",
-          "ru": "Повелитель Небесного Дьявола"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드5] 환영사원",
-          "ja": "【ワールド5】幻影神殿",
-          "zh-CN": "【世界5】幻境神殿",
-          "zh-TW": "【世界5】幻境神殿",
-          "th": "[โลกที่ 5] วิหารมายา",
-          "id": "[Dunia 5] Kuil Ilusi",
-          "vi": "[Thế giới 5] Ngôi đền ảo ảnh",
-          "de": "[Welt 5] Illusionstempel",
-          "es": "[Mundo 5] Templo de la ilusión",
-          "pt": "[Mundo 5] Templo da Ilusão",
-          "ru": "[Мир 5] Храм иллюзий"
-        }
-      }
-    },
-    {
-      "id": "mwdaoymj3z802j",
-      "name": "Arisen Nefariox Khan",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 5] Demon's Ruin",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "아리센 네파리옥스 칸",
-          "ja": "アリセン・ネファリオックス・カーン",
-          "zh-CN": "复活的奈法里奥可汗",
-          "zh-TW": "復活的奈法裡奧可汗",
-          "th": "อาริเซน เนฟาริโอกซ์ ข่าน",
-          "id": "Bangkitnya Nefariox Khan",
-          "vi": "Phát sinh Nefariox Khan",
-          "de": "Der auferstandene Nefariox Khan",
-          "es": "Resucitado Nefariox Khan",
-          "pt": "Surgido Nefariox Khan",
-          "ru": "Восставший Нефариокс Хан"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드5] 악마의 파멸",
-          "ja": "【ワールド5】デーモンの遺跡",
-          "zh-CN": "【世界5】恶魔的废墟",
-          "zh-TW": "【世界5】惡魔的廢墟",
-          "th": "[โลกที่ 5] ซากปรักหักพังของปีศาจ",
-          "id": "[Dunia 5] Kehancuran Setan",
-          "vi": "[Thế giới 5] Tàn tích của quỷ",
-          "de": "[Welt 5] Dämonenruine",
-          "es": "[Mundo 5] Ruina del demonio",
-          "pt": "[Mundo 5] Ruína do Demônio",
-          "ru": "[Мир 5] Руины Демона"
-        }
-      }
-    },
-    {
-      "id": "mwdap7m2kjo3km",
-      "name": "Skyscale Ethershade Spider Fiend",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 5] Ethershade Spider Fiend",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "하늘비늘 에테르그늘 거미 마귀",
-          "ja": "スカイスケール・エーテルシェード・スパイダー・フィーンド",
-          "zh-CN": "天鳞以太影蜘蛛恶魔",
-          "zh-TW": "天鱗以太影蜘蛛惡魔",
-          "th": "อสูรแมงมุมอีเธอร์เชดสกายสเกล",
-          "id": "Iblis Laba-laba Ethershade Skala Langit",
-          "vi": "Skyscale Ethershade Spider Fiend",
-          "de": "Himmelsschuppen-Ätherschatten-Spinnenteufel",
-          "es": "Demonio Araña Ethershade Escamaceleste",
-          "pt": "Demônio Aranha Skyscale Ethershade",
-          "ru": "Небесный паук-изверг эфирной тени"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드5] 에테르셰이드 스파이더 마귀",
-          "ja": "【ワールド5】エーテルシェイド・スパイダー・フィーンド",
-          "zh-CN": "【世界5】虚影蛛魔",
-          "zh-TW": "【世界5】虛影蛛魔",
-          "th": "[โลกที่ 5] อสูรแมงมุมอีเธอร์เชด",
-          "id": "[Dunia 5] Iblis Laba-laba Ethershade",
-          "vi": "[Thế giới 5] Quỷ nhện Ethershade",
-          "de": "[Welt 5] Ätherschatten-Spinnenteufel",
-          "es": "[Mundo 5] Demonio araña de Ethershade",
-          "pt": "[Mundo 5] Demônio Aranha Ethershade",
-          "ru": "[Мир 5] Зверь-паук Эфирной тени"
-        }
-      }
-    },
-    {
-      "id": "mwdapgqiv8ecku",
-      "name": "Urunka",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 3] Nefariox Necropolis",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "우룬카",
-          "ja": "ウルンカ",
-          "zh-CN": "乌伦卡",
-          "zh-TW": "烏倫卡",
-          "th": "อูรันกา",
-          "id": "Urunka",
-          "vi": "Urunka",
-          "de": "Urunka",
-          "es": "Urunka",
-          "pt": "Urunka",
-          "ru": "Урунка"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드3] 네파리옥스 네크로폴리스",
-          "ja": "【ワールド3】ネファリオックス・ネクロポリス",
-          "zh-CN": "【世界3】奈法里奥克斯墓地",
-          "zh-TW": "【世界3】奈法裡歐克斯墓地",
-          "th": "[โลกที่ 3] สุสานเนฟาริโอกซ์",
-          "id": "[Dunia 3] Nefariox Necropolis",
-          "vi": "[Thế giới 3] Nghĩa địa Nefariox",
-          "de": "[Welt 3] Nefariox-Nekropole",
-          "es": "[Mundo 3] Necrópolis de Nefariox",
-          "pt": "[Mundo 3] Necrópole Nefariox",
-          "ru": "[Мир 3] Некрополь Нефариокса"
-        }
-      }
-    },
-    {
-      "id": "mwdapo6qfbs9jj",
-      "name": "Kaya",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 3] Viperbeast Plain",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "카야",
-          "ja": "カヤ",
-          "zh-CN": "卡亚",
-          "zh-TW": "卡亞",
-          "th": "คาย่า",
-          "id": "Kaya",
-          "vi": "Kaya",
-          "de": "Kaya",
-          "es": "kaya",
-          "pt": "Kaya",
-          "ru": "Кая"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드3] 바이퍼비스트 평원",
-          "ja": "【ワールド3】ヴァイパービースト平原",
-          "zh-CN": "【世界3】毒蛇平原",
-          "zh-TW": "【世界3】毒蛇平原",
-          "th": "[โลกที่ 3] ที่ราบไวเปอร์บีสท์",
-          "id": "[Dunia 3] Dataran Viperbeast",
-          "vi": "[Thế giới 3] Đồng bằng Viperbeast",
-          "de": "[Welt 3] Viperbeast Plain",
-          "es": "[Mundo 3] Llanura de las Víboras",
-          "pt": "[Mundo 3] Planície da Besta Víbora",
-          "ru": "[Мир 3] Равнина Змеезверя"
-        }
-      }
-    },
-    {
-      "id": "mwdapwaaqxd7cc",
-      "name": "Dusk Armado King",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 3] Dusk Armado Lair",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "황혼 아르마도 킹",
-          "ja": "黄昏のアルマドキング",
-          "zh-CN": "黄昏阿马多王",
-          "zh-TW": "黃昏阿馬多王",
-          "th": "ราชาอาร์มาโด้ยามค่ำ",
-          "id": "Raja Armado Senja",
-          "vi": "Vua Armado hoàng hôn",
-          "de": "Dämmerungs-Armado-König",
-          "es": "Rey Armado del Anochecer",
-          "pt": "Crepúsculo Rei Armado",
-          "ru": "Король Сумеречного Армадо"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드3] 황혼 아르마도 둥지",
-          "ja": "【ワールド3】黄昏のアルマドの巣",
-          "zh-CN": "[世界3]黄昏阿玛多巢穴",
-          "zh-TW": "[世界3]黃昏阿瑪多巢穴",
-          "th": "[โลกที่ 3] Dusk Armado Lair",
-          "id": "[Dunia 3] Sarang Armado Senja",
-          "vi": "[Thế giới 3] Hang ổ Armado hoàng hôn",
-          "de": "[Welt 3] Dusk Armado Lair",
-          "es": "[Mundo 3] Guarida del Armado del Anochecer",
-          "pt": "[Mundo 3] Crepúsculo Covil do Armado",
-          "ru": "[Мир 3] Логово Сумеречного Армадо"
-        }
-      }
-    },
-    {
-      "id": "mwdaq46yetm0jn",
-      "name": "Steelbone Specter",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 3] Steelbone Specter",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "강철뼈 스펙터",
-          "ja": "スティールボーン・スペクター",
-          "zh-CN": "钢骨幽灵",
-          "zh-TW": "鋼骨幽靈",
-          "th": "สตีลโบน สเปคเตอร์",
-          "id": "Hantu Tulang Baja",
-          "vi": "Bóng ma xương thép",
-          "de": "Stahlknochengespenst",
-          "es": "Espectro de hueso de acero",
-          "pt": "Espectro Osso de Aço",
-          "ru": "Стальной костный призрак"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드3] 강철뼈 스펙터",
-          "ja": "【ワールド3】スティールボーン・スペクター",
-          "zh-CN": "【世界3】钢骨幽灵",
-          "zh-TW": "【世界3】鋼骨幽靈",
-          "th": "[โลกที่ 3] สตีลโบนสเปกเตอร์",
-          "id": "[Dunia 3] Steelbone Spectre",
-          "vi": "[Thế giới 3] Bóng ma xương thép",
-          "de": "[Welt 3] Steelbone Spectre",
-          "es": "[Mundo 3] Espectro de Hueso de Acero",
-          "pt": "[Mundo 3] Espectro Osso de Aço",
-          "ru": "[Мир 3] Призрак Стальной Кости"
-        }
-      }
-    },
-    {
-      "id": "mwdaqazemu08ej",
-      "name": "Hangga",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 6] Bicheon Labyrinth",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "항가",
-          "ja": "ハンガ",
-          "zh-CN": "杭加",
-          "zh-TW": "杭加",
-          "th": "ฮังกา",
-          "id": "Hangga",
-          "vi": "Hangga",
-          "de": "Hangga",
-          "es": "Hangga",
-          "pt": "Hangga",
-          "ru": "Ханга"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드6] 비천미궁",
-          "ja": "【ワールド6】飛川迷宮",
-          "zh-CN": "[世界6] 比川迷宫",
-          "zh-TW": "[世界6] 比川迷宮",
-          "th": "[โลกที่ 6] เขาวงกตบีชอน",
-          "id": "[Dunia 6] Labirin Bicheon",
-          "vi": "[Thế giới 6] Mê cung Bicheon",
-          "de": "[Welt 6] Bicheon-Labyrinth",
-          "es": "[Mundo 6] Laberinto de Bicheon",
-          "pt": "[Mundo 6] Labirinto de Bicheon",
-          "ru": "[Мир 6] Лабиринт Бичхон"
-        }
-      }
-    },
-    {
-      "id": "mwdaqi2yydd6zp",
-      "name": "Jo Gyu",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 6] Bicheon Labyrinth",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "조규",
-          "ja": "チョ・ギュ",
-          "zh-CN": "乔圭",
-          "zh-TW": "喬圭",
-          "th": "โจ กยู",
-          "id": "Jo Gyu",
-          "vi": "Jo Gyu",
-          "de": "Jo Gyu",
-          "es": "jo gyu",
-          "pt": "Jo Gyu",
-          "ru": "Чо Гю"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드6] 비천미궁",
-          "ja": "【ワールド6】飛川迷宮",
-          "zh-CN": "[世界6] 比川迷宫",
-          "zh-TW": "[世界6] 比川迷宮",
-          "th": "[โลกที่ 6] เขาวงกตบีชอน",
-          "id": "[Dunia 6] Labirin Bicheon",
-          "vi": "[Thế giới 6] Mê cung Bicheon",
-          "de": "[Welt 6] Bicheon-Labyrinth",
-          "es": "[Mundo 6] Laberinto de Bicheon",
-          "pt": "[Mundo 6] Labirinto de Bicheon",
-          "ru": "[Мир 6] Лабиринт Бичхон"
-        }
-      }
-    },
-    {
-      "id": "mwdaqp8i444x6r",
-      "name": "Phantom Ghoul",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 6] Demoniac Mine",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "팬텀 구울",
-          "ja": "ファントムグール",
-          "zh-CN": "幻影食尸鬼",
-          "zh-TW": "幻影食屍鬼",
-          "th": "แฟนธอม กูล",
-          "id": "hantu hantu",
-          "vi": "Ma cà rồng ma",
-          "de": "Phantomghul",
-          "es": "Fantasma necrófago",
-          "pt": "Carniçal Fantasma",
-          "ru": "Призрачный гуль"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드6] 악마의 광산",
-          "ja": "【ワールド6】デモニアックマイン",
-          "zh-CN": "【世界6】魔雷",
-          "zh-TW": "【世界6】魔雷",
-          "th": "[โลกที่ 6] เหมืองปีศาจ",
-          "id": "[Dunia 6] Tambang Setan",
-          "vi": "[Thế giới 6] Mỏ quỷ",
-          "de": "[Welt 6] Dämonische Mine",
-          "es": "[Mundo 6] Mina demoníaca",
-          "pt": "[Mundo 6] Mina Demoníaca",
-          "ru": "[Мир 6] Демоническая шахта"
-        }
-      }
-    },
-    {
-      "id": "mwdar4w3nu10js",
-      "name": "Transformed Hong Yeom",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 6] Demoniac Mine Depths",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "변신한 홍염",
-          "ja": "変身したホンヨム",
-          "zh-CN": "洪炎变身",
-          "zh-TW": "洪炎變身",
-          "th": "แปลงร่างฮงยอม",
-          "id": "Mengubah Hong Yeom",
-          "vi": "Hong Yeom biến hình",
-          "de": "Verwandelter Hong Yeom",
-          "es": "Hong Yeom transformado",
-          "pt": "Hong Yeom transformado",
-          "ru": "Преобразованный Хон Ём"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드6] 악마의 광산 깊이",
-          "ja": "【ワールド6】魔鉱の深部",
-          "zh-CN": "【世界6】魔矿深处",
-          "zh-TW": "【世界6】魔礦深處",
-          "th": "[โลกที่ 6] ความลึกของเหมืองปีศาจ",
-          "id": "[Dunia 6] Kedalaman Tambang Setan",
-          "vi": "[Thế giới 6] Độ sâu mỏ quỷ",
-          "de": "[Welt 6] Dämonische Minentiefen",
-          "es": "[Mundo 6] Profundidades de las minas demoníacas",
-          "pt": "[Mundo 6] Profundezas da Mina Demoníaca",
-          "ru": "[Мир 6] Демонические шахты"
-        }
-      }
-    },
-    {
-      "id": "mwdarakiae1cbg",
-      "name": "Grand Centipedeus",
-      "map": "Mirage Ship",
-      "area": "Layer 3",
-      "location": "[World 6] Grand Centipedeus",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "그랜드 센티페데우스",
-          "ja": "グランドムカデウス",
-          "zh-CN": "大蜈蚣",
-          "zh-TW": "大蜈蚣",
-          "th": "แกรนด์ตะขาบ",
-          "id": "Kelabang Agung",
-          "vi": "Rết lớn",
-          "de": "Großer Tausendfüßler",
-          "es": "Gran Ciempiés",
-          "pt": "Grande Centopéia",
-          "ru": "Большая многоножка"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 3",
-          "ja": "レイヤー3",
-          "zh-CN": "第3层",
-          "zh-TW": "第3層",
-          "th": "ชั้นที่ 3",
-          "id": "Lapisan 3",
-          "vi": "Lớp 3",
-          "de": "Schicht 3",
-          "es": "Capa 3",
-          "pt": "Camada 3",
-          "ru": "Слой 3"
-        },
-        "location": {
-          "ko": "[월드6] 그랜드 센티페데우스",
-          "ja": "【ワールド6】大ムカデウス",
-          "zh-CN": "【世界6】大蜈蚣",
-          "zh-TW": "【世界6】大蜈蚣",
-          "th": "[โลกที่ 6] ตะขาบยักษ์",
-          "id": "[Dunia 6] Grand Centipedeus",
-          "vi": "[Thế giới 6] Rết lớn",
-          "de": "[Welt 6] Großer Hundertfüßer",
-          "es": "[Mundo 6] Gran Ciempiés",
-          "pt": "[Mundo 6] Grande Centopeia",
-          "ru": "[Мир 6] Великая многоножка"
-        }
-      }
-    },
-    {
-      "id": "mwdarmmacp3qyq",
-      "name": "Song Gwang",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 1] Seven Valleys Mountain",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "송광",
-          "ja": "ソン・グァン",
-          "zh-CN": "宋光",
-          "zh-TW": "宋光",
-          "th": "ซงกวาง",
-          "id": "Lagu Gwang",
-          "vi": "Song Gwang",
-          "de": "Song Gwang",
-          "es": "canción gwang",
-          "pt": "Canção Gwang",
-          "ru": "Сон Кван"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 1",
-          "ja": "レイヤー1",
-          "zh-CN": "第 1 层",
-          "zh-TW": "第 1 層",
-          "th": "ชั้นที่ 1",
-          "id": "Lapisan 1",
-          "vi": "Lớp 1",
-          "de": "Schicht 1",
-          "es": "Capa 1",
-          "pt": "Camada 1",
-          "ru": "Слой 1"
-        },
-        "location": {
-          "ko": "[월드1] 칠곡산",
-          "ja": "【ワールド1】七つの谷の山",
-          "zh-CN": "【世界1】七谷山",
-          "zh-TW": "【世界1】七谷山",
-          "th": "[โลกที่ 1] ภูเขาเจ็ดหุบเขา",
-          "id": "[Dunia 1] Gunung Tujuh Lembah",
-          "vi": "[Thế giới 1] Núi Bảy Thung Lũng",
-          "de": "[Welt 1] Seven Valleys Mountain",
-          "es": "[Mundo 1] Montaña de los Siete Valles",
-          "pt": "[Mundo 1] Montanha dos Sete Vales",
-          "ru": "[Мир 1] Гора Семи Долин"
-        }
-      }
-    },
-    {
-      "id": "mwdatmzvfxwd8z",
-      "name": "Porung",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 1] Roaring Flame Island",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "포룽",
-          "ja": "ポルン",
-          "zh-CN": "波龙",
-          "zh-TW": "波龍",
-          "th": "ปอรัง",
-          "id": "Porung",
-          "vi": "Porung",
-          "de": "Porung",
-          "es": "Porung",
-          "pt": "Porung",
-          "ru": "Порунг"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 1",
-          "ja": "レイヤー1",
-          "zh-CN": "第 1 层",
-          "zh-TW": "第 1 層",
-          "th": "ชั้นที่ 1",
-          "id": "Lapisan 1",
-          "vi": "Lớp 1",
-          "de": "Schicht 1",
-          "es": "Capa 1",
-          "pt": "Camada 1",
-          "ru": "Слой 1"
-        },
-        "location": {
-          "ko": "[월드1] 활활 타오르는 불꽃섬",
-          "ja": "【ワールド1】燃え上がる炎の島",
-          "zh-CN": "【世界1】烈焰岛",
-          "zh-TW": "【世界1】烈焰島",
-          "th": "[โลกที่ 1] เกาะเปลวไฟคำราม",
-          "id": "[Dunia 1] Pulau Api Mengaum",
-          "vi": "[Thế giới 1] Đảo lửa gầm thét",
-          "de": "[Welt 1] Brüllende Flammeninsel",
-          "es": "[Mundo 1] Isla de la Llama Rugiente",
-          "pt": "[Mundo 1] Ilha da Chama Rugindo",
-          "ru": "[Мир 1] Остров ревущего пламени"
-        }
-      }
-    },
-    {
-      "id": "mwdaty8j3of9bl",
-      "name": "Rebel Army Commander in Chief",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 2] Nine Dragon Ice Field",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "반란군 총사령관",
-          "ja": "反乱軍総司令官",
-          "zh-CN": "起义军总司令",
-          "zh-TW": "起義軍總司令",
-          "th": "ผู้บัญชาการทหารสูงสุดฝ่ายกบฏ",
-          "id": "Panglima Tentara Pemberontak",
-          "vi": "Tổng tư lệnh quân nổi dậy",
-          "de": "Oberbefehlshaber der Rebellenarmee",
-          "es": "Comandante en Jefe del Ejército Rebelde",
-          "pt": "Comandante em Chefe do Exército Rebelde",
-          "ru": "Главнокомандующий повстанческой армией"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 1",
-          "ja": "レイヤー1",
-          "zh-CN": "第 1 层",
-          "zh-TW": "第 1 層",
-          "th": "ชั้นที่ 1",
-          "id": "Lapisan 1",
-          "vi": "Lớp 1",
-          "de": "Schicht 1",
-          "es": "Capa 1",
-          "pt": "Camada 1",
-          "ru": "Слой 1"
-        },
-        "location": {
-          "ko": "[월드2] 구룡빙원",
-          "ja": "【ワールド2】九竜氷原",
-          "zh-CN": "【世界2】九龙冰原",
-          "zh-TW": "【世界2】九龍冰原",
-          "th": "[โลกที่ 2] ทุ่งน้ำแข็งเก้ามังกร",
-          "id": "[Dunia 2] Ladang Es Sembilan Naga",
-          "vi": "[Thế giới 2] Cánh đồng băng Cửu Long",
-          "de": "[Welt 2] Neun-Drachen-Eisfeld",
-          "es": "[Mundo 2] Campo de hielo de los nueve dragones",
-          "pt": "[Mundo 2] Campo de Gelo dos Nove Dragões",
-          "ru": "[Мир 2] Ледяное поле девяти драконов"
-        }
-      }
-    },
-    {
-      "id": "mwdaug0rh3qznv",
-      "name": "Lord of Order",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 2] Celestial Blood Valley",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "질서의 군주",
-          "ja": "秩序の主",
-          "zh-CN": "秩序之主",
-          "zh-TW": "秩序之主",
-          "th": "เจ้าแห่งระเบียบ",
-          "id": "Tuan Ketertiban",
-          "vi": "Chúa tể trật tự",
-          "de": "Herr der Ordnung",
-          "es": "señor del orden",
-          "pt": "Senhor da Ordem",
-          "ru": "Лорд порядка"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 1",
-          "ja": "レイヤー1",
-          "zh-CN": "第 1 层",
-          "zh-TW": "第 1 層",
-          "th": "ชั้นที่ 1",
-          "id": "Lapisan 1",
-          "vi": "Lớp 1",
-          "de": "Schicht 1",
-          "es": "Capa 1",
-          "pt": "Camada 1",
-          "ru": "Слой 1"
-        },
-        "location": {
-          "ko": "[월드2] 천상의 피의 계곡",
-          "ja": "【ワールド2】天血の谷",
-          "zh-CN": "【世界2】仙血谷",
-          "zh-TW": "【世界2】仙血谷",
-          "th": "[โลกที่ 2] หุบเขาเลือดสวรรค์",
-          "id": "[Dunia 2] Lembah Darah Surgawi",
-          "vi": "[Thế giới 2] Thung lũng máu thiên thể",
-          "de": "[Welt 2] Celestial Blood Valley",
-          "es": "[Mundo 2] Valle de Sangre Celestial",
-          "pt": "[Mundo 2] Vale do Sangue Celestial",
-          "ru": "[Мир 2] Долина Небесной Крови"
-        }
-      }
-    },
-    {
-      "id": "mwdaur9ulshd94",
-      "name": "Gordo",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 3] Cloud Sea Village",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "고르도",
-          "ja": "ゴルド",
-          "zh-CN": "戈多",
-          "zh-TW": "戈多",
-          "th": "กอร์โด",
-          "id": "Gordo",
-          "vi": "Gordo",
-          "de": "Gordo",
-          "es": "gordo",
-          "pt": "gordo",
-          "ru": "Гордо"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 1",
-          "ja": "レイヤー1",
-          "zh-CN": "第 1 层",
-          "zh-TW": "第 1 層",
-          "th": "ชั้นที่ 1",
-          "id": "Lapisan 1",
-          "vi": "Lớp 1",
-          "de": "Schicht 1",
-          "es": "Capa 1",
-          "pt": "Camada 1",
-          "ru": "Слой 1"
-        },
-        "location": {
-          "ko": "[월드3] 운해마을",
-          "ja": "【ワールド3】雲海村",
-          "zh-CN": "【世界3】云海村",
-          "zh-TW": "【世界3】雲海村",
-          "th": "[โลกที่ 3] หมู่บ้านทะเลเมฆ",
-          "id": "[Dunia 3] Desa Laut Awan",
-          "vi": "[Thế Giới 3] Làng Biển Mây",
-          "de": "[Welt 3] Cloud Sea Village",
-          "es": "[Mundo 3] Aldea del Mar de las Nubes",
-          "pt": "[Mundo 3] Aldeia do Mar Nebuloso",
-          "ru": "[Мир 3] Деревня Облачного Моря"
-        }
-      }
-    },
-    {
-      "id": "mwdauyp65btpof",
-      "name": "Kairark",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 3] Hydra's Depths",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "케이라크",
-          "ja": "カラーク",
-          "zh-CN": "凯拉克",
-          "zh-TW": "凱拉克",
-          "th": "ไกรรักษ์",
-          "id": "Kairk",
-          "vi": "Kairark",
-          "de": "Kairark",
-          "es": "Kairark",
-          "pt": "Kairk",
-          "ru": "Кайарк"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 1",
-          "ja": "レイヤー1",
-          "zh-CN": "第 1 层",
-          "zh-TW": "第 1 層",
-          "th": "ชั้นที่ 1",
-          "id": "Lapisan 1",
-          "vi": "Lớp 1",
-          "de": "Schicht 1",
-          "es": "Capa 1",
-          "pt": "Camada 1",
-          "ru": "Слой 1"
-        },
-        "location": {
-          "ko": "[월드3] 히드라의 심연",
-          "ja": "【ワールド3】ヒドラの深層",
-          "zh-CN": "【世界3】九头蛇深渊",
-          "zh-TW": "【世界3】九頭蛇深淵",
-          "th": "[โลกที่ 3] ความลึกของไฮดรา",
-          "id": "[Dunia 3] Kedalaman Hydra",
-          "vi": "[Thế giới 3] Độ sâu của Hydra",
-          "de": "[Welt 3] Hydras Tiefen",
-          "es": "[Mundo 3] Las profundidades de Hydra",
-          "pt": "[Mundo 3] Profundezas da Hidra",
-          "ru": "[Мир 3] Глубины Гидры"
-        }
-      }
-    },
-    {
-      "id": "mwdav6zva02tbx",
-      "name": "Arkanos",
-      "map": "Mirage Ship",
-      "area": "Layer 1",
-      "location": "[World 3] Akamtul's Altar",
-      "type": "Summon",
-      "cycle": "Weekly",
-      "spawnTimes": [],
-      "i18n": {
-        "name": {
-          "ko": "아르카노스",
-          "ja": "アルカノス",
-          "zh-CN": "阿卡诺斯",
-          "zh-TW": "阿卡諾斯",
-          "th": "อาร์คานอส",
-          "id": "Arkanos",
-          "vi": "Arkanos",
-          "de": "Arkanos",
-          "es": "Arcanos",
-          "pt": "Arkanos",
-          "ru": "Арканос"
-        },
-        "map": {
-          "ko": "신기루의 배",
-          "ja": "ミラージュシップ",
-          "zh-CN": "幻影船",
-          "zh-TW": "幻影船",
-          "th": "เรือมิราจ",
-          "id": "Kapal Fatamorgana",
-          "vi": "Tàu ảo ảnh",
-          "de": "Mirage-Schiff",
-          "es": "Barco espejismo",
-          "pt": "Navio Miragem",
-          "ru": "Корабль-Мираж"
-        },
-        "area": {
-          "ko": "레이어 1",
-          "ja": "レイヤー1",
-          "zh-CN": "第 1 层",
-          "zh-TW": "第 1 層",
-          "th": "ชั้นที่ 1",
-          "id": "Lapisan 1",
-          "vi": "Lớp 1",
-          "de": "Schicht 1",
-          "es": "Capa 1",
-          "pt": "Camada 1",
-          "ru": "Слой 1"
-        },
-        "location": {
-          "ko": "[월드3] 아캄툴의 제단",
-          "ja": "【ワールド3】アカムトゥルの祭壇",
-          "zh-CN": "[世界3]阿卡姆图尔祭坛",
-          "zh-TW": "[世界3]阿卡姆圖爾祭壇",
-          "th": "[โลก 3] แท่นบูชาของ Akamtul",
-          "id": "[Dunia 3] Altar Akamtul",
-          "vi": "[Thế giới 3] Bàn thờ của Akamtul",
-          "de": "[Welt 3] Akamtuls Altar",
-          "es": "[Mundo 3] Altar de Akamtul",
-          "pt": "[Mundo 3] Altar de Akamtul",
-          "ru": "[Мир 3] Алтарь Акамтула"
-        }
-      }
     }
   ],
-  "worldBosses": [],
+  "worldBosses": [
+    {
+      "id": "mwxlllww912vt9",
+      "name": "Krukan",
+      "map": "Bicheon ",
+      "area": "Bicheon Valley",
+      "location": "Shackling Abaddon",
+      "schedule": [
+        {
+          "days": [
+            1
+          ],
+          "times": [
+            "23:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxluhlpwk62y6",
+      "name": "Nerkan",
+      "map": "Spiritual Center",
+      "area": "Redmoon Valley",
+      "location": "Black Flame Abaddon",
+      "schedule": [
+        {
+          "days": [
+            2
+          ],
+          "times": [
+            "23:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxlwsv1lt7dcy",
+      "name": "Helbar",
+      "map": "Spiritual Center",
+      "area": "Redmoon Purgatory",
+      "location": "Redmoon Purgatory 7F",
+      "schedule": [
+        {
+          "days": [
+            3
+          ],
+          "times": [
+            "23:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxlxk79ugshj6",
+      "name": "Turkan",
+      "map": "Phantasia",
+      "area": "Phantasia Valley",
+      "location": "Violet Abaddon",
+      "schedule": [
+        {
+          "days": [
+            4
+          ],
+          "times": [
+            "23:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxly6259ai3am",
+      "name": "Utukan",
+      "map": "Snake Pit",
+      "area": "Snake Valley",
+      "location": "Crimson Abaddon",
+      "schedule": [
+        {
+          "days": [
+            5
+          ],
+          "times": [
+            "23:00"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mwxm1hx9c24o25",
+      "name": "Ragnos",
+      "map": "Snake Pit",
+      "area": "Sanctuary of Hydra",
+      "location": "Hydra's Depths 5F",
+      "schedule": [
+        {
+          "days": [
+            "*"
+          ],
+          "times": [
+            "00:00"
+          ]
+        }
+      ]
+    }
+  ],
   "events": [],
   "crafting": [],
   "mystery": []
