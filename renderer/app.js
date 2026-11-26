@@ -317,6 +317,7 @@ let upcomingRefs = [];
 let homeList = [];
 let editingCharId = null;
 let lastUpdate = null;
+let celebratedWeek = '';
 const filters = { type: '', cycle: '', map: '', area: '', q: '', favOnly: false, hideDone: false };
 const settingsRefs = {};
 
@@ -372,7 +373,13 @@ function renderRow(m) {
       if (on) p.completed[m.id] = Date.now(); else delete p.completed[m.id];
       saveState();
       statusText.textContent = on ? t('st.complete') : t('st.pending');
-      e.target.closest('tr').classList.toggle('done', on);
+      const row = e.target.closest('tr');
+      row.classList.toggle('done', on);
+      if (on) {
+        e.target.classList.remove('pop');
+        void e.target.offsetWidth;
+        e.target.classList.add('pop');
+      }
       updateSummary();
       if (filters.hideDone && on) setTimeout(render, 450);
     },
@@ -569,6 +576,22 @@ function celebration() {
   };
 }
 
+function confettiBurst(root) {
+  if (!root || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const colors = ['var(--accent)', 'var(--soon)', 'var(--live)', 'var(--star)', 'var(--accent-strong)'];
+  const bits = Array.from({ length: 18 }, (_, i) => {
+    const b = h('i');
+    b.style.setProperty('--piece', colors[i % colors.length]);
+    b.style.setProperty('--dx', `${Math.round((Math.random() - 0.5) * 320)}px`);
+    b.style.setProperty('--rot', `${Math.round(360 + Math.random() * 540)}deg`);
+    b.style.setProperty('--dur', `${(1.1 + Math.random() * 0.7).toFixed(2)}s`);
+    b.style.setProperty('--delay', `${(Math.random() * 0.4).toFixed(2)}s`);
+    return b;
+  });
+  root.replaceChildren(...bits);
+  setTimeout(() => { if (root.parentNode) root.replaceChildren(); }, 2400);
+}
+
 function renderUpcoming() {
   const now = Date.now(), off = zoneOffset();
   const items = [];
@@ -638,7 +661,12 @@ function renderHome() {
     const msg = celebration();
     $('#done-title').textContent = msg.title;
     $('#done-sub').textContent = msg.sub;
-  }
+    const weekKey = `${periodStart('Weekly')}|${msg.title}`;
+    if (celebratedWeek !== weekKey) {
+      celebratedWeek = weekKey;
+      confettiBurst($('#done-confetti'));
+    }
+  } else celebratedWeek = '';
   $('#next-scope').textContent = missions.length
     ? (allDone ? t('h.nextAllDone') : favorites ? t('h.nextFavs') : t('h.nextAll')) : '';
   renderUpcoming();
