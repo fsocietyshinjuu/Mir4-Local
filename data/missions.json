@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-26T16:17:42.338Z",
+  "updatedAt": "2026-11-26T18:20:47.232Z",
   "utcOffset": 480,
   "timeLabel": "UTC+8",
   "missions": [
@@ -2787,6 +2787,16 @@
     }
   ],
   "events": [],
-  "crafting": [],
+  "crafting": [
+    {
+      "id": "mwxvnv8k48i4u4",
+      "boss": "Celestial Water Dragon Larva",
+      "badge": "Void Crystal",
+      "badgeImage": "https://raw.githubusercontent.com/fsocietyshinjuu/Mir4-Local/main/data/assets/badges/mwxvnv8k48i4u4.webp",
+      "npc": "Buman",
+      "npcLocation": "Mirage Ship",
+      "summonLocation": "Phantasia Desert"
+    }
+  ],
   "mystery": []
 }
